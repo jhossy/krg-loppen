@@ -1,0 +1,20 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.HomePage>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@{
+	Layout = "Layout.cshtml";
+}
+
+<div>
+	<h1>@Model.GetProperty("PageTitle").GetValue()</h1>
+	<div>
+		<ul>
+			@foreach(var eventItem in Model.DescendantsOfType("Event"))
+			{
+				<li>
+					@eventItem.GetProperty("Date").GetValue()
+				</li>
+			}			
+		</ul>
+	</div>
+</div>
