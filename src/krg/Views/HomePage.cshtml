@@ -3,18 +3,32 @@
 @using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
 @{
 	Layout = "Layout.cshtml";
+
+	var eventItemsByParent = Model.DescendantsOfType("Event").GroupBy(x => x.Parent);
 }
 
-<div>
+<div class="row">
 	<h1>@Model.GetProperty("PageTitle").GetValue()</h1>
-	<div>
-		<ul>
-			@foreach(var eventItem in Model.DescendantsOfType("Event"))
-			{
-				<li>
-					@eventItem.GetProperty("Date").GetValue()
-				</li>
-			}			
-		</ul>
-	</div>
 </div>
+
+@foreach (var eventItemGroup in eventItemsByParent)
+{
+	<div class="card-deck p-1">
+		@foreach(var eventItem in eventItemGroup)
+		{
+			@* <div class="col-sm-4"> *@
+				<div class="card">
+					<img class="card-img-top img-thumbnail" src="./media/calendar_icon.svg" alt="Card image cap">
+					<div class="card-body">
+						<h5 class="card-title">@eventItem.GetProperty("Date").GetValue()</h5>
+						<p class="card-text">
+							Kontaktperson: Jacob Mikkelsen
+							Tilmeldte (XYZ):
+						</p>
+						<a href="#" class="btn btn-primary">Tilmeld</a>
+					</div>
+				</div>
+			@* </div> *@
+		}
+	</div>
+}
