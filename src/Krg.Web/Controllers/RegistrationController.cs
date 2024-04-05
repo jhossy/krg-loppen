@@ -50,9 +50,4 @@ namespace Krg.Web.Controllers
             return RedirectToCurrentUmbracoPage();
 		}
 	}
-
-	public class AddRegistrationRequest
-	{
-        public DateTime EventDate { get; set; }
-    }
 }
