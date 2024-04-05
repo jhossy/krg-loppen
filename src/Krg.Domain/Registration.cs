@@ -25,20 +25,20 @@ namespace Krg.Domain
 
         public DateTime EventDate { get; set; }
 
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
-        public string Department { get; set; }
+        public string Department { get; set; } = null!;
 
-        public int NoOfAdults { get; set; }
+		public int NoOfAdults { get; set; }
 
         public int NoOfChildren { get; set; }
 
-        public string PhoneNo { get; set; }
+        public string PhoneNo { get; set; } = null!;
 
         [EmailAddress]
-        public string Email { get; set; }
+        public string Email { get; set; } = null!;
 
-        public bool BringsTrailer { get; set; }
+		public bool BringsTrailer { get; set; }
 
         public bool ShowName { get; set; }
     }
