@@ -17,8 +17,8 @@ jobs:
       with:
         dotnet-version: 8.0.x
     - name: Restore dependencies
-      run: dotnet restore ./src/krg/krg.csproj
+      run: dotnet restore ./src/Krg.sln
     - name: Build
-      run: dotnet build ./src/krg/krg.csproj --no-restore
+      run: dotnet build ./src/Krg.sln --no-restore
     - name: Test
-      run: dotnet test ./src/krg/krg.csproj --no-build --verbosity normal
+      run: dotnet test ./src/Krg.sln --no-build --verbosity normal
