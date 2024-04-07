@@ -1,61 +1,59 @@
-﻿using Krg.Database;
-using Krg.Database.Models;
+﻿using Krg.Database.Models;
 using Krg.Domain;
+using Umbraco.Cms.Core.Scoping;
 
 namespace Krg.Services
 {
     public class EventRegistrationService : IEventRegistrationService
 	{
-		private readonly IUnitOfWork _unitOfWork;
-		private readonly IEventRegistrationRepository _eventRegistrationRepository;
-
-        public EventRegistrationService(IUnitOfWork unitOfWork, IEventRegistrationRepository eventRegistrationRepository)
-        {
-            _unitOfWork = unitOfWork;
-			_eventRegistrationRepository = eventRegistrationRepository;
-        }
-
-		public async Task AddRegistration(Registration eventRegistration)
+		private readonly IScopeProvider _scopeProvider;
+		public EventRegistrationService(IScopeProvider scopeProvider)
 		{
-			await _eventRegistrationRepository.AddRegistration(new EventRegistration
-			{
-                BringsTrailer = eventRegistration.BringsTrailer,
-                Department = eventRegistration.Department,
-                Email = eventRegistration.Email,
-                EventDate = eventRegistration.EventDate,
-                Name = eventRegistration.Name,
-                NoOfAdults = eventRegistration.NoOfAdults,
-                NoOfChildren = eventRegistration.NoOfChildren,
-                PhoneNo = eventRegistration.PhoneNo,
-                ShowName = eventRegistration.ShowName,
-            });
-
-			_unitOfWork.Commit();
+			_scopeProvider = scopeProvider;
 		}
 
-		public async Task<List<Registration>> GetRegistrations()
+		public void AddRegistration(int umbracoNodeId, Registration eventRegistration)
 		{
-			var registrations = await _eventRegistrationRepository.GetRegistrations();
+			using var scope = _scopeProvider.CreateScope();
+
+			var registration = new EventRegistration
+			{
+				BringsTrailer = eventRegistration.BringsTrailer,
+				Department = eventRegistration.Department,
+				Email = eventRegistration.Email,
+				EventDate = eventRegistration.EventDate,
+				Name = eventRegistration.Name,
+				NoOfAdults = eventRegistration.NoOfAdults,
+				NoOfChildren = eventRegistration.NoOfChildren,
+				PhoneNo = eventRegistration.PhoneNo,
+				ShowName = eventRegistration.ShowName,
+				UmbracoEventNodeId = umbracoNodeId,
+				UpdateTimeUtc = DateTime.UtcNow				
+			};
+
+			scope.Database.Insert<EventRegistration>(registration);
+
+			scope.Complete();
+		}
+
+		public List<Registration> GetRegistrations()
+		{
+			using var scope = _scopeProvider.CreateScope();
+
+			var registrations = scope.Database.Fetch<EventRegistration>("SELECT * FROM EventRegistration");
+
+			scope.Complete();
 
 			return registrations.Select(reg => new Registration(reg)).ToList();
 		}
 
-		public void RemoveRegistration(Registration eventRegistration)
-		{
-			_eventRegistrationRepository.RemoveRegistration(new EventRegistration
-            {
-                BringsTrailer = eventRegistration.BringsTrailer,
-                Department = eventRegistration.Department,
-                Email = eventRegistration.Email,
-                EventDate = eventRegistration.EventDate,
-                Name = eventRegistration.Name,
-                NoOfAdults = eventRegistration.NoOfAdults,
-                NoOfChildren = eventRegistration.NoOfChildren,
-                PhoneNo = eventRegistration.PhoneNo,
-                ShowName = eventRegistration.ShowName,
-            });
+		//public void RemoveRegistration(Registration eventRegistration)
+		//{
+		//	using var scope = _scopeProvider.CreateScope();
 
-			_unitOfWork.Commit();
-		}
+		//	scope.Database.Delete<EventRegistration>($"DELETE * FROM EventRegistration WHERE Email = {eventRegistration.Email} && EventDate = {eventRegistration.EventDate}");
+
+		//	scope.Complete();
+		//}
 	}
 }

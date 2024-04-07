@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using Umbraco.Cms.Core.Cache;
 using Umbraco.Cms.Core.Logging;
 using Umbraco.Cms.Core.Routing;
+using Umbraco.Cms.Core.Scoping;
 using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Core.Web;
 using Umbraco.Cms.Infrastructure.Persistence;
@@ -30,9 +31,10 @@ namespace Krg.Web.Controllers
 
 		[ValidateUmbracoFormRouteString]
 		[HttpPost]
-		public async Task<IActionResult> HandleSubmit(AddRegistrationRequest request)
+		public IActionResult HandleSubmit(AddRegistrationRequest request)
 		{
-			await _eventRegistrationService.AddRegistration(
+			_eventRegistrationService.AddRegistration(
+				request.UmbracoNodeId,
 				new Registration
 				{ 
 					Name = "test testesen",
@@ -43,7 +45,7 @@ namespace Krg.Web.Controllers
 					PhoneNo = "1234567890",
 					Department = "Mikro",
 					BringsTrailer = true,
-					ShowName = true,
+					ShowName = true,					
 				}
 			);
 

@@ -5,9 +5,7 @@ namespace Krg.Database
 {
     public class EventRegistrationRepository : IEventRegistrationRepository
     {
-        private readonly EventRegistrationContext _eventRegistrationContext;
-
-        public EventRegistrationRepository(EventRegistrationContext eventRegistrationContext)
+		public EventRegistrationRepository(EventRegistrationContext eventRegistrationContext)
         {
             _eventRegistrationContext = eventRegistrationContext;
         }

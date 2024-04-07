@@ -11,7 +11,7 @@ builder.CreateUmbracoBuilder()
     .AddComposers()
     .Build();
 
-builder.Services.AddDbContext<EventRegistrationContext>(options =>  options.UseSqlServer(builder.Configuration.GetConnectionString("EventRegistrationContext")));
+//builder.Services.AddDbContext<EventRegistrationContext>(options =>  options.UseSqlServer(builder.Configuration.GetConnectionString("EventRegistrationContext")));
 
 builder.Services.AddServiceExtensions();
 
@@ -32,12 +32,12 @@ app.UseUmbraco()
         u.UseWebsiteEndpoints();
     });
 
-using (var scope = app.Services.CreateScope())
-{
-	var services = scope.ServiceProvider;
+//using (var scope = app.Services.CreateScope())
+//{
+//	var services = scope.ServiceProvider;
 
-	var context = services.GetRequiredService<EventRegistrationContext>();
-	context.Database.EnsureCreated();
-}
+//	var context = services.GetRequiredService<EventRegistrationContext>();
+//	context.Database.EnsureCreated();
+//}
 
 await app.RunAsync();

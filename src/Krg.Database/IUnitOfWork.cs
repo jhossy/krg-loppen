@@ -2,7 +2,7 @@
 {
     public interface IUnitOfWork
     {
-        public void Commit();
-        public void Dispose();
+        //public void Commit();
+        //public void Dispose();
     }
 }

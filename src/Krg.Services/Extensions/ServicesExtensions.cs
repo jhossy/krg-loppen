@@ -7,8 +7,8 @@ namespace Krg.Services.Extensions
 	{
 		public static IServiceCollection AddServiceExtensions(this IServiceCollection services)
 		{
-			services.AddTransient<IUnitOfWork, UnitOfWork>();
-			services.AddTransient<IEventRegistrationRepository, EventRegistrationRepository>();
+			//services.AddTransient<IUnitOfWork, UnitOfWork>();
+			//services.AddTransient<IEventRegistrationRepository, EventRegistrationRepository>();
 			services.AddTransient<IEventRegistrationService, EventRegistrationService>();
 
 			return services;

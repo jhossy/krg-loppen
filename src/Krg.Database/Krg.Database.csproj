@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="EventRegistrationRepository.cs" />
+    <Compile Remove="IEventRegistrationRepository.cs" />
+    <Compile Remove="IUnitOfWork.cs" />
+    <Compile Remove="UnitOfWork.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.3" />
   </ItemGroup>

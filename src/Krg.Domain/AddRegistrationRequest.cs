@@ -2,6 +2,7 @@
 {
 	public class AddRegistrationRequest
 	{
-		public DateTime EventDate { get; set; }
+        public int UmbracoNodeId { get; set; }
+        public DateTime EventDate { get; set; }
 	}
 }

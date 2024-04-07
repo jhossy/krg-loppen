@@ -4,10 +4,10 @@ namespace Krg.Services
 {
 	public interface IEventRegistrationService
 	{
-		Task AddRegistration(Registration eventRegistration);
+		void AddRegistration(int umbracoNodeId, Registration eventRegistration);
 
-		void RemoveRegistration(Registration eventRegistration);
+		//void RemoveRegistration(Registration eventRegistration);
 
-		Task<List<Registration>> GetRegistrations();
+		List<Registration> GetRegistrations();
 	}
 }

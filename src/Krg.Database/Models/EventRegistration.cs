@@ -1,11 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Krg.Database.Models
+﻿namespace Krg.Database.Models
 {
     public class EventRegistration
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
+        public int UmbracoEventNodeId { get; set; }
 
         public DateTime UpdateTimeUtc { get; set; }
 
