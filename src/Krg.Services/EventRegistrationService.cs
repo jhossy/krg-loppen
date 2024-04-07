@@ -1,6 +1,6 @@
 ﻿using Krg.Database.Models;
 using Krg.Domain;
-using Umbraco.Cms.Core.Scoping;
+using Umbraco.Cms.Infrastructure.Scoping;
 
 namespace Krg.Services
 {
