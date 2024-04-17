@@ -1,41 +1,68 @@
-﻿@using Krg.Web.Controllers
+﻿@using Krg.Services
+@using Krg.Web.Controllers
 @using Umbraco.Cms.Web.Common.PublishedModels;
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.HomePage>
 @using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@inject IEventRegistrationService eventService;
 @{
 	Layout = "Layout.cshtml";
 
 	var eventItemsByParent = Model.DescendantsOfType("Event").GroupBy(x => x.Parent);
+
+	var allEvents = eventService.GetRegistrations().GroupBy(x => x.Content.ParentId);
 }
 
 <div class="row">
 	<h1>@Model.GetProperty("PageTitle").GetValue()</h1>
 </div>
 
-@foreach (var eventItemGroup in eventItemsByParent)
+@* @foreach (var eventItemGroup in eventItemsByParent)
 {
 	<div class="card-deck p-1">
 		@foreach(var eventItem in eventItemGroup)
 		{
-			@* <div class="col-sm-4"> *@
-				<div class="card">
-					<img class="card-img-top img-thumbnail" src="./media/calendar_icon.svg" alt="Card image cap">
-					<div class="card-body">
-						<h5 class="card-title">@eventItem.GetProperty("Date").GetValue()</h5>
-						<p class="card-text">
-							Kontaktperson: Jacob Mikkelsen
-							Tilmeldte (XYZ):
-						</p>
-						<a href="#" class="btn btn-primary">Tilmeld</a>
-						@using (Html.BeginUmbracoForm<RegistrationController>("HandleSubmit"))
-						{
-							@Html.Hidden("UmbracoNodeId", eventItem.Id)
-							@Html.Hidden("EventDate", eventItem.GetProperty("Date").GetValue())
-							<input type="submit" />
-						}
-					</div>
+			<div class="card">
+				<img class="card-img-top img-thumbnail" src="./media/calendar_icon.svg" alt="Card image cap">
+				<div class="card-body">
+					<h5 class="card-title">@eventItem.GetProperty("Date").GetValue()</h5>
+					<p class="card-text">
+						Kontaktperson: Jacob Mikkelsen
+						Tilmeldte (XYZ):
+					</p>
+					<a href="#" class="btn btn-primary">Tilmeld</a>
+					@using (Html.BeginUmbracoForm<RegistrationController>("HandleSubmit"))
+					{
+						@Html.Hidden("UmbracoNodeId", eventItem.Id)
+						@Html.Hidden("EventDate", eventItem.GetProperty("Date").GetValue())
+						<input type="submit" />
+					}
 				</div>
-			@* </div> *@
+			</div>		
+		}
+	</div>
+} *@
+
+@foreach (var eventItemGroup in allEvents)
+{
+	<div class="card-deck p-1">
+		@foreach (var eventItem in eventItemGroup)
+		{
+			<div class="card">
+				<img class="card-img-top img-thumbnail" src="./media/calendar_icon.svg" alt="Card image cap">
+				<div class="card-body">
+					<h5 class="card-title">@eventItem.Content.GetValue("Date")</h5>
+					<p class="card-text">
+						Kontaktperson: Jacob Mikkelsen
+						Tilmeldte (@eventItem.Registrations.Count):
+					</p>
+					@using (Html.BeginUmbracoForm<RegistrationController>("HandleSubmit"))
+					{
+						@Html.Hidden("UmbracoNodeId", eventItem.Content.Id)
+						@Html.Hidden("EventDate", eventItem.Content.GetValue("Date"))
+						<input class="btn btn-primary" type="submit" value="Tilmeld" />
+					}
+				</div>
+			</div>
 		}
 	</div>
 }

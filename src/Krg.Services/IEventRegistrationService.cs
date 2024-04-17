@@ -8,6 +8,6 @@ namespace Krg.Services
 
 		//void RemoveRegistration(Registration eventRegistration);
 
-		List<Registration> GetRegistrations();
+		List<RegistrationDto> GetRegistrations();
 	}
 }

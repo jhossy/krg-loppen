@@ -10,6 +10,7 @@ namespace Krg.Services.Extensions
 			//services.AddTransient<IUnitOfWork, UnitOfWork>();
 			//services.AddTransient<IEventRegistrationRepository, EventRegistrationRepository>();
 			services.AddTransient<IEventRegistrationService, EventRegistrationService>();
+			services.AddTransient<IRegistrationRepository, RegistrationRepository>();
 
 			return services;
 		}
