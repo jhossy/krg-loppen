@@ -4,10 +4,8 @@ namespace Krg.Services
 {
 	public interface IEventRegistrationService
 	{
-		void AddRegistration(int umbracoNodeId, Registration eventRegistration);
+		void AddRegistration(int umbracoNodeId, AddRegistrationRequest addRegistrationRequest);
 
-		//void RemoveRegistration(Registration eventRegistration);
-
-		List<RegistrationDto> GetRegistrations();
+		List<RegistrationViewModel> GetRegistrations();
 	}
 }

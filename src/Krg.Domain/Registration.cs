@@ -5,11 +5,6 @@ namespace Krg.Domain
 {
     public class Registration
     {
-        public Registration()
-        {
-            
-        }
-
         public Registration(EventRegistration eventRegistration)
         {
             BringsTrailer = eventRegistration.BringsTrailer;
@@ -23,23 +18,23 @@ namespace Krg.Domain
             ShowName = eventRegistration.ShowName;
         }
 
-        public DateTime EventDate { get; set; }
+        public DateTime EventDate { get; }
 
-        public string Name { get; set; } = null!;
+        public string Name { get; } = null!;
 
-        public string Department { get; set; } = null!;
+        public string Department { get; } = null!;
 
-		public int NoOfAdults { get; set; }
+		public int NoOfAdults { get; }
 
-        public int NoOfChildren { get; set; }
+        public int NoOfChildren { get; }
 
-        public string PhoneNo { get; set; } = null!;
+        public string PhoneNo { get; } = null!;
 
         [EmailAddress]
-        public string Email { get; set; } = null!;
+        public string Email { get; } = null!;
 
-		public bool BringsTrailer { get; set; }
+		public bool BringsTrailer { get; }
 
-        public bool ShowName { get; set; }
+        public bool ShowName { get; }
     }
 }

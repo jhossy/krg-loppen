@@ -1,11 +1,9 @@
 ﻿using Krg.Domain;
 using Krg.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 using Umbraco.Cms.Core.Cache;
 using Umbraco.Cms.Core.Logging;
 using Umbraco.Cms.Core.Routing;
-using Umbraco.Cms.Core.Scoping;
 using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Core.Web;
 using Umbraco.Cms.Infrastructure.Persistence;
@@ -33,21 +31,8 @@ namespace Krg.Web.Controllers
 		[HttpPost]
 		public IActionResult HandleSubmit(AddRegistrationRequest request)
 		{
-			_eventRegistrationService.AddRegistration(
-				request.UmbracoNodeId,
-				new Registration
-				{ 
-					Name = "test testesen",
-					Email = "test@email.dk",
-					EventDate = request.EventDate,
-					NoOfAdults = 3,
-					NoOfChildren = 3,
-					PhoneNo = "1234567890",
-					Department = "Mikro",
-					BringsTrailer = true,
-					ShowName = true,					
-				}
-			);
+			//todo add fluent validation
+			_eventRegistrationService.AddRegistration(request.UmbracoNodeId, request);
 
             return RedirectToCurrentUmbracoPage();
 		}
