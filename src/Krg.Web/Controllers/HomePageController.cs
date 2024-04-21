@@ -1,10 +1,7 @@
-﻿using Krg.Database.Models;
-using Krg.Domain;
+﻿using Krg.Domain;
 using Krg.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
-using Polly;
-using Umbraco.Cms.Core.Models;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Core.Web;
@@ -39,14 +36,34 @@ namespace Krg.Web.Controllers
 
 		public IActionResult HomePage()
 		{
-			var rootNode = _umbracoHelper.ContentAtRoot();
+			var eventRoot = _umbracoHelper.EventRoot();
 
-			var registrationRoot = Constants.RegistrationRootId; //Todo read from config
+			if (eventRoot == null)
+			{
+				return CurrentTemplate(new HomePageViewModel(CurrentPage, new PublishedValueFallback(_serviceContext, _variationContextAccessor)));
+			}
 
-			var umbEvents = rootNode.DescendantsOrSelf<Event>();
+			List<Event> umbEvents = eventRoot.DescendantsOrSelf<Event>().ToList();
 
 			List<Registration> dbRegistrations = _eventRegistrationService.GetRegistrations();
 
+			if(umbEvents.Count == 0 || dbRegistrations.Count == 0)
+			{
+				return CurrentTemplate(new HomePageViewModel(CurrentPage, new PublishedValueFallback(_serviceContext, _variationContextAccessor)));
+			}
+
+			List<RegistrationViewModel> results = BuildListOfRegistrations(dbRegistrations, umbEvents);
+
+			var viewModel = new HomePageViewModel(CurrentPage, new PublishedValueFallback(_serviceContext, _variationContextAccessor))
+			{
+				Events = results
+			};
+
+			return CurrentTemplate(viewModel);
+		}
+
+		internal List<RegistrationViewModel> BuildListOfRegistrations(List<Registration> dbRegistrations, IEnumerable<Event> umbEvents)
+		{
 			List<RegistrationViewModel> results = new List<RegistrationViewModel>();
 
 			foreach (var umbRegistration in umbEvents)
@@ -59,12 +76,7 @@ namespace Krg.Web.Controllers
 				results.Add(registrationDto);
 			}
 
-			var viewModel = new HomePageViewModel(CurrentPage, new PublishedValueFallback(_serviceContext, _variationContextAccessor))
-			{
-				Events = results
-			};
-
-			return CurrentTemplate(viewModel);
+			return results;
 		}
 	}
 }
