@@ -11,11 +11,11 @@ using Umbraco.Cms.Web.Common.Filters;
 
 namespace Krg.Web.Controllers
 {
-	public class RegistrationController : Umbraco.Cms.Web.Website.Controllers.SurfaceController
+	public class RegistrationSurfaceController : Umbraco.Cms.Web.Website.Controllers.SurfaceController
 	{
 		private readonly IEventRegistrationService _eventRegistrationService;
 
-		public RegistrationController(
+		public RegistrationSurfaceController(
 			IUmbracoContextAccessor umbracoContextAccessor, 
 			IUmbracoDatabaseFactory databaseFactory, 
 			ServiceContext services, 
