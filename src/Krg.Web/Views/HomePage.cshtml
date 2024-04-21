@@ -1,0 +1,45 @@
+﻿@using Krg.Services
+@using Krg.Web.Controllers
+@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<HomePageViewModel>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@{
+	Layout = "Layout.cshtml";
+}
+
+<div class="row">	
+	<h1>@Model.GetProperty("PageTitle").GetValue()</h1>
+</div>
+
+@foreach (var eventItemGroup in Model.Events.GroupBy(x => x.Content.Parent.Id))
+{
+	<div class="card-deck p-1">
+		@foreach (RegistrationViewModel eventItem in eventItemGroup)
+		{
+			<div class="card">
+				<img class="card-img-top img-thumbnail" src="./media/calendar_icon.svg" alt="Card image cap">
+				<div class="card-body">
+					<h5 class="card-title">@eventItem.Content.Date</h5>
+					<p class="card-text">
+						Kontaktperson: Jacob Mikkelsen
+						Tilmeldte (@eventItem.Registrations.Count):
+					</p>
+					@using (Html.BeginUmbracoForm<RegistrationSurfaceController>("HandleSubmit"))
+					{
+						@Html.Label("Name", "Navn")
+						@Html.TextBox("Name", "", new { @class="form-control", placeholder="Navn"})
+						@Html.Label("Email", "Email")
+						@Html.TextBox("Email", "", new { @class = "form-control", type="email", placeholder = "Email" })
+						@Html.Label("Department", "Afdeling")
+						@Html.TextBox("Department", "", new { @class = "form-control", placeholder = "Afdeling" })
+						@Html.Label("PhoneNo", "Telefon")
+						@Html.TextBox("PhoneNo", "", new { @class = "form-control", type="tel", placeholder = "Telefon" })
+						@Html.Hidden("UmbracoNodeId", eventItem.Content.Id)
+						@Html.Hidden("EventDate", eventItem.Content.Date)
+						<input class="btn btn-primary" type="submit" value="Tilmeld" />
+					}
+				</div>
+			</div>
+		}
+	</div>
+}

@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="EventRegistrationRepository.cs" />
+    <Compile Remove="IEventRegistrationRepository.cs" />
+    <Compile Remove="IUnitOfWork.cs" />
+    <Compile Remove="UnitOfWork.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.3" />
+    <PackageReference Include="Umbraco.Cms.Infrastructure" Version="13.2.2" />
+  </ItemGroup>
+
+</Project>
