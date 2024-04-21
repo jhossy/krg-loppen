@@ -3,7 +3,7 @@ using Umbraco.Cms.Web.Common;
 
 public static class UmbracoHelperExtensions
 {
-	public static IPublishedContent SiteSettings(this UmbracoHelper umbracoHelper)
+	public static IPublishedContent? SiteSettings(this UmbracoHelper umbracoHelper)
 	{
 		var rootNode = umbracoHelper.ContentAtRoot().FirstOrDefault();
 
@@ -16,7 +16,7 @@ public static class UmbracoHelperExtensions
 		return siteSettingsNode;
 	}
 
-	public static IPublishedContent EventRoot(this UmbracoHelper umbracoHelper)
+	public static IPublishedContent? EventRoot(this UmbracoHelper umbracoHelper)
 	{
 		var siteSettings = SiteSettings(umbracoHelper);
 

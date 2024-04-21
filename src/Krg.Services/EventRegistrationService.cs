@@ -15,6 +15,10 @@ namespace Krg.Services
 
 		public void AddRegistration(int umbracoNodeId, AddRegistrationRequest addRegistrationRequest)
 		{
+			if (addRegistrationRequest == null) return;
+
+			if (addRegistrationRequest.Department == null || addRegistrationRequest.PhoneNo == null) return;
+
 			//todo add validation
 			_registrationRepository.AddRegistration(new EventRegistration
 			{

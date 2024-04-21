@@ -10,12 +10,5 @@ public class HomePageViewModel : PublishedContentWrapped
 		Events = new List<RegistrationViewModel>();
 	}
 
-	//  public HomePageViewModel(IPublishedContent? publishedContent, IEnumerable<IGrouping<int, RegistrationViewModel>> events)
-	//  {
-	//CurrentPage = publishedContent;
-	//Events = events;
-	//  }
-
-
     public List<RegistrationViewModel> Events { get; set; }
 }
