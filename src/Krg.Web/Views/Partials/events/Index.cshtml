@@ -1,0 +1,73 @@
+﻿@using Krg.Services
+@using Krg.Web.Controllers
+@model List<RegistrationViewModel>
+
+@foreach (var eventItemGroup in Model.GroupBy(x => x.Content.Parent.Id))
+{
+	<div class="row row-cols1 row-cols-md-3 g-3">		
+		@foreach (RegistrationViewModel eventItem in eventItemGroup)
+		{
+			<div class="col">
+				<div class="card">
+					<img class="card-img-top img-thumbnail" src="./media/calendar_icon.svg" alt="Card image cap">
+					<div class="card-body">
+						<h5 class="card-title">@eventItem.Content.Date</h5>
+						<p class="card-text">
+							Kontaktperson: Jacob Mikkelsen
+							Email: jacobtambourmikkelsen@gmail.com
+							Tel: 21486949
+							Tilmeldte (@eventItem.Registrations.Count):
+
+							<table class="table table-sm table-striped table-hover">
+								<thead>
+									<tr>
+										<th scope="col">Spejder</th>
+										<th scope="col">Gren</th>
+										<th scope="col">Voksne</th>
+										<th scope="col">Børn</th>
+										<th scope="col">Trailer</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach (var registration in eventItem.Registrations.Where(x => x.ShowName))
+									{
+										<tr>
+											<th scope="row">@registration.Name</th>
+											<th scope="row">@registration.Department</th>
+											<th scope="row">@registration.NoOfAdults</th>
+											<th scope="row">@registration.NoOfChildren</th>
+											<th scope="row">@(registration.BringsTrailer ? "Ja" : "Nej")</th>
+										</tr>
+									}
+								</tbody>
+							</table>							
+						</p>
+
+						@using (Html.BeginUmbracoForm<RegistrationSurfaceController>("HandleSubmit"))
+						{
+							@Html.Label("Name", "Navn", new { @class = "visually-hidden" })
+							@Html.TextBox("Name", "", new { @class = "form-control", placeholder = "Navn" })
+							@Html.Label("Email", "Email", new { @class = "visually-hidden" })
+							@Html.TextBox("Email", "", new { @class = "form-control", type = "email", placeholder = "Email" })
+							@Html.Label("Department", "Afdeling", new { @class = "visually-hidden" })
+							@Html.TextBox("Department", "", new { @class = "form-control", placeholder = "Afdeling" })
+							@Html.Label("PhoneNo", "Telefon", new { @class = "visually-hidden" })
+							@Html.TextBox("PhoneNo", "", new { @class = "form-control", type = "tel", placeholder = "Telefon" })
+							<div class="form-check form-switch">
+								@Html.CheckBox("BringsTrailer", false, new { @class = "form-check-input", id = "bringsTrailer" })
+								@Html.Label("BringsTrailer", "Medbringer trailer?", new { @class = "form-check-label" })
+							</div>
+							<div class="form-check form-switch">
+								@Html.CheckBox("ShowName", false, new { @class = "form-check-input", id = "showName" })
+								@Html.Label("ShowName", "Vis navn?", new { @class = "form-check-label" })
+							</div>
+							@Html.Hidden("UmbracoNodeId", eventItem.Content.Id)
+							@Html.Hidden("EventDate", eventItem.Content.Date)
+							<input class="btn btn-primary" type="submit" value="Tilmeld" />
+						}
+					</div>
+				</div>
+			</div>
+		}		
+	</div>
+}
