@@ -14,7 +14,15 @@ namespace Krg.Services
 
 		public Event Content { get; }
 
-        public bool IsFullyBooked { get; } = true;
+        public bool IsFullyBooked { get; } = false;
+
+		public int TotalNoOfParticipants => TotalNoOfAdults + TotalNoOfChildren;
+
+		public int TotalNoOfAdults => Registrations.Sum(x => x.NoOfAdults);
+
+		public int TotalNoOfChildren => Registrations.Sum(x => x.NoOfChildren);
+
+		public int TotalNoOfTrailers => Registrations.Count(x => x.BringsTrailer);
 
 		public ReadOnlyCollection<Registration> Registrations { get; }		
     }

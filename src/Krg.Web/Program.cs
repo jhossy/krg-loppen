@@ -17,6 +17,8 @@ builder.Services.AddServiceExtensions();
 
 WebApplication app = builder.Build();
 
+app.UseStaticFiles();
+
 await app.BootUmbracoAsync();
 
 app.UseUmbraco()
