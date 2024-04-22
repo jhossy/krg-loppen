@@ -9,7 +9,7 @@
 }
 @foreach (var eventItemGroup in Model.GroupBy(x => x.Content.Parent.Id))
 {
-	<div class="row row-cols1 row-cols-md-2 g-3">
+	<div class="row row-cols1 row-cols-md-1 g-3">
 		@{
 			int j = 0;
 		}
@@ -18,14 +18,14 @@
 			<div class="col">
 				<div class="card mb-3">
 					<div class="row g-0">					
-						<div class="col-md-3">
+						<div class="col-md-2">
 							<time datetime="@eventItem.Content.Date" class="icon">
 								<em>@eventItem.Content.Date.ToString("ddd", new CultureInfo("da-DK"))</em>
 								<strong>@eventItem.Content.Date.ToString("MMM", new CultureInfo("da-DK"))</strong>
 								<span>@eventItem.Content.Date.Day</span>
 							</time>
 						</div>
-						<div class="col-md-9">
+						<div class="col-md-10">
 							<div class="card-body">
 								<h5 class="card-title">@eventItem.Content.Date.ToString("dd-MM-yyyy", new CultureInfo("da-DK"))</h5>
 								<p class="card-text">
