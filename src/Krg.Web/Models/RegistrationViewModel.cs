@@ -14,6 +14,8 @@ namespace Krg.Services
 
 		public Event Content { get; }
 
+        public bool IsFullyBooked { get; } = true;
+
 		public ReadOnlyCollection<Registration> Registrations { get; }		
     }
 }

@@ -4,7 +4,10 @@
 
 @foreach (var eventItemGroup in Model.GroupBy(x => x.Content.Parent.Id))
 {
-	<div class="row row-cols1 row-cols-md-3 g-3">		
+	<div class="row row-cols1 row-cols-md-3 g-3">
+		@{
+			int i = 0;
+		}
 		@foreach (RegistrationViewModel eventItem in eventItemGroup)
 		{
 			<div class="col">
@@ -18,29 +21,34 @@
 							Tel: 21486949
 							Tilmeldte (@eventItem.Registrations.Count):
 
-							<table class="table table-sm table-striped table-hover">
-								<thead>
-									<tr>
-										<th scope="col">Spejder</th>
-										<th scope="col">Gren</th>
-										<th scope="col">Voksne</th>
-										<th scope="col">Børn</th>
-										<th scope="col">Trailer</th>
-									</tr>
-								</thead>
-								<tbody>
-									@foreach (var registration in eventItem.Registrations.Where(x => x.ShowName))
-									{
-										<tr>
-											<th scope="row">@registration.Name</th>
-											<th scope="row">@registration.Department</th>
-											<th scope="row">@registration.NoOfAdults</th>
-											<th scope="row">@registration.NoOfChildren</th>
-											<th scope="row">@(registration.BringsTrailer ? "Ja" : "Nej")</th>
-										</tr>
-									}
-								</tbody>
-							</table>							
+							<a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseTable-@i" role="button" aria-expanded="false" aria-controls="collapseTable-@i">Deltagere</a>
+							<div class="collapse" id="collapseTable-@i">
+								<div class="card card-body">
+									<table class="table table-sm table-striped table-hover">
+										<thead>
+											<tr>
+												<th scope="col">Spejder</th>
+												<th scope="col">Gren</th>
+												<th scope="col">Voksne</th>
+												<th scope="col">Børn</th>
+												<th scope="col">Trailer</th>
+											</tr>
+										</thead>
+										<tbody>
+											@foreach (var registration in eventItem.Registrations.Where(x => x.ShowName))
+											{
+												<tr>
+													<th scope="row">@registration.Name</th>
+													<th scope="row">@registration.Department</th>
+													<th scope="row">@registration.NoOfAdults</th>
+													<th scope="row">@registration.NoOfChildren</th>
+													<th scope="row">@(registration.BringsTrailer ? "Ja" : "Nej")</th>
+												</tr>
+											}
+										</tbody>
+									</table>
+								</div>
+							</div>
 						</p>
 
 						@using (Html.BeginUmbracoForm<RegistrationSurfaceController>("HandleSubmit"))
@@ -63,11 +71,20 @@
 							</div>
 							@Html.Hidden("UmbracoNodeId", eventItem.Content.Id)
 							@Html.Hidden("EventDate", eventItem.Content.Date)
-							<input class="btn btn-primary" type="submit" value="Tilmeld" />
+
+							@if(eventItem.IsFullyBooked)
+							{
+								<span class="badge bg-danger">Fuldtegnet</span>
+							}
+							else
+							{
+								<input class="btn btn-primary" type="submit" value="Tilmeld" />
+							}							
 						}
 					</div>
 				</div>
 			</div>
+			i++;
 		}		
 	</div>
 }
