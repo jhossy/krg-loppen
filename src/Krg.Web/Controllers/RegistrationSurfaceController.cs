@@ -29,9 +29,12 @@ namespace Krg.Web.Controllers
 
 		[ValidateUmbracoFormRouteString]
 		[HttpPost]
-		public IActionResult HandleSubmit(AddRegistrationRequest request)
+		public async Task<IActionResult> HandleSubmit(AddRegistrationRequest request)
 		{
-			if (!ModelState.IsValid) return RedirectToCurrentUmbracoPage(); //CurrentUmbracoPage() keeps 'old' viewstate
+			if (!ModelState.IsValid)
+			{
+				return RedirectToCurrentUmbracoPage(); //CurrentUmbracoPage() keeps 'old' viewstate
+			}
 
 			//todo add fluent validation
 			_eventRegistrationService.AddRegistration(request.UmbracoNodeId, request);
