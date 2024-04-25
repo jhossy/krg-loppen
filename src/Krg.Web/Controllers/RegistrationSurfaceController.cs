@@ -29,7 +29,7 @@ namespace Krg.Web.Controllers
 
 		[ValidateUmbracoFormRouteString]
 		[HttpPost]
-		public async Task<IActionResult> HandleSubmit(AddRegistrationRequest request)
+		public IActionResult HandleSubmit(AddRegistrationRequest request)
 		{
 			if (!ModelState.IsValid)
 			{
