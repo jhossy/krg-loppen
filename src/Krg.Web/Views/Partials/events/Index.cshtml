@@ -182,15 +182,15 @@
 							{
 								<div class="mb-3">
 									@Html.Label("Name", "Navn", new { @class = "visually-hidden" })
-									@Html.TextBox("Name", "", new { @class = "form-control", placeholder = "Navn", @data_val = "true", @data_val_required = "Navn skal angives", autocomplete = "on" })
+									@Html.TextBox("Name", "", new { @class = "form-control", placeholder = "Navn", @data_val = "true", @data_val_required = Krg.Domain.Constants.NameRequiredMessage, autocomplete = "on" })
 								</div>
 								<div class="mb-3">
 									@Html.Label("Email", "Email", new { @class = "visually-hidden" })
-									@Html.TextBox("Email", "", new { @class = "form-control", type = "email", placeholder = "Email", @data_val = "true", @data_val_required = "Email skal angives", autocomplete = "on" })
+									@Html.TextBox("Email", "", new { @class = "form-control", type = "email", placeholder = "Email", @data_val = "true", @data_val_required = Krg.Domain.Constants.EmailRequiredMessage, autocomplete = "on" })
 								</div>
 								<div class="mb-3">
 									@Html.Label("Department", "Afdeling", new { @class = "visually-hidden" })
-									@Html.DropDownList("Department", new SelectList(Enum.GetValues(typeof(Department))), "Afdeling", new { @class = "form-select form-select mb-3", @data_val = "true", @data_val_required = "Afdeling skal angives" })
+									@Html.DropDownList("Department", new SelectList(Enum.GetValues(typeof(Department))), "Afdeling", new { @class = "form-select form-select mb-3", @data_val = "true", @data_val_required = Krg.Domain.Constants.DepartmentRequiredMessage })
 								</div>
 								<div class="mb-3">
 									@Html.Label("PhoneNo", "Telefon", new { @class = "visually-hidden" })
