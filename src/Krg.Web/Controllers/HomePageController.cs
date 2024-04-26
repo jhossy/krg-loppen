@@ -47,11 +47,6 @@ namespace Krg.Web.Controllers
 
 			List<Registration> dbRegistrations = _eventRegistrationService.GetRegistrations().ToList();
 
-			if(umbEvents.Count == 0 || dbRegistrations.Count == 0)
-			{
-				return CurrentTemplate(new HomePageViewModel(CurrentPage, new PublishedValueFallback(_serviceContext, _variationContextAccessor)));
-			}
-
 			List<RegistrationViewModel> results = BuildListOfRegistrations(dbRegistrations, umbEvents);
 
 			var viewModel = new HomePageViewModel(CurrentPage, new PublishedValueFallback(_serviceContext, _variationContextAccessor))
