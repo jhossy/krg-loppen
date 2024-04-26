@@ -11,7 +11,9 @@
 	<h1>@Model.GetProperty("PageTitle").GetValue()</h1>
 </div>
 
-@foreach (var eventItemGroup in Model.Events.GroupBy(x => x.Content.Parent.Id))
+@Html.Partial("/Views/Partials/events/Index.cshtml", Model.Events);
+
+@* @foreach (var eventItemGroup in Model.Events.GroupBy(x => x.Content.Parent.Id))
 {
 	<div class="card-deck p-1">
 		@foreach (RegistrationViewModel eventItem in eventItemGroup)
@@ -42,4 +44,4 @@
 			</div>
 		}
 	</div>
-}
+} *@

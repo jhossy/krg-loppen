@@ -45,7 +45,7 @@ namespace Krg.Web.Controllers
 
 			List<Event> umbEvents = eventRoot.DescendantsOrSelf<Event>().ToList();
 
-			List<Registration> dbRegistrations = _eventRegistrationService.GetRegistrations();
+			List<Registration> dbRegistrations = _eventRegistrationService.GetRegistrations().ToList();
 
 			if(umbEvents.Count == 0 || dbRegistrations.Count == 0)
 			{
