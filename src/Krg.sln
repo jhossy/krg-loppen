@@ -7,9 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Krg.Web", "Krg.Web\Krg.Web.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Krg.Database", "Krg.Database\Krg.Database.csproj", "{52D671A2-9BAE-4186-8568-657A6A5D75B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krg.Services", "Krg.Services\Krg.Services.csproj", "{5074D908-E53A-4BD8-BC3A-757E3A09F942}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Krg.Services", "Krg.Services\Krg.Services.csproj", "{5074D908-E53A-4BD8-BC3A-757E3A09F942}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krg.Domain", "Krg.Domain\Krg.Domain.csproj", "{181F92E3-3B1E-4F75-85FC-36804F1A42B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Krg.Domain", "Krg.Domain\Krg.Domain.csproj", "{181F92E3-3B1E-4F75-85FC-36804F1A42B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krg.Services.Tests", "Krg.Services.Tests\Krg.Services.Tests.csproj", "{F57C1A4C-FDC3-4D75-BDAE-BB6FF791A940}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krg.Domain.Tests", "Krg.Domain.Tests\Krg.Domain.Tests.csproj", "{557B5837-9455-4DE8-ABE2-7D1DC5849949}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{181F92E3-3B1E-4F75-85FC-36804F1A42B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{181F92E3-3B1E-4F75-85FC-36804F1A42B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{181F92E3-3B1E-4F75-85FC-36804F1A42B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F57C1A4C-FDC3-4D75-BDAE-BB6FF791A940}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F57C1A4C-FDC3-4D75-BDAE-BB6FF791A940}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F57C1A4C-FDC3-4D75-BDAE-BB6FF791A940}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F57C1A4C-FDC3-4D75-BDAE-BB6FF791A940}.Release|Any CPU.Build.0 = Release|Any CPU
+		{557B5837-9455-4DE8-ABE2-7D1DC5849949}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{557B5837-9455-4DE8-ABE2-7D1DC5849949}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{557B5837-9455-4DE8-ABE2-7D1DC5849949}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{557B5837-9455-4DE8-ABE2-7D1DC5849949}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
