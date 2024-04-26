@@ -1,10 +1,10 @@
-﻿@    using Krg.Domain
-@    using Krg.Services
-@    using Krg.Web.Controllers
-@    using System.Globalization
-@    using Krg.Web.Extensions
-@    using Umbraco.Cms.Web.Common.PublishedModels;
-    using Krg.Domain.Enums;
+﻿@using Krg.Domain
+@using Krg.Services
+@using Krg.Web.Controllers
+@using System.Globalization
+@using Krg.Web.Extensions
+@using Umbraco.Cms.Web.Common.PublishedModels;
+@using Krg.Domain.Enums;
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<List<RegistrationViewModel>>
 
 @{
@@ -171,7 +171,7 @@
 			</div>
 
 			<!-- Modal -->
-			  <div class="modal fade" id="exampleModal-@i-@j" tabindex="-1" aria-labelledby="exampleModalLabel-@i-@j" aria-hidden="true">
+				<div class="modal fade" id="exampleModal-@i-@j" tabindex="-1" aria-labelledby="exampleModalLabel-@i-@j" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -230,7 +230,7 @@
 			</div>
 
 			j++;		
-		}		
+	}		
 	</div>
 	i++;
 }
