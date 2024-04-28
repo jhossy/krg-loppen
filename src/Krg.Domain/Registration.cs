@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Krg.Domain
 {
-    public class Registration
+	public class Registration
     {
         public Registration(EventRegistration eventRegistration)
         {

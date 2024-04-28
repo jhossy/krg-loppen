@@ -1,0 +1,29 @@
+﻿<div class="table table-sm table-striped table-hover" ng-controller="RegistrationsPluginController">
+    <!--<p>{{model.value}}</p>-->
+    <!--<input type="text" ng-model="model.value" />-->
+    <button type="button" ng-disabled="getState()" ng-click="getRegistrations()"> Hent registreringer</button>
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">Dato</th>
+                <th scope="col">Navn</th>
+                <th scope="col">Email</th>
+                <th scope="col">Afdeling</th>
+                <th scope="col">Antal voksne</th>
+                <th scope="col">Antal børn</th>
+                <th scope="col">Medbringer trailer</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="reg in aRegistrations">
+                <th scope="row">{{ reg.EventDate }}</th>
+                <th>{{ reg.Name }}</th>
+                <th>{{ reg.Email }}</th>
+                <th>{{ reg.Department }}</th>
+                <th>{{ reg.NoOfAdults }}</th>
+                <th>{{ reg.NoOfChildren }}</th>
+                <th>{{ reg.BringsTrailer }}</th>
+            </tr>
+        </tbody>
+    </table>
+</div>
