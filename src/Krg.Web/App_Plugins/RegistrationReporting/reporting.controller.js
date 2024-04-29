@@ -12,7 +12,7 @@ angular.module('umbraco').controller('RegistrationsPluginController', // Scope o
             $scope.exportYear = properties[0].value; //exportYear is first property on this document type
         });
 
-        $scope.getRegistrations = function () {       
+        $scope.getRegistrations = function () {
             console.log($scope.exportYear);
             $scope.aRegistrations = $http({
                 method: 'GET',
@@ -27,6 +27,10 @@ angular.module('umbraco').controller('RegistrationsPluginController', // Scope o
                 // or server returns response with an error status.
                 console.log(response);
             });
-        }
+        };
+
+        $scope.exportToExcel = function () {
+            console.log('export to excel');
+        }        
 
 });
