@@ -1,10 +1,10 @@
-﻿using Krg.Domain;
+﻿using Krg.Domain.Models;
 using System.Collections.ObjectModel;
 using Umbraco.Cms.Web.Common.PublishedModels;
 
 namespace Krg.Services
 {
-	public class RegistrationViewModel
+    public class RegistrationViewModel
 	{
         public RegistrationViewModel(Event eventNode, List<Registration> registrations)
         {

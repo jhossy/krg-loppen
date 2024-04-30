@@ -1,8 +1,9 @@
-﻿using Krg.Web.Extensions;
+﻿using Krg.Domain.Models;
+using Krg.Web.Extensions;
 
 namespace Krg.Domain
 {
-	public class BackofficeRegistrationDto
+    public class BackofficeRegistrationDto
     {
         public BackofficeRegistrationDto(Registration registration)
         {

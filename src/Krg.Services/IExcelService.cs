@@ -1,9 +1,10 @@
 ﻿using Krg.Domain;
+using Krg.Domain.Models;
 
 namespace Krg.Web.Controllers
 {
-	public interface IExcelService
+    public interface IExcelService
 	{
-		byte[] CreateExcel(List<Registration> registrations);
+		byte[] CreateExcel(int year, List<BackofficeRegistrationDto> registrations);
 	}
 }

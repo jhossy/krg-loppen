@@ -1,9 +1,6 @@
-﻿<div class="table table-sm table-striped table-hover" ng-controller="RegistrationsPluginController">
-    <!--<p>{{exportYear.value}}</p>
-    <input type="text" ng-model="exportYear.value" />-->
+﻿<div class="table table-sm table-striped table-hover" ng-controller="RegistrationsPluginController">    
     <button type="button" ng-disabled="getState()" ng-click="getRegistrations()"> Hent registreringer</button>
-    <button type="button" ng-disabled="getState()" ng-click="exportToExcel()">Export</button>
-    <!--<a href="https://localhost:44396/umbraco/backoffice/api/registrations/exportasexcel/?year=2024" type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" download="MyWorkbook.xlsx">Link</a>-->
+    <button type="button" ng-disabled="getState()" ng-click="exportToExcel()">Export</button>    
     <table>
         <thead>
             <tr>

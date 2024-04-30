@@ -1,9 +1,10 @@
 using AutoFixture;
 using Krg.Database.Models;
+using Krg.Domain.Models;
 
 namespace Krg.Domain.Tests
 {
-	[TestClass]
+    [TestClass]
 	public class RegistrationTests
 	{
 		private readonly IFixture _fixture = new Fixture();

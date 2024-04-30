@@ -1,8 +1,8 @@
-﻿using Krg.Domain;
+﻿using Krg.Domain.Models;
 
 namespace Krg.Services
 {
-	public interface IEventRegistrationService
+    public interface IEventRegistrationService
 	{
 		void AddRegistration(int umbracoNodeId, AddRegistrationRequest addRegistrationRequest);
 

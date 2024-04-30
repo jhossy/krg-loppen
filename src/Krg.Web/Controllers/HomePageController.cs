@@ -1,4 +1,4 @@
-﻿using Krg.Domain;
+﻿using Krg.Domain.Models;
 using Krg.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
@@ -11,7 +11,7 @@ using Umbraco.Cms.Web.Common.PublishedModels;
 
 namespace Krg.Web.Controllers
 {
-	public class HomePageController : RenderController
+    public class HomePageController : RenderController
 	{		
 		private readonly IVariationContextAccessor _variationContextAccessor;
 		private readonly ServiceContext _serviceContext;

@@ -31,26 +31,32 @@ angular.module('umbraco').controller('RegistrationsPluginController', // Scope o
         };
 
         $scope.exportToExcel = function () {
-            console.log('export to excel');
-
-            $scope.exportDocument = $http({
+            $scope.exportDocument = $http({                
                 method: 'GET',
-                url: '/umbraco/backoffice/api/registrations/exportasexcel/?year=' + $scope.exportYear
+                url: '/umbraco/backoffice/api/registrations/exportasexcel/?year=' + $scope.exportYear,
+                responseType: 'blob'
             }).then(function successCallback(response) {
                 // this callback will be called asynchronously
                 // when the response is available
-                var file = new Blob([response.data], { type: 'application/csv' });
+                var file = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+                var contentDisposition = response.headers('content-disposition');
+                var fileName = 'fallback.xslx';
+                console.log(contentDisposition); //attachment; filename=MyWorkbook.xlsx; filename*=UTF-8''MyWorkbook.xlsx
 
+                if (contentDisposition.includes(';') &&
+                    contentDisposition.includes('filename') &&
+                    contentDisposition.includes('=')) {
+                    fileName = contentDisposition.split(';')[1].split('filename')[1].split('=')[1].trim();
+                }
+                
                 var fileURL = URL.createObjectURL(file);
                 var a = document.createElement('a');
                 a.href = fileURL;
                 a.target = '_blank';
-                a.download = 'yourfilename.xlsx';
+                a.download = fileName;
                 document.body.appendChild(a); //create the link "a"
                 a.click(); //click the link "a"
                 document.body.removeChild(a); //remove the link "a"
-
-                console.log(response.data);
             }, function errorCallback(response) {
                 // called asynchronously if an error occurs
                 // or server returns response with an error status.
