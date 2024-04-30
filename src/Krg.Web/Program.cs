@@ -1,6 +1,4 @@
-using Krg.Database.Models;
 using Krg.Services.Extensions;
-using Microsoft.EntityFrameworkCore;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +8,6 @@ builder.CreateUmbracoBuilder()
     .AddDeliveryApi()
     .AddComposers()
     .Build();
-
-//builder.Services.AddDbContext<EventRegistrationContext>(options =>  options.UseSqlServer(builder.Configuration.GetConnectionString("EventRegistrationContext")));
 
 builder.Services.AddServiceExtensions();
 

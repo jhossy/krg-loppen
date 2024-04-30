@@ -186,16 +186,24 @@
 									@Html.TextBox("Name", "", new { @class = "form-control", placeholder = "Navn", @data_val = "true", @data_val_required = Krg.Domain.Constants.NameRequiredMessage, autocomplete = "on" })
 								</div>
 								<div class="mb-3">
-									@Html.Label("Email", "Email", new { @class = "visually-hidden" })
-									@Html.TextBox("Email", "", new { @class = "form-control", type = "email", placeholder = "Email", @data_val = "true", @data_val_required = Krg.Domain.Constants.EmailRequiredMessage, autocomplete = "on" })
+									@Html.Label("Department", "Gren", new { @class = "visually-hidden" })
+									@Html.DropDownList("Department", new SelectList(Enum.GetValues(typeof(Department))), "Vælg gren", new { @class = "form-select form-select mb-3", @data_val = "true", @data_val_required = Krg.Domain.Constants.DepartmentRequiredMessage })
+								</div>								
+								<div class="mb-3">
+									@Html.Label("NoOfAdults", "Antal voksne", new { @class = "visually-hidden" })
+									@Html.DropDownList("NoOfAdults", new SelectList(Enumerable.Range(1, 3)), "Antal voksne", new { @class = "form-select form-select mb-3", @data_val = "true", @data_val_required = Krg.Domain.Constants.NoOfAdultsRequiredMessage })
 								</div>
 								<div class="mb-3">
-									@Html.Label("Department", "Afdeling", new { @class = "visually-hidden" })
-									@Html.DropDownList("Department", new SelectList(Enum.GetValues(typeof(Department))), "Afdeling", new { @class = "form-select form-select mb-3", @data_val = "true", @data_val_required = Krg.Domain.Constants.DepartmentRequiredMessage })
-								</div>
+									@Html.Label("NoOfChildren", "Antal børn", new { @class = "visually-hidden" })
+									@Html.DropDownList("NoOfChildren", new SelectList(Enumerable.Range(0, 3)), "Antal børn", new { @class = "form-select form-select mb-3", @data_val = "true", @data_val_required = Krg.Domain.Constants.NoOfChildrenRequiredMessage })
+								</div>								
 								<div class="mb-3">
 									@Html.Label("PhoneNo", "Telefon", new { @class = "visually-hidden" })
 									@Html.TextBox("PhoneNo", "", new { @class = "form-control", type = "tel", placeholder = "Telefon" })
+								</div>
+								<div class="mb-3">
+									@Html.Label("Email", "Email", new { @class = "visually-hidden" })
+									@Html.TextBox("Email", "", new { @class = "form-control", type = "email", placeholder = "Email", @data_val = "true", @data_val_required = Krg.Domain.Constants.EmailRequiredMessage, autocomplete = "on" })
 								</div>
 								<div class="mb-3">
 									<div class="form-check form-switch">
