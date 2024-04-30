@@ -1,7 +1,7 @@
 ﻿using Krg.Database.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace Krg.Domain
+namespace Krg.Domain.Models
 {
     public class Registration
     {
@@ -24,7 +24,7 @@ namespace Krg.Domain
 
         public string Department { get; } = null!;
 
-		public int NoOfAdults { get; }
+        public int NoOfAdults { get; }
 
         public int NoOfChildren { get; }
 
@@ -33,7 +33,7 @@ namespace Krg.Domain
         [EmailAddress]
         public string Email { get; } = null!;
 
-		public bool BringsTrailer { get; }
+        public bool BringsTrailer { get; }
 
         public bool ShowName { get; }
     }

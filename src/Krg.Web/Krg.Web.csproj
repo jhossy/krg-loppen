@@ -5,12 +5,15 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="App_Plugins\RegistrationReporting\reporting.css" />
+    <Content Include="App_Plugins\RegistrationReporting\reporting.html" />
     <Content Include="wwwroot\media\css\calendar.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="EPPlus" Version="7.1.2" />
     <PackageReference Include="Umbraco.Cms" Version="13.2.0" />
   </ItemGroup>
 
@@ -23,6 +26,10 @@
 
   <ItemGroup>
     <Folder Include="Views\Shared\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="app_plugins\registrationreporting\reporting.controller.js" />
   </ItemGroup>
 
   <ItemGroup>

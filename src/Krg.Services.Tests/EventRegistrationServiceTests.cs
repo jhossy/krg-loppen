@@ -1,12 +1,12 @@
 using AutoFixture;
 using Krg.Database;
 using Krg.Database.Models;
-using Krg.Domain;
+using Krg.Domain.Models;
 using Moq;
 
 namespace Krg.Services.Tests
 {
-	[TestClass]
+    [TestClass]
 	public class EventRegistrationServiceTests
 	{
 		private readonly IFixture _fixture = new Fixture();

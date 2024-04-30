@@ -1,4 +1,5 @@
 ﻿using Krg.Database;
+using Krg.Web.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Krg.Services.Extensions
@@ -11,6 +12,7 @@ namespace Krg.Services.Extensions
 			//services.AddTransient<IEventRegistrationRepository, EventRegistrationRepository>();
 			services.AddTransient<IEventRegistrationService, EventRegistrationService>();
 			services.AddTransient<IRegistrationRepository, RegistrationRepository>();
+			services.AddTransient<IExcelService, ExcelService>();
 
 			return services;
 		}

@@ -8,5 +8,10 @@ namespace Krg.Web.Extensions
 		{
 			return dateTime.ToString("dd-MM-yyyy", new CultureInfo("da-DK"));
 		}
+
+		public static string ToDkExportDate(this DateTime dateTime)
+		{
+			return dateTime.ToString("dd-MM-yyyy-HH-mm-ss", new CultureInfo("da-DK"));
+		}
 	}
 }

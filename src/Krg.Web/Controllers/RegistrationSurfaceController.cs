@@ -1,4 +1,4 @@
-﻿using Krg.Domain;
+﻿using Krg.Domain.Models;
 using Krg.Services;
 using Microsoft.AspNetCore.Mvc;
 using Umbraco.Cms.Core.Cache;
@@ -11,7 +11,7 @@ using Umbraco.Cms.Web.Common.Filters;
 
 namespace Krg.Web.Controllers
 {
-	public class RegistrationSurfaceController : Umbraco.Cms.Web.Website.Controllers.SurfaceController
+    public class RegistrationSurfaceController : Umbraco.Cms.Web.Website.Controllers.SurfaceController
 	{
 		private readonly IEventRegistrationService _eventRegistrationService;
 

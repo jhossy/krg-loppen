@@ -1,10 +1,10 @@
 ﻿using Krg.Database;
 using Krg.Database.Models;
-using Krg.Domain;
+using Krg.Domain.Models;
 
 namespace Krg.Services
 {
-	public class EventRegistrationService : IEventRegistrationService
+    public class EventRegistrationService : IEventRegistrationService
 	{
 		private readonly IRegistrationRepository _registrationRepository;
 
