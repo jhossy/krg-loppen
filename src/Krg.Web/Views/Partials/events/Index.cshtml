@@ -30,44 +30,75 @@
 						</div>
 						<div class="col-md-10">
 							<div class="card-body">
-								<h5 class="card-title">@eventItem.Content.Date.ToDkDate()</h5>
+								<h5 class="card-title px-3">@eventItem.Content.Date.ToDkDate()</h5>
 								<p class="card-text">
-									<div>@Umbraco.GetDictionaryValueOrDefault("Kontaktperson", "Kontaktperson"): Jacob Mikkelsen <a class="btn btn-primary btn-sm" data-bs-toggle="collapse" href="#collapseInfo-@i-@j" role="button" aria-expanded="false" aria-controls="collapseInfo-@i-@j">[Kontaktinfo]</a></div>
-									<div class="collapse" id="collapseInfo-@i-@j">
-										<div>@Umbraco.GetDictionaryValueOrDefault("Email", "Email"): jacobtambourmikkelsen@gmail.com</div>
-										<div>@Umbraco.GetDictionaryValueOrDefault("Tel", "Tel"): 21486949</div>										
-									</div>
-									<div>
-										@Umbraco.GetDictionaryValueOrDefault("Tilmeldte", "Tilmeldte") @eventItem.TotalNoOfParticipants: (@eventItem.TotalNoOfAdults) @Umbraco.GetDictionaryValueOrDefault("Voksne", "Voksne") (@eventItem.TotalNoOfChildren) @Umbraco.GetDictionaryValueOrDefault("Børn", "Børn") (@eventItem.TotalNoOfTrailers) @Umbraco.GetDictionaryValueOrDefault("Trailer", "Trailer")
-										<a class="btn btn-primary btn-sm" data-bs-toggle="collapse" href="#collapseRegistrations-@i-@j" role="button" aria-expanded="false" aria-controls="collapseRegistrations-@i-@j">@Umbraco.GetDictionaryValueOrDefault("Deltagere", "Deltagere")</a>
-									</div>
-									<div class="collapse" id="collapseRegistrations-@i-@j">
-										<div class="card card-body">
-											<table class="table table-sm table-striped table-hover">
-												<thead>
-													<tr>
-														<th scope="col">@Umbraco.GetDictionaryValueOrDefault("Spejder", "Spejder")</th>
-														<th scope="col">@Umbraco.GetDictionaryValueOrDefault("Gren", "Gren")</th>
-														<th scope="col">@Umbraco.GetDictionaryValueOrDefault("Voksne", "Voksne")</th>
-														<th scope="col">@Umbraco.GetDictionaryValueOrDefault("Børn", "Børn")</th>
-														<th scope="col">@Umbraco.GetDictionaryValueOrDefault("Trailer", "Trailer")</th>
-													</tr>
-												</thead>
-												<tbody>
-													@foreach (var registration in eventItem.Registrations.Where(x => x.ShowName))
-													{
-														<tr>
-															<th scope="row">@registration.Name</th>
-															<th scope="row">@registration.Department</th>
-															<th scope="row">@registration.NoOfAdults</th>
-															<th scope="row">@registration.NoOfChildren</th>
-															<th scope="row">@(registration.BringsTrailer ? "Ja" : "Nej")</th>
-														</tr>
-													}
-												</tbody>
-											</table>
+									<div class="container p-3 border bg-light">
+										<div class="row py-2">
+											<div class="col">
+												@Umbraco.GetDictionaryValueOrDefault("Kontaktperson", "Kontaktperson"): Jacob Mikkelsen
+												<div class="collapse" id="collapseInfo-@i-@j">
+													<div>@Umbraco.GetDictionaryValueOrDefault("Email", "Email"): jacobtambourmikkelsen@gmail.com</div>
+													<div>@Umbraco.GetDictionaryValueOrDefault("Tel", "Tel"): 21486949</div>
+												</div>												
+											</div>
+											<div class="col">
+												<a class="btn btn-primary btn-sm" data-bs-toggle="collapse" href="#collapseInfo-@i-@j" role="button" aria-expanded="false" aria-controls="collapseInfo-@i-@j">[Kontaktinfo]</a>
+											</div>
 										</div>
-									</div>
+										<div class="row py-2">
+											<div class="col">
+												@Umbraco.GetDictionaryValueOrDefault("Tilmeldte", "Tilmeldte") @eventItem.TotalNoOfParticipants: (@eventItem.TotalNoOfAdults) @Umbraco.GetDictionaryValueOrDefault("Voksne", "Voksne") (@eventItem.TotalNoOfChildren) @Umbraco.GetDictionaryValueOrDefault("Børn", "Børn") (@eventItem.TotalNoOfTrailers) @Umbraco.GetDictionaryValueOrDefault("Trailer", "Trailer")
+											</div>
+											<div class="col">
+												<a class="btn btn-primary btn-sm" data-bs-toggle="collapse" href="#collapseRegistrations-@i-@j" role="button" aria-expanded="false" aria-controls="collapseRegistrations-@i-@j">@Umbraco.GetDictionaryValueOrDefault("Deltagere", "Deltagere")</a>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col">
+												<div class="collapse" id="collapseRegistrations-@i-@j">
+													<div class="card card-body">
+														<table class="table table-sm table-striped table-hover">
+															<thead>
+																<tr>
+																	<th scope="col">@Umbraco.GetDictionaryValueOrDefault("Spejder", "Spejder")</th>
+																	<th scope="col">@Umbraco.GetDictionaryValueOrDefault("Gren", "Gren")</th>
+																	<th scope="col">@Umbraco.GetDictionaryValueOrDefault("Voksne", "Voksne")</th>
+																	<th scope="col">@Umbraco.GetDictionaryValueOrDefault("Børn", "Børn")</th>
+																	<th scope="col">@Umbraco.GetDictionaryValueOrDefault("Trailer", "Trailer")</th>
+																</tr>
+															</thead>
+															<tbody>
+																@foreach (var registration in eventItem.Registrations.Where(x => x.ShowName))
+																{
+																	<tr>
+																		<th scope="row">@registration.Name</th>
+																		<th scope="row">@registration.Department</th>
+																		<th scope="row">@registration.NoOfAdults</th>
+																		<th scope="row">@registration.NoOfChildren</th>
+																		<th scope="row">@(registration.BringsTrailer ? "Ja" : "Nej")</th>
+																	</tr>
+																}
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="row py-2">
+											<div class="col">
+												@if (eventItem.IsFullyBooked)
+												{
+													<span class="badge bg-danger">Fuldtegnet</span>
+												}
+												else
+												{
+													<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal-@i-@j">
+														[Tilmeld]
+													</button>
+												}
+											</div>
+										</div>
+									</div>									
 								</p>
 							</div>
 							<p>
@@ -152,18 +183,7 @@
 									{
 										<input class="btn btn-primary" type="submit" value="[Tilmeld]" />
 									}
-								} *@
-								 	
-								@if (eventItem.IsFullyBooked)
-								{
-									<span class="badge bg-danger">Fuldtegnet</span>
-								}
-								else
-								{																			
-									<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal-@i-@j">
-										[Tilmeld]
-									</button>
-								} 		 
+								} *@		 
 							</p>
 						</div>
 					</div>
