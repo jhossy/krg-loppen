@@ -7,6 +7,7 @@ namespace Krg.Domain.Models
     {
         public Registration(EventRegistration eventRegistration)
         {
+            Id = eventRegistration.Id;
             BringsTrailer = eventRegistration.BringsTrailer;
             Department = eventRegistration.Department;
             Email = eventRegistration.Email;
@@ -16,9 +17,12 @@ namespace Krg.Domain.Models
             NoOfChildren = eventRegistration.NoOfChildren;
             PhoneNo = eventRegistration.PhoneNo;
             ShowName = eventRegistration.ShowName;
+            IsCancelled = eventRegistration.IsCancelled;
         }
 
-        public DateTime EventDate { get; }
+		public int Id { get; }
+
+		public DateTime EventDate { get; }
 
         public string Name { get; } = null!;
 
@@ -36,5 +40,7 @@ namespace Krg.Domain.Models
         public bool BringsTrailer { get; }
 
         public bool ShowName { get; }
+
+        public bool IsCancelled { get; }
     }
 }

@@ -22,6 +22,7 @@ namespace Krg.Web.Controllers
 				worksheet.Cells[1, 5].Value = "Antal voksne";
 				worksheet.Cells[1, 6].Value = "Antal børn";
 				worksheet.Cells[1, 7].Value = "Medbringer trailer";
+				worksheet.Cells[1, 8].Value = "Annulleret";
 
 				//Add some items...
 				int i = 2;
@@ -34,6 +35,7 @@ namespace Krg.Web.Controllers
 					worksheet.Cells["E" + i].Value = registration.NoOfAdults;
 					worksheet.Cells["F" + i].Value = registration.NoOfChildren;
 					worksheet.Cells["G" + i].Value = registration.BringsTrailer;
+					worksheet.Cells["H" + i].Value = registration.IsCancelled;
 
 					i++;
 				}

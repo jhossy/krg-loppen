@@ -5,8 +5,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="App_Plugins\RegistrationReporting\reporting.css" />
-    <Content Include="App_Plugins\RegistrationReporting\reporting.html" />
+    <Content Include="App_Plugins\RegistrationReporting\reporting.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Plugins\RegistrationReporting\reporting.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="wwwroot\media\css\calendar.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -29,7 +33,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="app_plugins\registrationreporting\reporting.controller.js" />
+    <None Include="app_plugins\registrationreporting\reporting.controller.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

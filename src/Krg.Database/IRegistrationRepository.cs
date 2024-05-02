@@ -6,6 +6,12 @@ namespace Krg.Database
 	{
 		void AddRegistration(EventRegistration registration);
 
-		List<EventRegistration> GetRegistrations();
+		EventRegistration GetById(int id);
+
+		void RemoveRegistration(int id);
+
+		List<EventRegistration> GetAllRegistrations();
+
+		List<EventRegistration> GetNonDeletedRegistrations();
 	}
 }
