@@ -14,7 +14,7 @@ namespace Krg.Services
 
 		public Event Content { get; }
 
-        public bool IsFullyBooked { get; } = false;
+        public bool IsFullyBooked => Registrations.Count() > 4;
 
 		public int TotalNoOfParticipants => TotalNoOfAdults + TotalNoOfChildren;
 

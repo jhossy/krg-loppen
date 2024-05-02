@@ -6,6 +6,7 @@
         Mikro,
         Mini,
         Junior,
-        Trop
+        Trop,
+        Bestyrelse
     }
 }

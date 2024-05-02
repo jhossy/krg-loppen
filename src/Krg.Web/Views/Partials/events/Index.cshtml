@@ -42,7 +42,7 @@
 												</div>												
 											</div>
 											<div class="col">
-												<a class="btn btn-primary btn-sm" data-bs-toggle="collapse" href="#collapseInfo-@i-@j" role="button" aria-expanded="false" aria-controls="collapseInfo-@i-@j">[Kontaktinfo]</a>
+												<a class="btn btn-primary btn-sm" data-bs-toggle="collapse" href="#collapseInfo-@i-@j" role="button" aria-expanded="false" aria-controls="collapseInfo-@i-@j">@Umbraco.GetDictionaryValueOrDefault("Kontaktinfo", "Kontaktinfo")</a>
 											</div>
 										</div>
 										<div class="row py-2">
@@ -88,12 +88,12 @@
 											<div class="col">
 												@if (eventItem.IsFullyBooked)
 												{
-													<span class="badge bg-danger">Fuldtegnet</span>
+													<span class="badge bg-danger">@Umbraco.GetDictionaryValueOrDefault("Fuldtegnet", "Fuldtegnet")</span>
 												}
 												else
 												{
 													<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal-@i-@j">
-														[Tilmeld]
+														@Umbraco.GetDictionaryValueOrDefault("Tilmeld", "Tilmeld")
 													</button>
 												}
 											</div>
@@ -195,8 +195,8 @@
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h1 class="modal-title fs-5" id="exampleModalLabel-@i-@j">[Tilmelding] - @eventItem.Content.Date.ToDkDate()</h1>
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="[Luk]"></button>
+							<h1 class="modal-title fs-5" id="exampleModalLabel-@i-@j">@Umbraco.GetDictionaryValueOrDefault("Tilmelding", "Tilmelding") - @eventItem.Content.Date.ToDkDate()</h1>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@Umbraco.GetDictionaryValueOrDefault("Luk", "Luk")"></button>
 						</div>
 						<div class="modal-body">
 							@using (Html.BeginUmbracoForm<RegistrationSurfaceController>("HandleSubmit", null, new { @id = $"form-{@i}-{@j}" }))
@@ -243,14 +243,14 @@
 							}
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">[Luk]</button>
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Umbraco.GetDictionaryValueOrDefault("Luk", "Luk")</button>
 							@if (eventItem.IsFullyBooked)
 							{
-								<span class="badge bg-danger">[Fuldtegnet]</span>
+								<span class="badge bg-danger">@Umbraco.GetDictionaryValueOrDefault("Fuldtegnet", "Fuldtegnet")</span>
 							}
 							else
 							{
-								<input class="btn btn-primary" type="submit" form="form-@i-@j" value="[Tilmeld]" />
+								<input class="btn btn-primary" type="submit" form="form-@i-@j" value="@Umbraco.GetDictionaryValueOrDefault("Tilmeld", "Tilmeld")" />
 							}
 						</div>
 					</div> 
