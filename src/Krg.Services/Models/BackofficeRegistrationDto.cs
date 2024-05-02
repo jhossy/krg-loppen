@@ -7,6 +7,7 @@ namespace Krg.Domain
     {
         public BackofficeRegistrationDto(Registration registration)
         {
+            Id = registration.Id;
             EventDate = registration.EventDate.ToDkDate();
             Name = registration.Name;
             Department = registration.Department;
@@ -16,7 +17,10 @@ namespace Krg.Domain
             ShowName = registration.ShowName ? "Ja" : "Nej";
             Email = registration.Email;
             BringsTrailer = registration.BringsTrailer ? "Ja" : "Nej";
+            IsCancelled = registration.IsCancelled ? "Ja" : "Nej";
         }
+
+        public int Id { get; }
 
         public string EventDate { get; }
 
@@ -35,5 +39,7 @@ namespace Krg.Domain
 		public string BringsTrailer { get; }
 
 		public string ShowName { get; }
+
+        public string IsCancelled { get; }
 	}
 }

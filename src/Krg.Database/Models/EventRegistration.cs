@@ -25,5 +25,7 @@
         public bool BringsTrailer { get; set; }
 
         public bool ShowName { get; set; }
+
+        public bool IsCancelled { get; set; }
     }
 }

@@ -6,6 +6,10 @@ namespace Krg.Services
 	{
 		void AddRegistration(int umbracoNodeId, AddRegistrationRequest addRegistrationRequest);
 
-		List<Registration> GetRegistrations();
+		void RemoveRegistration(int eventId);
+
+		List<Registration> GetAllRegistrations();
+
+		List<Registration> GetNonDeletedRegistrations();
 	}
 }
