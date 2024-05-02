@@ -18,174 +18,170 @@
 		}
 		@foreach (RegistrationViewModel eventItem in eventItemGroup)
 		{
-			<div class="col">
-				<div class="card mb-3">
-					<div class="row g-0">					
-						<div class="col-md-2">
-							<time datetime="@eventItem.Content.Date" class="icon">
-								<em>@eventItem.Content.Date.ToString("ddd", new CultureInfo("da-DK"))</em>
-								<strong>@eventItem.Content.Date.ToString("MMM", new CultureInfo("da-DK"))</strong>
-								<span>@eventItem.Content.Date.Day</span>
-							</time>
-						</div>
-						<div class="col-md-10">
-							<div class="card-body">
-								<h5 class="card-title px-3">@eventItem.Content.Date.ToDkDate()</h5>
-								<p class="card-text">
-									<div class="container p-3 border bg-light">
-										<div class="row py-2">
-											<div class="col">
-												@Umbraco.GetDictionaryValueOrDefault("Kontaktperson", "Kontaktperson"): Jacob Mikkelsen
-												<div class="collapse" id="collapseInfo-@i-@j">
-													<div>@Umbraco.GetDictionaryValueOrDefault("Email", "Email"): jacobtambourmikkelsen@gmail.com</div>
-													<div>@Umbraco.GetDictionaryValueOrDefault("Tel", "Tel"): 21486949</div>
-												</div>												
-											</div>
-											<div class="col">
-												<a class="btn btn-primary btn-sm" data-bs-toggle="collapse" href="#collapseInfo-@i-@j" role="button" aria-expanded="false" aria-controls="collapseInfo-@i-@j">@Umbraco.GetDictionaryValueOrDefault("Kontaktinfo", "Kontaktinfo")</a>
+			<div class="col border">
+				<div class="row g-0">					
+					<div class="col-md-2 g-3">
+						<time datetime="@eventItem.Content.Date" class="icon">
+							<em>@eventItem.Content.Date.ToString("ddd", new CultureInfo("da-DK"))</em>
+							<strong>@eventItem.Content.Date.ToString("MMM", new CultureInfo("da-DK"))</strong>
+							<span>@eventItem.Content.Date.Day</span>
+						</time>
+					</div>
+					<div class="col-md-10">
+						<h5 class="px-2">@eventItem.Content.Date.ToDkDate()</h5>
+						<p>
+							<div class="container p-3 border bg-light">
+								<div class="row py-2">
+									<div class="col">
+										@Umbraco.GetDictionaryValueOrDefault("Kontaktperson", "Kontaktperson"): Jacob Mikkelsen
+										<div class="collapse" id="collapseInfo-@i-@j">
+											<div>@Umbraco.GetDictionaryValueOrDefault("Email", "Email"): jacobtambourmikkelsen@gmail.com</div>
+											<div>@Umbraco.GetDictionaryValueOrDefault("Tel", "Tel"): 21486949</div>
+										</div>												
+									</div>
+									<div class="col">
+										<a class="btn btn-primary btn-sm" data-bs-toggle="collapse" href="#collapseInfo-@i-@j" role="button" aria-expanded="false" aria-controls="collapseInfo-@i-@j">@Umbraco.GetDictionaryValueOrDefault("Kontaktinfo", "Kontaktinfo")</a>
+									</div>
+								</div>
+								<div class="row py-2">
+									<div class="col">
+										@Umbraco.GetDictionaryValueOrDefault("Tilmeldte", "Tilmeldte") @eventItem.TotalNoOfParticipants: (@eventItem.TotalNoOfAdults) @Umbraco.GetDictionaryValueOrDefault("Voksne", "Voksne") (@eventItem.TotalNoOfChildren) @Umbraco.GetDictionaryValueOrDefault("Børn", "Børn") (@eventItem.TotalNoOfTrailers) @Umbraco.GetDictionaryValueOrDefault("Trailer", "Trailer")
+									</div>
+									<div class="col">
+										<a class="btn btn-primary btn-sm" data-bs-toggle="collapse" href="#collapseRegistrations-@i-@j" role="button" aria-expanded="false" aria-controls="collapseRegistrations-@i-@j">@Umbraco.GetDictionaryValueOrDefault("Deltagere", "Deltagere")</a>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<div class="collapse" id="collapseRegistrations-@i-@j">
+											<div class="card card-body">
+												<table class="table table-sm table-striped table-hover">
+													<thead>
+														<tr>
+															<th scope="col">@Umbraco.GetDictionaryValueOrDefault("Spejder", "Spejder")</th>
+															<th scope="col">@Umbraco.GetDictionaryValueOrDefault("Gren", "Gren")</th>
+															<th scope="col">@Umbraco.GetDictionaryValueOrDefault("Voksne", "Voksne")</th>
+															<th scope="col">@Umbraco.GetDictionaryValueOrDefault("Børn", "Børn")</th>
+															<th scope="col">@Umbraco.GetDictionaryValueOrDefault("Trailer", "Trailer")</th>
+														</tr>
+													</thead>
+													<tbody>
+														@foreach (var registration in eventItem.Registrations.Where(x => x.ShowName))
+														{
+															<tr>
+																<th scope="row">@registration.Name</th>
+																<th scope="row">@registration.Department</th>
+																<th scope="row">@registration.NoOfAdults</th>
+																<th scope="row">@registration.NoOfChildren</th>
+																<th scope="row">@(registration.BringsTrailer ? "Ja" : "Nej")</th>
+															</tr>
+														}
+													</tbody>
+												</table>
 											</div>
 										</div>
-										<div class="row py-2">
-											<div class="col">
-												@Umbraco.GetDictionaryValueOrDefault("Tilmeldte", "Tilmeldte") @eventItem.TotalNoOfParticipants: (@eventItem.TotalNoOfAdults) @Umbraco.GetDictionaryValueOrDefault("Voksne", "Voksne") (@eventItem.TotalNoOfChildren) @Umbraco.GetDictionaryValueOrDefault("Børn", "Børn") (@eventItem.TotalNoOfTrailers) @Umbraco.GetDictionaryValueOrDefault("Trailer", "Trailer")
+									</div>
+								</div>
+								<div class="row py-2">
+									<div class="col">
+										@if (eventItem.IsFullyBooked)
+										{
+											<span class="badge bg-danger">@Umbraco.GetDictionaryValueOrDefault("Fuldtegnet", "Fuldtegnet")</span>
+										}
+										else
+										{
+											<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal-@i-@j">
+												@Umbraco.GetDictionaryValueOrDefault("Tilmeld", "Tilmeld")
+											</button>
+										}
+									</div>
+								</div>
+							</div>									
+						</p>
+						<p>
+							@* <a class="btn btn-primary btn-sm" data-bs-toggle="collapse" href="#collapseForm-@i-@j" role="button" aria-expanded="false" aria-controls="collapseForm-@i-@j">@Umbraco.GetDictionaryValueOrDefault("Tilmelding", "Tilmelding")</a>
+							<div class="collapse" id="collapseForm-@i-@j">
+								<div class="card card-body">
+									<div class="col-md-8">
+										@using (Html.BeginUmbracoForm<RegistrationSurfaceController>("HandleSubmit", null, new { @id = $"form-{@i}-{@j}" }))
+										{
+											<div class="mb-3">
+												@Html.Label("Name", "Navn", new { @class = "visually-hidden" })
+												@Html.TextBox("Name", "", new { @class = "form-control", placeholder = "Navn", @data_val = "true", @data_val_required = "Navn skal angives" })
 											</div>
-											<div class="col">
-												<a class="btn btn-primary btn-sm" data-bs-toggle="collapse" href="#collapseRegistrations-@i-@j" role="button" aria-expanded="false" aria-controls="collapseRegistrations-@i-@j">@Umbraco.GetDictionaryValueOrDefault("Deltagere", "Deltagere")</a>
+											<div class="mb-3">
+												@Html.Label("Email", "Email", new { @class = "visually-hidden" })
+												@Html.TextBox("Email", "", new { @class = "form-control", type = "email", placeholder = "Email", @data_val = "true", @data_val_required = "Email skal angives" })
 											</div>
-										</div>
-										<div class="row">
-											<div class="col">
-												<div class="collapse" id="collapseRegistrations-@i-@j">
-													<div class="card card-body">
-														<table class="table table-sm table-striped table-hover">
-															<thead>
-																<tr>
-																	<th scope="col">@Umbraco.GetDictionaryValueOrDefault("Spejder", "Spejder")</th>
-																	<th scope="col">@Umbraco.GetDictionaryValueOrDefault("Gren", "Gren")</th>
-																	<th scope="col">@Umbraco.GetDictionaryValueOrDefault("Voksne", "Voksne")</th>
-																	<th scope="col">@Umbraco.GetDictionaryValueOrDefault("Børn", "Børn")</th>
-																	<th scope="col">@Umbraco.GetDictionaryValueOrDefault("Trailer", "Trailer")</th>
-																</tr>
-															</thead>
-															<tbody>
-																@foreach (var registration in eventItem.Registrations.Where(x => x.ShowName))
-																{
-																	<tr>
-																		<th scope="row">@registration.Name</th>
-																		<th scope="row">@registration.Department</th>
-																		<th scope="row">@registration.NoOfAdults</th>
-																		<th scope="row">@registration.NoOfChildren</th>
-																		<th scope="row">@(registration.BringsTrailer ? "Ja" : "Nej")</th>
-																	</tr>
-																}
-															</tbody>
-														</table>
-													</div>
+											<div class="mb-3">
+												@Html.Label("Department", "Afdeling", new { @class = "visually-hidden" })
+												@Html.TextBox("Department", "", new { @class = "form-control", placeholder = "Afdeling" })
+											</div>
+											<div class="mb-3">
+												@Html.Label("PhoneNo", "Telefon", new { @class = "visually-hidden" })
+												@Html.TextBox("PhoneNo", "", new { @class = "form-control", type = "tel", placeholder = "Telefon" })
+											</div>
+											<div class="mb-3">
+												<div class="form-check form-switch">
+													@Html.CheckBox("BringsTrailer", false, new { @class = "form-check-input", id = "bringsTrailer" })
+													@Html.Label("BringsTrailer", "Medbringer trailer?", new { @class = "form-check-label" })
 												</div>
 											</div>
-										</div>
-										<div class="row py-2">
-											<div class="col">
-												@if (eventItem.IsFullyBooked)
-												{
-													<span class="badge bg-danger">@Umbraco.GetDictionaryValueOrDefault("Fuldtegnet", "Fuldtegnet")</span>
-												}
-												else
-												{
-													<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal-@i-@j">
-														@Umbraco.GetDictionaryValueOrDefault("Tilmeld", "Tilmeld")
-													</button>
-												}
+											<div class="mb-3">
+												<div class="form-check form-switch">
+													@Html.CheckBox("ShowName", false, new { @class = "form-check-input", id = "showName" })
+													@Html.Label("ShowName", "Vis navn?", new { @class = "form-check-label" })
+												</div>
 											</div>
-										</div>
-									</div>									
-								</p>
-							</div>
-							<p>
-								@* <a class="btn btn-primary btn-sm" data-bs-toggle="collapse" href="#collapseForm-@i-@j" role="button" aria-expanded="false" aria-controls="collapseForm-@i-@j">@Umbraco.GetDictionaryValueOrDefault("Tilmelding", "Tilmelding")</a>
-								<div class="collapse" id="collapseForm-@i-@j">
-									<div class="card card-body">
-										<div class="col-md-8">
-											@using (Html.BeginUmbracoForm<RegistrationSurfaceController>("HandleSubmit", null, new { @id = $"form-{@i}-{@j}" }))
+											@Html.ValidationSummary()
+											@Html.Hidden("UmbracoNodeId", eventItem.Content.Id)
+											@Html.Hidden("EventDate", eventItem.Content.Date)
+
+											@if (eventItem.IsFullyBooked)
 											{
-												<div class="mb-3">
-													@Html.Label("Name", "Navn", new { @class = "visually-hidden" })
-													@Html.TextBox("Name", "", new { @class = "form-control", placeholder = "Navn", @data_val = "true", @data_val_required = "Navn skal angives" })
-												</div>
-												<div class="mb-3">
-													@Html.Label("Email", "Email", new { @class = "visually-hidden" })
-													@Html.TextBox("Email", "", new { @class = "form-control", type = "email", placeholder = "Email", @data_val = "true", @data_val_required = "Email skal angives" })
-												</div>
-												<div class="mb-3">
-													@Html.Label("Department", "Afdeling", new { @class = "visually-hidden" })
-													@Html.TextBox("Department", "", new { @class = "form-control", placeholder = "Afdeling" })
-												</div>
-												<div class="mb-3">
-													@Html.Label("PhoneNo", "Telefon", new { @class = "visually-hidden" })
-													@Html.TextBox("PhoneNo", "", new { @class = "form-control", type = "tel", placeholder = "Telefon" })
-												</div>
-												<div class="mb-3">
-													<div class="form-check form-switch">
-														@Html.CheckBox("BringsTrailer", false, new { @class = "form-check-input", id = "bringsTrailer" })
-														@Html.Label("BringsTrailer", "Medbringer trailer?", new { @class = "form-check-label" })
-													</div>
-												</div>
-												<div class="mb-3">
-													<div class="form-check form-switch">
-														@Html.CheckBox("ShowName", false, new { @class = "form-check-input", id = "showName" })
-														@Html.Label("ShowName", "Vis navn?", new { @class = "form-check-label" })
-													</div>
-												</div>
-												@Html.ValidationSummary()
-												@Html.Hidden("UmbracoNodeId", eventItem.Content.Id)
-												@Html.Hidden("EventDate", eventItem.Content.Date)
-
-												@if (eventItem.IsFullyBooked)
-												{
-													<span class="badge bg-danger">Fuldtegnet</span>
-												}
-												else
-												{
-													<input class="btn btn-primary" type="submit" value="[Tilmeld]" />
-												}
+												<span class="badge bg-danger">Fuldtegnet</span>
 											}
-										</div>
+											else
+											{
+												<input class="btn btn-primary" type="submit" value="[Tilmeld]" />
+											}
+										}
 									</div>
-								</div> *@
+								</div>
+							</div> *@
 
 
-								@* @using (Html.BeginUmbracoForm<RegistrationSurfaceController>("HandleSubmit"))
+							@* @using (Html.BeginUmbracoForm<RegistrationSurfaceController>("HandleSubmit"))
+							{
+								@Html.Label("Name", "Navn", new { @class = "visually-hidden" })
+								@Html.TextBox("Name", "", new { @class = "form-control", placeholder = "Navn", @data_val = "true", @data_val_required = "Navn skal angives" })
+								@Html.Label("Email", "Email", new { @class = "visually-hidden" })
+								@Html.TextBox("Email", "", new { @class = "form-control", type = "email", placeholder = "Email", @data_val = "true", @data_val_required = "Email skal angives" })
+								@Html.Label("Department", "Afdeling", new { @class = "visually-hidden" })
+								@Html.TextBox("Department", "", new { @class = "form-control", placeholder = "Afdeling" })
+								@Html.Label("PhoneNo", "Telefon", new { @class = "visually-hidden" })
+								@Html.TextBox("PhoneNo", "", new { @class = "form-control", type = "tel", placeholder = "Telefon" })
+								<div class="form-check form-switch">
+									@Html.CheckBox("BringsTrailer", false, new { @class = "form-check-input", id = "bringsTrailer" })
+									@Html.Label("BringsTrailer", "Medbringer trailer?", new { @class = "form-check-label" })
+								</div>
+								<div class="form-check form-switch">
+									@Html.CheckBox("ShowName", false, new { @class = "form-check-input", id = "showName" })
+									@Html.Label("ShowName", "Vis navn?", new { @class = "form-check-label" })
+								</div>
+								@Html.Hidden("UmbracoNodeId", eventItem.Content.Id)
+								@Html.Hidden("EventDate", eventItem.Content.Date)
+
+								@if (eventItem.IsFullyBooked)
 								{
-									@Html.Label("Name", "Navn", new { @class = "visually-hidden" })
-									@Html.TextBox("Name", "", new { @class = "form-control", placeholder = "Navn", @data_val = "true", @data_val_required = "Navn skal angives" })
-									@Html.Label("Email", "Email", new { @class = "visually-hidden" })
-									@Html.TextBox("Email", "", new { @class = "form-control", type = "email", placeholder = "Email", @data_val = "true", @data_val_required = "Email skal angives" })
-									@Html.Label("Department", "Afdeling", new { @class = "visually-hidden" })
-									@Html.TextBox("Department", "", new { @class = "form-control", placeholder = "Afdeling" })
-									@Html.Label("PhoneNo", "Telefon", new { @class = "visually-hidden" })
-									@Html.TextBox("PhoneNo", "", new { @class = "form-control", type = "tel", placeholder = "Telefon" })
-									<div class="form-check form-switch">
-										@Html.CheckBox("BringsTrailer", false, new { @class = "form-check-input", id = "bringsTrailer" })
-										@Html.Label("BringsTrailer", "Medbringer trailer?", new { @class = "form-check-label" })
-									</div>
-									<div class="form-check form-switch">
-										@Html.CheckBox("ShowName", false, new { @class = "form-check-input", id = "showName" })
-										@Html.Label("ShowName", "Vis navn?", new { @class = "form-check-label" })
-									</div>
-									@Html.Hidden("UmbracoNodeId", eventItem.Content.Id)
-									@Html.Hidden("EventDate", eventItem.Content.Date)
-
-									@if (eventItem.IsFullyBooked)
-									{
-										<span class="badge bg-danger">[Fuldtegnet]</span>
-									}
-									else
-									{
-										<input class="btn btn-primary" type="submit" value="[Tilmeld]" />
-									}
-								} *@		 
-							</p>
-						</div>
+									<span class="badge bg-danger">[Fuldtegnet]</span>
+								}
+								else
+								{
+									<input class="btn btn-primary" type="submit" value="[Tilmeld]" />
+								}
+							} *@		 
+						</p>
 					</div>
 				</div>
 			</div>
