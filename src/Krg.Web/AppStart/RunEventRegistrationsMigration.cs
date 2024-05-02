@@ -117,6 +117,9 @@ namespace Krg.Database
 
 			[Column("ShowName")]
 			public bool ShowName { get; set; }
+
+			[Column("IsCancelled")]
+			public bool IsCancelled { get; set; }
 		}
 	}
 }

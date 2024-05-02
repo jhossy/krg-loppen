@@ -4,7 +4,7 @@ using Krg.Domain.Models;
 
 namespace Krg.Services
 {
-    public class EventRegistrationService : IEventRegistrationService
+	public class EventRegistrationService : IEventRegistrationService
 	{
 		private readonly IRegistrationRepository _registrationRepository;
 
@@ -36,12 +36,25 @@ namespace Krg.Services
 			});
 		}
 
-		public List<Registration> GetRegistrations()
+		public List<Registration> GetAllRegistrations()
 		{
 			return _registrationRepository
-				.GetRegistrations()
+				.GetAllRegistrations()
 				.Select(reg => new Registration(reg))
 				.ToList();
+		}
+
+		public List<Registration> GetNonDeletedRegistrations()
+		{
+			return _registrationRepository
+				.GetNonDeletedRegistrations()
+				.Select(reg => new Registration(reg))
+				.ToList();
+		}
+
+		public void RemoveRegistration(int eventId)
+		{
+			_registrationRepository.RemoveRegistration(eventId);
 		}
 	}
 }
