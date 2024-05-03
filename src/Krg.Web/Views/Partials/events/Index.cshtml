@@ -35,7 +35,7 @@
 		}
 		@foreach (RegistrationViewModel eventItem in eventItemGroup)
 		{
-			<div class="col border">
+			<div class="col border" style="max-width:960px">
 				<div class="row g-0">					
 					<div class="col-md-2">
 						<time datetime="@eventItem.Content.Date" class="icon">
@@ -45,27 +45,36 @@
 						</time>
 					</div>
 					<div class="col-md-10">
-						@* <h5 class="px-2">@eventItem.Content.Date.ToDkDate()</h5> *@
 						<p>
 							<div class="container p-3 border bg-light">
 								<div class="row py-2">
-									<div class="col">
-										@Umbraco.GetDictionaryValueOrDefault("Kontaktperson", "Kontaktperson"): Jacob Mikkelsen
+									<div class="col-9">
+										@* @Umbraco.GetDictionaryValueOrDefault("Kontakt", "Kontakt"): Jacob Mikkelsen *@
+										<div class="d-flex align-items-center"><i class="material-icons">contact_support</i><span class="px-2">Jacob Mikkelsen</span></div>
 										<div class="collapse" id="collapseInfo-@i-@j">
-											<div>@Umbraco.GetDictionaryValueOrDefault("Email", "Email"): jacobtambourmikkelsen@gmail.com</div>
-											<div>@Umbraco.GetDictionaryValueOrDefault("Tel", "Tel"): 21486949</div>
+											@* <div>@Umbraco.GetDictionaryValueOrDefault("Email", "Email"): jacobtambourmikkelsen@gmail.com</div>
+											<div>@Umbraco.GetDictionaryValueOrDefault("Tel", "Tel"): 21486949</div> *@
+											<div class="d-flex align-items-center">
+												<i class="material-icons">email</i><span class="px-2">jacobtambourmikkelsen@gmail.com</span>
+											</div>
+											<div class="d-flex align-items-center">
+												<i class="material-icons">call</i><span class="px-2">21486949</span>
+												@* @Umbraco.GetDictionaryValueOrDefault("Tel", "Tel"): 21486949 *@
+											</div>
 										</div>												
 									</div>
-									<div class="col">
-										<a class="btn btn-primary btn-sm" data-bs-toggle="collapse" href="#collapseInfo-@i-@j" role="button" aria-expanded="false" aria-controls="collapseInfo-@i-@j">@Umbraco.GetDictionaryValueOrDefault("Kontaktinfo", "Kontaktinfo")</a>
+									<div class="col-2">
+										<a class="link-secondary link-underline-light" data-bs-toggle="collapse" href="#collapseInfo-@i-@j" role="button" aria-expanded="false" aria-controls="collapseInfo-@i-@j">@Umbraco.GetDictionaryValueOrDefault("Kontaktinfo", "Kontaktinfo")</a>
 									</div>
 								</div>
 								<div class="row py-2">
-									<div class="col">
-										@Umbraco.GetDictionaryValueOrDefault("Tilmeldte", "Tilmeldte") @eventItem.TotalNoOfParticipants: (@eventItem.TotalNoOfAdults) @Umbraco.GetDictionaryValueOrDefault("Voksne", "Voksne") (@eventItem.TotalNoOfChildren) @Umbraco.GetDictionaryValueOrDefault("Børn", "Børn") (@eventItem.TotalNoOfTrailers) @Umbraco.GetDictionaryValueOrDefault("Trailer", "Trailer")
+									<div class="col-9 d-flex align-items-center">
+										@* @Umbraco.GetDictionaryValueOrDefault("Antal tilmeldte", "Antal tilmeldte"): *@
+										<i class="material-icons">people</i>
+										<span class="px-2">@eventItem.TotalNoOfParticipants</span> @* (@eventItem.TotalNoOfAdults) @Umbraco.GetDictionaryValueOrDefault("Voksne", "Voksne") (@eventItem.TotalNoOfChildren) @Umbraco.GetDictionaryValueOrDefault("Børn", "Børn") (@eventItem.TotalNoOfTrailers) @Umbraco.GetDictionaryValueOrDefault("Trailer", "Trailer") *@
 									</div>
-									<div class="col">
-										<a class="btn btn-primary btn-sm" data-bs-toggle="collapse" href="#collapseRegistrations-@i-@j" role="button" aria-expanded="false" aria-controls="collapseRegistrations-@i-@j">@Umbraco.GetDictionaryValueOrDefault("Deltagere", "Deltagere")</a>
+									<div class="col-2">
+										<a class="link-secondary link-underline-light" data-bs-toggle="collapse" href="#collapseRegistrations-@i-@j" role="button" aria-expanded="false" aria-controls="collapseRegistrations-@i-@j">@Umbraco.GetDictionaryValueOrDefault("Deltagere", "Deltagere")</a>
 									</div>
 								</div>
 								<div class="row">
@@ -75,11 +84,11 @@
 												<table class="table table-sm table-striped table-hover">
 													<thead>
 														<tr>
-															<th scope="col">@Umbraco.GetDictionaryValueOrDefault("Spejder", "Spejder")</th>
-															<th scope="col">@Umbraco.GetDictionaryValueOrDefault("Gren", "Gren")</th>
-															<th scope="col">@Umbraco.GetDictionaryValueOrDefault("Voksne", "Voksne")</th>
-															<th scope="col">@Umbraco.GetDictionaryValueOrDefault("Børn", "Børn")</th>
-															<th scope="col">@Umbraco.GetDictionaryValueOrDefault("Trailer", "Trailer")</th>
+															<th scope="col"><i class="material-icons" rel="tooltip" title="@Umbraco.GetDictionaryValueOrDefault("Spejder", "Spejder")">badge</i></th>
+															<th scope="col"><i class="material-icons" rel="tooltip" title="@Umbraco.GetDictionaryValueOrDefault("Gren", "Gren")">timeline</i></th>															
+															<th scope="col"><i class="material-icons" rel="tooltip" title="@Umbraco.GetDictionaryValueOrDefault("Voksne", "Voksne")">escalator_warning</i></th>
+															<th scope="col"><i class="material-icons" rel="tooltip" title="@Umbraco.GetDictionaryValueOrDefault("Børn", "Børn")">boy</i></th>
+															<th scope="col"><i class="material-icons" rel="tooltip" title="@Umbraco.GetDictionaryValueOrDefault("Trailer", "Trailer")">rv_hookup</i></th>
 														</tr>
 													</thead>
 													<tbody>
@@ -100,14 +109,15 @@
 									</div>
 								</div>
 								<div class="row py-2">
-									<div class="col">
+									<div class="col-9"></div>
+									<div class="col-2">
 										@if (eventItem.IsFullyBooked)
 										{
 											<span class="badge bg-danger">@Umbraco.GetDictionaryValueOrDefault("Fuldtegnet", "Fuldtegnet")</span>
 										}
 										else
 										{
-											<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal-@i-@j">
+											<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal-@i-@j">
 												@Umbraco.GetDictionaryValueOrDefault("Tilmeld", "Tilmeld")
 											</button>
 										}
@@ -263,7 +273,7 @@
 							}
 							else
 							{
-								<input class="btn btn-primary" type="submit" form="form-@i-@j" value="@Umbraco.GetDictionaryValueOrDefault("Tilmeld", "Tilmeld")" />
+								<input class="btn btn-success" type="submit" form="form-@i-@j" value="@Umbraco.GetDictionaryValueOrDefault("Tilmeld", "Tilmeld")" />
 							}
 						</div>
 					</div> 
