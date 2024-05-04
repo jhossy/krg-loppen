@@ -10,13 +10,12 @@ namespace Krg.Services.Tests
 	public class EventRegistrationServiceTests
 	{
 		private readonly IFixture _fixture = new Fixture();
-		private Mock<IRegistrationRepository> _mockRegistrationRepository;
+		private Mock<IRegistrationRepository> _mockRegistrationRepository = new Mock<IRegistrationRepository>();
 		private IEventRegistrationService _sut;
 
 		[TestInitialize]
 		public void Initialize()
 		{
-			_mockRegistrationRepository = new Mock<IRegistrationRepository>();
 			_fixture.Inject(_mockRegistrationRepository.Object);
 			_sut = _fixture.Create<EventRegistrationService>();
 		}
