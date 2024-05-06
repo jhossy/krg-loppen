@@ -71,5 +71,41 @@ namespace Krg.Services.Tests
 			//Assert
 			_mockRegistrationRepository.Verify(mock => mock.AddRegistration(It.IsAny<EventRegistration>()), Times.Once());
 		}
+
+		[TestMethod]
+		public void GetNonDeletedRegistrations_GetsOnlyActiveRegistrations_ProvidedTheyExist()
+		{
+			//Arrange
+			var registrations = _fixture.Build<EventRegistration>()
+										.With(p => p.IsCancelled, false)
+										.CreateMany();
+
+			_mockRegistrationRepository.Setup(repository => repository.GetNonDeletedRegistrations())
+				.Returns(() => registrations.ToList());
+
+			//Act
+			var result = _sut.GetNonDeletedRegistrations();
+
+			//Assert
+			Assert.IsTrue(result.All(p => !p.IsCancelled));
+		}
+
+		[TestMethod]
+		public void GetAllRegistrations_GetsAllRegistrations_ProvidedTheyExist()
+		{
+			//Arrange
+			var registrations = _fixture.Build<EventRegistration>()
+										.CreateMany();
+
+			_mockRegistrationRepository.Setup(repository => repository.GetAllRegistrations())
+				.Returns(() => registrations.ToList());
+
+			//Act
+			var result = _sut.GetAllRegistrations();
+
+			//Assert
+			Assert.IsTrue(result.Count == registrations.Count());
+			Assert.IsTrue(registrations.All(reg => result.Any(res => reg.Id == res.Id)));
+		}
 	}
 }
