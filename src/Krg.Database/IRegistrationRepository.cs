@@ -10,8 +10,8 @@ namespace Krg.Database
 
 		void RemoveRegistration(int id);
 
-		List<EventRegistration> GetAllRegistrations(int year = 0);
+		List<EventRegistration> GetAllRegistrations(int year);
 
-		List<EventRegistration> GetNonDeletedRegistrations(int year = 0);
+		List<EventRegistration> GetNonDeletedRegistrations(int year);
 	}
 }

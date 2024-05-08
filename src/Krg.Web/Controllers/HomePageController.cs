@@ -1,5 +1,6 @@
 ﻿using Krg.Domain.Models;
 using Krg.Services;
+using Krg.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Umbraco.Cms.Core.Models.PublishedContent;

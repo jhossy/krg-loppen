@@ -1,9 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Krg.Services.Interfaces;
+using Microsoft.Extensions.Logging;
 using System.Net.Mail;
 
 namespace Krg.Services
 {
-	public class EmailService : IEmailservice
+    public class EmailService : IEmailservice
 	{
 		private ILogger<EmailService> _logger;
 		private readonly SmtpClient _smtpClient;

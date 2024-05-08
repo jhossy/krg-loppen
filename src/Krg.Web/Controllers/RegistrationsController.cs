@@ -1,12 +1,12 @@
 ﻿using Krg.Domain;
-using Krg.Services;
+using Krg.Services.Interfaces;
 using Krg.Web.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Umbraco.Cms.Web.BackOffice.Controllers;
 
 namespace Krg.Web.Controllers
 {
-	public class RegistrationsController : UmbracoAuthorizedApiController
+    public class RegistrationsController : UmbracoAuthorizedApiController
 	{
 		private readonly IEventRegistrationService _eventRegistrationService;
 		private readonly IExcelService _excelService;

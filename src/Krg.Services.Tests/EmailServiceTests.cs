@@ -1,11 +1,12 @@
 ﻿using AutoFixture;
+using Krg.Services.Interfaces;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System.Net.Mail;
 
 namespace Krg.Services.Tests
 {
-	[TestClass]
+    [TestClass]
 	public class EmailServiceTests
 	{
 		private readonly IFixture _fixture = new Fixture();		
