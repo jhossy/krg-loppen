@@ -8,8 +8,8 @@ namespace Krg.Services
 
 		void RemoveRegistration(int eventId);
 
-		List<Registration> GetAllRegistrations();
+		List<Registration> GetAllRegistrations(int year = 0);
 
-		List<Registration> GetNonDeletedRegistrations();
+		List<Registration> GetNonDeletedRegistrations(int year = 0);
 	}
 }

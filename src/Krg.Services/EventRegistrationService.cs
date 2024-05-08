@@ -36,18 +36,18 @@ namespace Krg.Services
 			});
 		}
 
-		public List<Registration> GetAllRegistrations()
+		public List<Registration> GetAllRegistrations(int year)
 		{
 			return _registrationRepository
-				.GetAllRegistrations()
+				.GetAllRegistrations(year)
 				.Select(reg => new Registration(reg))
 				.ToList();
 		}
 
-		public List<Registration> GetNonDeletedRegistrations()
+		public List<Registration> GetNonDeletedRegistrations(int year)
 		{
 			return _registrationRepository
-				.GetNonDeletedRegistrations()
+				.GetNonDeletedRegistrations(year)
 				.Select(reg => new Registration(reg))
 				.ToList();
 		}

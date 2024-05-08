@@ -57,22 +57,22 @@ namespace Krg.Database
 			return registration;
 		}
 	
-		public List<EventRegistration> GetAllRegistrations()
+		public List<EventRegistration> GetAllRegistrations(int year)
 		{
 			using var scope = _scopeProvider.CreateScope();
 
-			var registrations = scope.Database.Fetch<EventRegistration>();
+			var registrations = scope.Database.Fetch<EventRegistration>($"WHERE year(EventDate) = {year}");
 
 			scope.Complete();
 
 			return registrations.ToList();
 		}
 
-		public List<EventRegistration> GetNonDeletedRegistrations()
+		public List<EventRegistration> GetNonDeletedRegistrations(int year)
 		{
 			using var scope = _scopeProvider.CreateScope();
 
-			var registrations = scope.Database.Fetch<EventRegistration>("WHERE IsCancelled=0");
+			var registrations = scope.Database.Fetch<EventRegistration>($"WHERE year(EventDate) = {year} AND IsCancelled=0");
 
 			scope.Complete();
 
