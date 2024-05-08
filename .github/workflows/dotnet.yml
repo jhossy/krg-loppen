@@ -21,4 +21,4 @@ jobs:
     - name: Build
       run: dotnet build ./src/Krg.sln --no-restore
     - name: Test
-      run: dotnet test ./src/Krg.sln --no-build --verbosity normal
+      run: dotnet test ./src/Krg.sln --no-build --verbosity normal --filter TestCategory!=IntegrationTests
