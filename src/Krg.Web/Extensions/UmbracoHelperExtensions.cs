@@ -1,5 +1,6 @@
 ﻿using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Web.Common;
+using Umbraco.Cms.Web.Common.PublishedModels;
 
 public static class UmbracoHelperExtensions
 {
@@ -16,12 +17,12 @@ public static class UmbracoHelperExtensions
 		return siteSettingsNode;
 	}
 
-	public static IPublishedContent? EventRoot(this UmbracoHelper umbracoHelper)
+	public static EventRoot? EventRoot(this UmbracoHelper umbracoHelper)
 	{
 		var siteSettings = SiteSettings(umbracoHelper);
 
 		if (siteSettings == null) return null;
 
-		return siteSettings.Value<IPublishedContent>("eventroot");
+		return siteSettings.Value<EventRoot>("eventroot");
 	}
 }

@@ -45,7 +45,7 @@ namespace Krg.Web.Controllers
 
 			List<Event> umbEvents = eventRoot.DescendantsOrSelf<Event>().ToList();
 
-			List<Registration> dbRegistrations = _eventRegistrationService.GetNonDeletedRegistrations().ToList();
+			List<Registration> dbRegistrations = _eventRegistrationService.GetNonDeletedRegistrations(eventRoot.ExportYear).ToList();
 
 			List<RegistrationViewModel> results = BuildListOfRegistrations(dbRegistrations, umbEvents);
 
@@ -63,7 +63,10 @@ namespace Krg.Web.Controllers
 
 			foreach (var umbRegistration in umbEvents)
 			{
-				var filteredRegistrationsByDate = dbRegistrations.Where(x => x.EventDate == umbRegistration.Date)
+				var filteredRegistrationsByDate = dbRegistrations
+					.Where(x => x.EventDate.Year == umbRegistration.Date.Year && 
+								x.EventDate.Date == umbRegistration.Date.Date && 
+								x.EventDate.Day == umbRegistration.Date.Day)
 					.ToList();
 
 				var registrationDto = new RegistrationViewModel(umbRegistration, filteredRegistrationsByDate);
