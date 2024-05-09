@@ -72,7 +72,7 @@ namespace Krg.Web.Controllers
 			{
 				var filteredRegistrationsByDate = dbRegistrations
 					.Where(x => x.EventDate.Year == umbRegistration.Date.Year && 
-								x.EventDate.Date == umbRegistration.Date.Date && 
+								x.EventDate.Month == umbRegistration.Date.Month && 
 								x.EventDate.Day == umbRegistration.Date.Day)
 					.ToList();
 
