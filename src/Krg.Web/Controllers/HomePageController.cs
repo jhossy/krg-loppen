@@ -44,7 +44,13 @@ namespace Krg.Web.Controllers
 				return CurrentTemplate(new HomePageViewModel(CurrentPage, new PublishedValueFallback(_serviceContext, _variationContextAccessor)));
 			}
 
-			List<Event> umbEvents = eventRoot.DescendantsOrSelf<Event>().ToList();
+			List<Event> umbEvents = eventRoot
+				.DescendantsOrSelf<Event>()
+				.Where(x => x.Date.Date > (DateTime.Now.AddDays(-1)).Date)
+				.OrderBy(x => x.Date.Date)
+				.ToList();
+
+			int exportYear = eventRoot.ExportYear > 0 ? eventRoot.ExportYear : DateTime.Now.Year;
 
 			int exportYear = eventRoot.ExportYear > 0 ? eventRoot.ExportYear : DateTime.Now.Year;
 
