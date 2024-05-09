@@ -46,7 +46,9 @@ namespace Krg.Web.Controllers
 
 			List<Event> umbEvents = eventRoot.DescendantsOrSelf<Event>().ToList();
 
-			List<Registration> dbRegistrations = _eventRegistrationService.GetNonDeletedRegistrations(eventRoot.ExportYear).ToList();
+			int exportYear = eventRoot.ExportYear > 0 ? eventRoot.ExportYear : DateTime.Now.Year;
+
+			List<Registration> dbRegistrations = _eventRegistrationService.GetNonDeletedRegistrations(exportYear).ToList();
 
 			List<RegistrationViewModel> results = BuildListOfRegistrations(dbRegistrations, umbEvents);
 
