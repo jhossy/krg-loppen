@@ -1,7 +1,6 @@
-﻿<div class="table table-sm table-striped table-hover" ng-controller="RegistrationsPluginController">    
+﻿<div class="table table-sm table-striped table-hover" ng-controller="RegistrationsPluginController">
     <button type="button" ng-disabled="getState()" ng-click="getRegistrations()"> Hent registreringer</button>
     <button type="button" ng-disabled="getState()" ng-click="exportToExcel()">Export</button>
-    {{model.value}}
     <table>
         <thead>
             <tr>
@@ -28,4 +27,10 @@
             </tr>
         </tbody>
     </table>
+
+    <umb-box ng-if="loading">
+        <umb-box-content style="height: 250px; position: relative;">
+            <umb-load-indicator />
+        </umb-box-content>
+    </umb-box>
 </div>
