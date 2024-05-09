@@ -2,6 +2,7 @@ angular.module('umbraco').controller('RegistrationsPluginController', // Scope o
     function ($scope, $http, editorState, contentResource) {
         $scope.aRegistrations = [];
         $scope.exportDocument = {}
+        $scope.loading = false;
 
         var vm = this;
         vm.CurrentNodeId = editorState.current.id;
@@ -14,21 +15,27 @@ angular.module('umbraco').controller('RegistrationsPluginController', // Scope o
         });
 
         $scope.getRegistrations = function () {
+            $scope.loading = true;
             $scope.aRegistrations = $http({
                 method: 'GET',
                 url: '/umbraco/backoffice/api/registrations/getregistrations/?year=' + $scope.exportYear
             }).then(function successCallback(response) {
                 // this callback will be called asynchronously
                 // when the response is available
+                console.log($scope.loading);
+                $scope.loading = false;
+                console.log($scope.loading);
                 $scope.aRegistrations = response.data;
             }, function errorCallback(response) {
                 // called asynchronously if an error occurs
                 // or server returns response with an error status.
+                $scope.loading = false;
                 console.log(response);
             });
         };
 
         $scope.exportToExcel = function () {
+            $scope.loading = true;
             $scope.exportDocument = $http({                
                 method: 'GET',
                 url: '/umbraco/backoffice/api/registrations/exportasexcel/?year=' + $scope.exportYear,
@@ -36,6 +43,7 @@ angular.module('umbraco').controller('RegistrationsPluginController', // Scope o
             }).then(function successCallback(response) {
                 // this callback will be called asynchronously
                 // when the response is available
+                $scope.loading = false;
                 var file = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
                 var contentDisposition = response.headers('content-disposition');
                 var fileName = 'fallback.xslx';
@@ -57,6 +65,7 @@ angular.module('umbraco').controller('RegistrationsPluginController', // Scope o
             }, function errorCallback(response) {
                 // called asynchronously if an error occurs
                 // or server returns response with an error status.
+                $scope.loading = false;
                 console.log(response);
             });
         }
