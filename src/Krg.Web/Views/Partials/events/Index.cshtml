@@ -122,90 +122,6 @@
 								</div>
 							</div>									
 						</p>
-						<p>
-							@* <a class="btn btn-primary btn-sm" data-bs-toggle="collapse" href="#collapseForm-@i-@j" role="button" aria-expanded="false" aria-controls="collapseForm-@i-@j">@Umbraco.GetDictionaryValueOrDefault("Tilmelding", "Tilmelding")</a>
-							<div class="collapse" id="collapseForm-@i-@j">
-								<div class="card card-body">
-									<div class="col-md-8">
-										@using (Html.BeginUmbracoForm<RegistrationSurfaceController>("HandleSubmit", null, new { @id = $"form-{@i}-{@j}" }))
-										{
-											<div class="mb-3">
-												@Html.Label("Name", "Navn", new { @class = "visually-hidden" })
-												@Html.TextBox("Name", "", new { @class = "form-control", placeholder = "Navn", @data_val = "true", @data_val_required = "Navn skal angives" })
-											</div>
-											<div class="mb-3">
-												@Html.Label("Email", "Email", new { @class = "visually-hidden" })
-												@Html.TextBox("Email", "", new { @class = "form-control", type = "email", placeholder = "Email", @data_val = "true", @data_val_required = "Email skal angives" })
-											</div>
-											<div class="mb-3">
-												@Html.Label("Department", "Afdeling", new { @class = "visually-hidden" })
-												@Html.TextBox("Department", "", new { @class = "form-control", placeholder = "Afdeling" })
-											</div>
-											<div class="mb-3">
-												@Html.Label("PhoneNo", "Telefon", new { @class = "visually-hidden" })
-												@Html.TextBox("PhoneNo", "", new { @class = "form-control", type = "tel", placeholder = "Telefon" })
-											</div>
-											<div class="mb-3">
-												<div class="form-check form-switch">
-													@Html.CheckBox("BringsTrailer", false, new { @class = "form-check-input", id = "bringsTrailer" })
-													@Html.Label("BringsTrailer", "Medbringer trailer?", new { @class = "form-check-label" })
-												</div>
-											</div>
-											<div class="mb-3">
-												<div class="form-check form-switch">
-													@Html.CheckBox("ShowName", false, new { @class = "form-check-input", id = "showName" })
-													@Html.Label("ShowName", "Vis navn?", new { @class = "form-check-label" })
-												</div>
-											</div>
-											@Html.ValidationSummary()
-											@Html.Hidden("UmbracoNodeId", eventItem.Content.Id)
-											@Html.Hidden("EventDate", eventItem.Content.Date)
-
-											@if (eventItem.IsFullyBooked)
-											{
-												<span class="badge bg-danger">Fuldtegnet</span>
-											}
-											else
-											{
-												<input class="btn btn-primary" type="submit" value="[Tilmeld]" />
-											}
-										}
-									</div>
-								</div>
-							</div> *@
-
-
-							@* @using (Html.BeginUmbracoForm<RegistrationSurfaceController>("HandleSubmit"))
-							{
-								@Html.Label("Name", "Navn", new { @class = "visually-hidden" })
-								@Html.TextBox("Name", "", new { @class = "form-control", placeholder = "Navn", @data_val = "true", @data_val_required = "Navn skal angives" })
-								@Html.Label("Email", "Email", new { @class = "visually-hidden" })
-								@Html.TextBox("Email", "", new { @class = "form-control", type = "email", placeholder = "Email", @data_val = "true", @data_val_required = "Email skal angives" })
-								@Html.Label("Department", "Afdeling", new { @class = "visually-hidden" })
-								@Html.TextBox("Department", "", new { @class = "form-control", placeholder = "Afdeling" })
-								@Html.Label("PhoneNo", "Telefon", new { @class = "visually-hidden" })
-								@Html.TextBox("PhoneNo", "", new { @class = "form-control", type = "tel", placeholder = "Telefon" })
-								<div class="form-check form-switch">
-									@Html.CheckBox("BringsTrailer", false, new { @class = "form-check-input", id = "bringsTrailer" })
-									@Html.Label("BringsTrailer", "Medbringer trailer?", new { @class = "form-check-label" })
-								</div>
-								<div class="form-check form-switch">
-									@Html.CheckBox("ShowName", false, new { @class = "form-check-input", id = "showName" })
-									@Html.Label("ShowName", "Vis navn?", new { @class = "form-check-label" })
-								</div>
-								@Html.Hidden("UmbracoNodeId", eventItem.Content.Id)
-								@Html.Hidden("EventDate", eventItem.Content.Date)
-
-								@if (eventItem.IsFullyBooked)
-								{
-									<span class="badge bg-danger">[Fuldtegnet]</span>
-								}
-								else
-								{
-									<input class="btn btn-primary" type="submit" value="[Tilmeld]" />
-								}
-							} *@		 
-						</p>
 					</div>
 				</div>
 			</div>
@@ -223,7 +139,7 @@
 							{
 								<div class="mb-3">
 									@Html.Label("Name", "Navn", new { @class = "visually-hidden" })
-									@Html.TextBox("Name", "", new { @class = "form-control", placeholder = "Navn", @data_val = "true", @data_val_required = Krg.Domain.Constants.NameRequiredMessage, autocomplete = "on" })
+									@Html.TextBox("Name", "", new { @class = "form-control", placeholder = "Navn", @data_val = "true", @data_val_required = Krg.Domain.Constants.NameRequiredMessage, autocomplete = "on"})
 								</div>
 								<div class="mb-3">
 									@Html.Label("Department", "Gren", new { @class = "visually-hidden" })
@@ -239,11 +155,11 @@
 								</div>								
 								<div class="mb-3">
 									@Html.Label("PhoneNo", "Telefon", new { @class = "visually-hidden" })
-									@Html.TextBox("PhoneNo", "", new { @class = "form-control", type = "tel", placeholder = "Telefon" })
+									@Html.TextBox("PhoneNo", "", new { @class = "form-control", type = "tel", placeholder = "Telefon", @data_val = "true", @data_val_required = Krg.Domain.Constants.PhoneNoRequiredMessage, autocomplete = "on" })
 								</div>
 								<div class="mb-3">
 									@Html.Label("Email", "Email", new { @class = "visually-hidden" })
-									@Html.TextBox("Email", "", new { @class = "form-control", type = "email", placeholder = "Email", @data_val = "true", @data_val_required = Krg.Domain.Constants.EmailRequiredMessage, autocomplete = "on" })
+									@Html.TextBox("Email", "", new { @class = "form-control", type = "email", placeholder = "Email", @data_val = "true", @data_val_required = Krg.Domain.Constants.EmailRequiredMessage, @data_val_email = Krg.Domain.Constants.EmailInvalidFormat, autocomplete = "on" })
 								</div>
 								<div class="mb-3">
 									<div class="form-check form-switch">

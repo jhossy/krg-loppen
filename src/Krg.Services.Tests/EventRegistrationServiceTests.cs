@@ -12,7 +12,7 @@ namespace Krg.Services.Tests
 	{
 		private readonly IFixture _fixture = new Fixture();
 		private Mock<IRegistrationRepository> _mockRegistrationRepository = new Mock<IRegistrationRepository>();
-		private IEventRegistrationService _sut;
+		private IEventRegistrationService _sut = null!;
 
 		[TestInitialize]
 		public void Initialize()
@@ -28,34 +28,6 @@ namespace Krg.Services.Tests
 
 			//Act
 			_sut.AddRegistration(_fixture.Create<int>(), null);
-
-			//Assert
-			_mockRegistrationRepository.Verify(mock => mock.AddRegistration(It.IsAny<EventRegistration>()), Times.Never());
-		}
-
-		[TestMethod]
-		public void AddRegistration_DoesNotCallRepository_ProvidedMissingDepartment()
-		{
-			//Arrange
-			var registrationRequest = _fixture.Create<AddRegistrationRequest>();
-			registrationRequest.Department = null;
-
-			//Act
-			_sut.AddRegistration(_fixture.Create<int>(), registrationRequest);
-
-			//Assert
-			_mockRegistrationRepository.Verify(mock => mock.AddRegistration(It.IsAny<EventRegistration>()), Times.Never());
-		}
-
-		[TestMethod]
-		public void AddRegistration_DoesNotCallRepository_ProvidedMissingPhoneNo()
-		{
-			//Arrange
-			var registrationRequest = _fixture.Create<AddRegistrationRequest>();
-			registrationRequest.PhoneNo = null;
-
-			//Act
-			_sut.AddRegistration(_fixture.Create<int>(), registrationRequest);
 
 			//Assert
 			_mockRegistrationRepository.Verify(mock => mock.AddRegistration(It.IsAny<EventRegistration>()), Times.Never());

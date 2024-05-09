@@ -1,7 +1,6 @@
 ﻿using Umbraco.Cms.Core.Events;
 using Umbraco.Cms.Core.Models.ContentEditing;
 using Umbraco.Cms.Core.Notifications;
-using Umbraco.Cms.Web.Common.PublishedModels;
 
 namespace Krg.Web.NotificationHandlers
 {
@@ -11,7 +10,6 @@ namespace Krg.Web.NotificationHandlers
 		{
 			if (notification.Content.ContentTypeAlias.Equals("eventroot"))
 			{
-
 				// Access the property you want to pre-populate
 				// each content item can have 'variations' - each variation is represented by the `ContentVariantDisplay` class.
 				// if your site uses variants, then you need to decide whether to set the default value for all variants or a specific variant
@@ -27,8 +25,10 @@ namespace Krg.Web.NotificationHandlers
 						// each variant has an IEnumerable of 'Tabs' (property groupings)
 						// and each of these contain an IEnumerable of `ContentPropertyDisplay` properties
 						// find the first property with alias 'publishDate'
-						var pubDateProperty = variant.Tabs.SelectMany(f => f.Properties)
+						var pubDateProperty = variant.Tabs
+							.SelectMany(f => f.Properties)
 							.FirstOrDefault(f => f.Alias.InvariantEquals("exportyear"));
+
 						if (pubDateProperty is not null)
 						{
 							// set default value of the publish date property if it exists
