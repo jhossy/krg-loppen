@@ -18,9 +18,6 @@ namespace Krg.Services
 		{
 			if (addRegistrationRequest == null) return;
 
-			if (addRegistrationRequest.Department == null || addRegistrationRequest.PhoneNo == null) return;
-
-			//todo add validation
 			_registrationRepository.AddRegistration(new EventRegistration
 			{
 				BringsTrailer = addRegistrationRequest.BringsTrailer,

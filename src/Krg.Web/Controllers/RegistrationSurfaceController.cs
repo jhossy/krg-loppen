@@ -1,5 +1,7 @@
-﻿using Krg.Domain.Models;
+﻿using FluentValidation.Results;
+using Krg.Domain.Models;
 using Krg.Services.Interfaces;
+using Krg.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Umbraco.Cms.Core.Cache;
 using Umbraco.Cms.Core.Logging;
@@ -14,6 +16,7 @@ namespace Krg.Web.Controllers
     public class RegistrationSurfaceController : Umbraco.Cms.Web.Website.Controllers.SurfaceController
 	{
 		private readonly IEventRegistrationService _eventRegistrationService;
+		private readonly ILogger<RegistrationSurfaceController> _logger;
 
 		public RegistrationSurfaceController(
 			IUmbracoContextAccessor umbracoContextAccessor, 
@@ -22,21 +25,27 @@ namespace Krg.Web.Controllers
 			AppCaches appCaches, 
 			IProfilingLogger profilingLogger, 
 			IPublishedUrlProvider publishedUrlProvider,
-			IEventRegistrationService eventRegistrationService) : base(umbracoContextAccessor, databaseFactory, services, appCaches, profilingLogger, publishedUrlProvider)
+			IEventRegistrationService eventRegistrationService,
+			ILogger<RegistrationSurfaceController> logger) : base(umbracoContextAccessor, databaseFactory, services, appCaches, profilingLogger, publishedUrlProvider)
 		{
 			_eventRegistrationService = eventRegistrationService;
+			_logger = logger;
 		}
 
 		[ValidateUmbracoFormRouteString]
 		[HttpPost]
 		public IActionResult HandleSubmit(AddRegistrationRequest request)
 		{
-			if (!ModelState.IsValid)
+			AddRegistrationRequestValidator validator = new AddRegistrationRequestValidator();
+			ValidationResult validationResult = validator.Validate(request);
+
+			if (!ModelState.IsValid || !validationResult.IsValid)
 			{
+				_logger.LogError($"Error when trying to sign up for event. NodeId: {request.UmbracoNodeId}, EventDate: {request.EventDate} - {validationResult}");
+
 				return RedirectToCurrentUmbracoPage(); //CurrentUmbracoPage() keeps 'old' viewstate
 			}
 
-			//todo add fluent validation
 			_eventRegistrationService.AddRegistration(request.UmbracoNodeId, request);
 
             return RedirectToCurrentUmbracoPage();
