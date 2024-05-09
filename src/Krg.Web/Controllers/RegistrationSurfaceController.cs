@@ -1,5 +1,5 @@
 ﻿using Krg.Domain.Models;
-using Krg.Services;
+using Krg.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Umbraco.Cms.Core.Cache;
 using Umbraco.Cms.Core.Logging;

@@ -1,10 +1,11 @@
 ﻿using Krg.Database;
 using Krg.Database.Models;
 using Krg.Domain.Models;
+using Krg.Services.Interfaces;
 
 namespace Krg.Services
 {
-	public class EventRegistrationService : IEventRegistrationService
+    public class EventRegistrationService : IEventRegistrationService
 	{
 		private readonly IRegistrationRepository _registrationRepository;
 
@@ -36,18 +37,18 @@ namespace Krg.Services
 			});
 		}
 
-		public List<Registration> GetAllRegistrations()
+		public List<Registration> GetAllRegistrations(int year)
 		{
 			return _registrationRepository
-				.GetAllRegistrations()
+				.GetAllRegistrations(year)
 				.Select(reg => new Registration(reg))
 				.ToList();
 		}
 
-		public List<Registration> GetNonDeletedRegistrations()
+		public List<Registration> GetNonDeletedRegistrations(int year)
 		{
 			return _registrationRepository
-				.GetNonDeletedRegistrations()
+				.GetNonDeletedRegistrations(year)
 				.Select(reg => new Registration(reg))
 				.ToList();
 		}

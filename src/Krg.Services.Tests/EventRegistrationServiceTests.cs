@@ -2,6 +2,7 @@ using AutoFixture;
 using Krg.Database;
 using Krg.Database.Models;
 using Krg.Domain.Models;
+using Krg.Services.Interfaces;
 using Moq;
 
 namespace Krg.Services.Tests
@@ -80,11 +81,11 @@ namespace Krg.Services.Tests
 										.With(p => p.IsCancelled, false)
 										.CreateMany();
 
-			_mockRegistrationRepository.Setup(repository => repository.GetNonDeletedRegistrations())
+			_mockRegistrationRepository.Setup(repository => repository.GetNonDeletedRegistrations(It.IsAny<int>()))
 				.Returns(() => registrations.ToList());
 
 			//Act
-			var result = _sut.GetNonDeletedRegistrations();
+			var result = _sut.GetNonDeletedRegistrations(_fixture.Create<int>());
 
 			//Assert
 			Assert.IsTrue(result.All(p => !p.IsCancelled));
@@ -97,11 +98,11 @@ namespace Krg.Services.Tests
 			var registrations = _fixture.Build<EventRegistration>()
 										.CreateMany();
 
-			_mockRegistrationRepository.Setup(repository => repository.GetAllRegistrations())
+			_mockRegistrationRepository.Setup(repository => repository.GetAllRegistrations(It.IsAny<int>()))
 				.Returns(() => registrations.ToList());
 
 			//Act
-			var result = _sut.GetAllRegistrations();
+			var result = _sut.GetAllRegistrations(_fixture.Create<int>());
 
 			//Assert
 			Assert.IsTrue(result.Count == registrations.Count());

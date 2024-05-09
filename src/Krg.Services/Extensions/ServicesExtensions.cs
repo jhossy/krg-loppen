@@ -1,4 +1,5 @@
 ﻿using Krg.Database;
+using Krg.Services.Interfaces;
 using Krg.Web.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 

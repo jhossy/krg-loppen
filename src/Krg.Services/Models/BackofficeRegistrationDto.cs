@@ -9,6 +9,7 @@ namespace Krg.Domain
         {
             Id = registration.Id;
             EventDate = registration.EventDate.ToDkDate();
+            UpdateDate = registration.UpdateTimeUtc.ToDkDate();
             Name = registration.Name;
             Department = registration.Department;
             NoOfAdults = registration.NoOfAdults;
@@ -23,6 +24,8 @@ namespace Krg.Domain
         public int Id { get; }
 
         public string EventDate { get; }
+
+        public string UpdateDate { get; }
 
 		public string Name { get; } = null!;
 

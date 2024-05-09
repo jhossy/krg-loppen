@@ -8,23 +8,26 @@ namespace Krg.Domain.Models
         public Registration(EventRegistration eventRegistration)
         {
             Id = eventRegistration.Id;
-            BringsTrailer = eventRegistration.BringsTrailer;
+			IsCancelled = eventRegistration.IsCancelled;
+			BringsTrailer = eventRegistration.BringsTrailer;
             Department = eventRegistration.Department;
             Email = eventRegistration.Email;
-            EventDate = eventRegistration.EventDate;
+            EventDate = eventRegistration.EventDate;            
             Name = eventRegistration.Name;
             NoOfAdults = eventRegistration.NoOfAdults;
             NoOfChildren = eventRegistration.NoOfChildren;
             PhoneNo = eventRegistration.PhoneNo;
             ShowName = eventRegistration.ShowName;
-            IsCancelled = eventRegistration.IsCancelled;
+            UpdateTimeUtc = eventRegistration.UpdateTimeUtc;
         }
 
 		public int Id { get; }
 
 		public DateTime EventDate { get; }
 
-        public string Name { get; } = null!;
+		public DateTime UpdateTimeUtc { get; }
+
+		public string Name { get; } = null!;
 
         public string Department { get; } = null!;
 

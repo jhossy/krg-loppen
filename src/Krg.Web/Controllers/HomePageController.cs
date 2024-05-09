@@ -1,5 +1,6 @@
 ﻿using Krg.Domain.Models;
 using Krg.Services;
+using Krg.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Umbraco.Cms.Core.Models.PublishedContent;
@@ -49,7 +50,9 @@ namespace Krg.Web.Controllers
 				.OrderBy(x => x.Date.Date)
 				.ToList();
 
-			List<Registration> dbRegistrations = _eventRegistrationService.GetNonDeletedRegistrations().ToList();
+			int exportYear = eventRoot.ExportYear > 0 ? eventRoot.ExportYear : DateTime.Now.Year;
+
+			List<Registration> dbRegistrations = _eventRegistrationService.GetNonDeletedRegistrations(exportYear).ToList();
 
 			List<RegistrationViewModel> results = BuildListOfRegistrations(dbRegistrations, umbEvents);
 
@@ -67,7 +70,10 @@ namespace Krg.Web.Controllers
 
 			foreach (var umbRegistration in umbEvents)
 			{
-				var filteredRegistrationsByDate = dbRegistrations.Where(x => x.EventDate == umbRegistration.Date)
+				var filteredRegistrationsByDate = dbRegistrations
+					.Where(x => x.EventDate.Year == umbRegistration.Date.Year && 
+								x.EventDate.Date == umbRegistration.Date.Date && 
+								x.EventDate.Day == umbRegistration.Date.Day)
 					.ToList();
 
 				var registrationDto = new RegistrationViewModel(umbRegistration, filteredRegistrationsByDate);

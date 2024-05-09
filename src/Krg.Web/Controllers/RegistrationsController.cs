@@ -1,12 +1,12 @@
 ﻿using Krg.Domain;
-using Krg.Services;
+using Krg.Services.Interfaces;
 using Krg.Web.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Umbraco.Cms.Web.BackOffice.Controllers;
 
 namespace Krg.Web.Controllers
 {
-	public class RegistrationsController : UmbracoAuthorizedApiController
+    public class RegistrationsController : UmbracoAuthorizedApiController
 	{
 		private readonly IEventRegistrationService _eventRegistrationService;
 		private readonly IExcelService _excelService;
@@ -24,9 +24,9 @@ namespace Krg.Web.Controllers
 			int parsedYear = year == 0 ? DateTime.Now.Year : year;
 
 			return _eventRegistrationService
-				.GetNonDeletedRegistrations()
-				.Where(x => x.EventDate.Year == parsedYear)
+				.GetNonDeletedRegistrations(parsedYear)
 				.OrderBy(reg => reg.EventDate)
+				.ThenBy(reg => reg.UpdateTimeUtc)
 				.Select(reg => new BackofficeRegistrationDto(reg))
 				.ToList();
 		}
@@ -36,10 +36,10 @@ namespace Krg.Web.Controllers
 			int parsedYear = year == 0 ? DateTime.Now.Year : year;
 
 			return _eventRegistrationService
-				.GetAllRegistrations()
-				.Where(x => x.EventDate.Year == parsedYear)
-				.OrderBy(reg => reg.EventDate)
-				.Select(reg => new BackofficeRegistrationDto(reg))
+				.GetAllRegistrations(parsedYear)
+                .OrderBy(reg => reg.EventDate)
+                .ThenBy(reg => reg.UpdateTimeUtc)
+                .Select(reg => new BackofficeRegistrationDto(reg))
 				.ToList();
 		}
 
