@@ -10,7 +10,7 @@ namespace Krg.Services.Tests
 	public class EmailServiceTests
 	{
 		private readonly IFixture _fixture = new Fixture();		
-		private IEmailservice _sut;
+		private IEmailservice _sut = null!;
 
 		[TestInitialize]
 		public void Initialize()
@@ -27,7 +27,7 @@ namespace Krg.Services.Tests
 
 			_fixture.Inject(smtpClient);
 
-			Mock<ILogger<EmailService>> loggerMock = new Mock<ILogger<EmailService>>();
+			var loggerMock = new Mock<ILogger<EmailService>>();
 			_fixture.Inject(loggerMock.Object);
 			_sut = _fixture.Create<EmailService>();
 		}

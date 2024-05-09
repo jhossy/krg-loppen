@@ -1,5 +1,4 @@
 ﻿using Krg.Database.Models;
-using NPoco;
 using Umbraco.Cms.Infrastructure.Scoping;
 
 namespace Krg.Database
