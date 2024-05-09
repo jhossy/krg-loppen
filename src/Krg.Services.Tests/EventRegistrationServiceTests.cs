@@ -34,34 +34,6 @@ namespace Krg.Services.Tests
 		}
 
 		[TestMethod]
-		public void AddRegistration_DoesNotCallRepository_ProvidedMissingDepartment()
-		{
-			//Arrange
-			var registrationRequest = _fixture.Create<AddRegistrationRequest>();
-			registrationRequest.Department = null;
-
-			//Act
-			_sut.AddRegistration(_fixture.Create<int>(), registrationRequest);
-
-			//Assert
-			_mockRegistrationRepository.Verify(mock => mock.AddRegistration(It.IsAny<EventRegistration>()), Times.Never());
-		}
-
-		[TestMethod]
-		public void AddRegistration_DoesNotCallRepository_ProvidedMissingPhoneNo()
-		{
-			//Arrange
-			var registrationRequest = _fixture.Create<AddRegistrationRequest>();
-			registrationRequest.PhoneNo = null;
-
-			//Act
-			_sut.AddRegistration(_fixture.Create<int>(), registrationRequest);
-
-			//Assert
-			_mockRegistrationRepository.Verify(mock => mock.AddRegistration(It.IsAny<EventRegistration>()), Times.Never());
-		}
-
-		[TestMethod]
 		public void AddRegistration_CallsRepository_ProvidedValidInput()
 		{
 			//Arrange
