@@ -1,8 +1,10 @@
 using AutoFixture;
+using Castle.Core.Logging;
 using Krg.Database;
 using Krg.Database.Models;
 using Krg.Domain.Models;
 using Krg.Services.Interfaces;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace Krg.Services.Tests
@@ -12,12 +14,14 @@ namespace Krg.Services.Tests
 	{
 		private readonly IFixture _fixture = new Fixture();
 		private Mock<IRegistrationRepository> _mockRegistrationRepository = new Mock<IRegistrationRepository>();
+		private Mock<ILogger<EventRegistrationService>> _logger = new Mock<ILogger<EventRegistrationService>>();
 		private IEventRegistrationService _sut = null!;
 
 		[TestInitialize]
 		public void Initialize()
 		{
 			_fixture.Inject(_mockRegistrationRepository.Object);
+			_fixture.Inject(_logger.Object);
 			_sut = _fixture.Create<EventRegistrationService>();
 		}
 
