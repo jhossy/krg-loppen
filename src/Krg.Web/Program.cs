@@ -1,41 +1,77 @@
 using Krg.Services.Extensions;
+using Serilog;
 
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+Log.Logger = new LoggerConfiguration()
+	.WriteTo.Console()
+	.CreateBootstrapLogger();
 
-builder.CreateUmbracoBuilder()
-    .AddBackOffice()
-    .AddWebsite()
-    .AddDeliveryApi()
-    .AddComposers()
-    .Build();
+try
+{
+	Log.Information("Starting web application");
 
-builder.Services.AddServiceExtensions();
+	WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+    
+	builder.CreateUmbracoBuilder()
+        .AddBackOffice()
+        .AddWebsite()
+        .AddDeliveryApi()
+        .AddComposers()
+        .Build();
 
-WebApplication app = builder.Build();
-
-app.UseStaticFiles();
-
-await app.BootUmbracoAsync();
-
-app.UseUmbraco()
-    .WithMiddleware(u =>
+    builder.Services.AddSerilog((context, configuration) =>
     {
-        u.UseBackOffice();
-        u.UseWebsite();
-    })
-    .WithEndpoints(u =>
-    {
-        u.UseInstallerEndpoints();
-        u.UseBackOfficeEndpoints();
-        u.UseWebsiteEndpoints();
+		Environment.SetEnvironmentVariable("BASEDIR", AppContext.BaseDirectory);
+
+		configuration
+        .ReadFrom.Configuration(builder.Configuration)
+		.Enrich.FromLogContext();
     });
 
-//using (var scope = app.Services.CreateScope())
-//{
-//    var services = scope.ServiceProvider;
+	builder.Services.AddServiceExtensions();
+    
+	WebApplication app = builder.Build();
 
-//    var context = services.GetRequiredService<EventRegistrationContext>();
-//    context.Database.EnsureCreated();
-//}
+    app.UseStaticFiles();
 
-await app.RunAsync();
+    await app.BootUmbracoAsync();
+
+    app.UseUmbraco()
+        .WithMiddleware(u =>
+        {
+            u.UseBackOffice();
+            u.UseWebsite();
+        })
+        .WithEndpoints(u =>
+        {
+            u.UseInstallerEndpoints();
+            u.UseBackOfficeEndpoints();
+            u.UseWebsiteEndpoints();
+        });
+
+	// Write streamlined request completion events, instead of the more verbose ones from the framework.
+	// To use the default framework request logging instead, remove this line and set the "Microsoft"
+	// level in appsettings.json to "Information".
+	app.UseSerilogRequestLogging();
+
+	//using (var scope = app.Services.CreateScope())
+	//{
+	//    var services = scope.ServiceProvider;
+
+	//    var context = services.GetRequiredService<EventRegistrationContext>();
+	//    context.Database.EnsureCreated();
+	//}
+
+	await app.RunAsync();
+
+	Log.Information("Stopped cleanly");
+	return 0;
+}
+catch(Exception ex)
+{
+	Log.Fatal(ex, "Application terminated unexpectedly");
+	return 1;
+}
+finally
+{
+	Log.CloseAndFlush();
+}
