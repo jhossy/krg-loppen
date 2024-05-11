@@ -9,12 +9,11 @@ namespace Krg.Services.Extensions
 	{
 		public static IServiceCollection AddServiceExtensions(this IServiceCollection services)
 		{
-			//services.AddTransient<IUnitOfWork, UnitOfWork>();
-			//services.AddTransient<IEventRegistrationRepository, EventRegistrationRepository>();
 			services.AddTransient<IEventRegistrationService, EventRegistrationService>();
 			services.AddTransient<IRegistrationRepository, RegistrationRepository>();
 			services.AddTransient<IExcelService, ExcelService>();
-
+			services.AddTransient<IEmailNotificationService, EmailNotificationService>();
+			services.AddTransient<INotificationRepository, NotificationRepository>();
 			return services;
 		}
 	}

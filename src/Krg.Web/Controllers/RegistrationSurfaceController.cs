@@ -16,6 +16,7 @@ namespace Krg.Web.Controllers
     public class RegistrationSurfaceController : Umbraco.Cms.Web.Website.Controllers.SurfaceController
 	{
 		private readonly IEventRegistrationService _eventRegistrationService;
+		private readonly IEmailNotificationService _notificationService;
 		private readonly ILogger<RegistrationSurfaceController> _logger;
 
 		public RegistrationSurfaceController(
@@ -26,9 +27,11 @@ namespace Krg.Web.Controllers
 			IProfilingLogger profilingLogger, 
 			IPublishedUrlProvider publishedUrlProvider,
 			IEventRegistrationService eventRegistrationService,
+			IEmailNotificationService notificationService,
 			ILogger<RegistrationSurfaceController> logger) : base(umbracoContextAccessor, databaseFactory, services, appCaches, profilingLogger, publishedUrlProvider)
 		{
 			_eventRegistrationService = eventRegistrationService;
+			_notificationService = notificationService;
 			_logger = logger;
 		}
 
@@ -48,7 +51,9 @@ namespace Krg.Web.Controllers
 
 			_eventRegistrationService.AddRegistration(request.UmbracoNodeId, request);
 
-            return RedirectToCurrentUmbracoPage();
+			_notificationService.AddNotification(request);
+
+			return RedirectToCurrentUmbracoPage();
 		}
 	}
 }
