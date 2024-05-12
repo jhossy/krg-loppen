@@ -3,10 +3,10 @@ using Umbraco.Cms.Infrastructure.Scoping;
 
 namespace Krg.Database
 {
-	public class NotificationRepository : INotificationRepository
+	public class EmailNotificationRepository : IEmailNotificationRepository
 	{
 		private readonly IScopeProvider _scopeProvider;
-		public NotificationRepository(IScopeProvider scopeProvider)
+		public EmailNotificationRepository(IScopeProvider scopeProvider)
 		{
 			_scopeProvider = scopeProvider;
 		}

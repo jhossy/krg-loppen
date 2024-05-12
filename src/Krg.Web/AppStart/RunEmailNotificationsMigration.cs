@@ -88,6 +88,9 @@ namespace Krg.Database
 			[Column("UpdateTimeUtc")]
 			public DateTime UpdateTimeUtc { get; set; }
 
+			[Column("EventDate")]
+			public DateTime EventDate { get; set; }
+
 			[Column("From")]
 			public required string From { get; set; }
 

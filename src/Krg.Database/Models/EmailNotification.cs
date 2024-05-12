@@ -6,6 +6,8 @@
 
 		public DateTime UpdateTimeUtc { get; set; }
 
+		public DateTime EventDate { get; set; }
+
 		public required string From { get; set; }
 
 		public required string To { get; set; }

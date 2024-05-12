@@ -5,18 +5,10 @@ namespace Krg.Domain.Models
 {
 	public class Notification
 	{
-		//[SetsRequiredMembers]
-		//public Notification(string from, string to, string subject, string body)
-  //      {
-  //          From = from;
-		//	To = to;
-		//	Subject = subject;
-		//	Body = body;
-  //      }
-
 		[SetsRequiredMembers]
 		public Notification(EmailNotification emailNotification)
         {
+			EventDate = emailNotification.EventDate;
             From = emailNotification.From;
 			To = emailNotification.To;
 			Subject = emailNotification.Subject;
@@ -24,7 +16,9 @@ namespace Krg.Domain.Models
 			Processed = emailNotification.Processed;
         }
 
-        public required string From { get; set; }
+		public DateTime EventDate { get; set; }
+
+		public required string From { get; set; }
 
 		public required string To { get; set; }
 

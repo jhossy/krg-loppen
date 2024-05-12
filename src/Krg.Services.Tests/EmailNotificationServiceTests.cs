@@ -12,7 +12,7 @@ namespace Krg.Services.Tests
 	public class EmailNotificationServiceTests
 	{
 		private readonly IFixture _fixture = new Fixture();
-		private Mock<INotificationRepository> _mockNotificationRepository = new Mock<INotificationRepository>();
+		private Mock<IEmailNotificationRepository> _mockNotificationRepository = new Mock<IEmailNotificationRepository>();
 		private Mock<ILogger<EmailNotificationService>> _logger = new Mock<ILogger<EmailNotificationService>>();
 		private IEmailNotificationService _sut = null!;
 

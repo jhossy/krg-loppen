@@ -9,11 +9,11 @@ namespace Krg.Services
 
 	public class EmailNotificationService : IEmailNotificationService
 	{
-		private readonly INotificationRepository _notificationRepository;
+		private readonly IEmailNotificationRepository _notificationRepository;
 		private readonly ILogger<IEmailNotificationService> _logger;
 
 		public EmailNotificationService(
-			INotificationRepository notificationRepository,
+			IEmailNotificationRepository notificationRepository,
 			ILogger<EmailNotificationService> logger)
 		{
 			_notificationRepository = notificationRepository;
@@ -26,6 +26,7 @@ namespace Krg.Services
 
 			_notificationRepository.AddNotification(new EmailNotification
 			{
+				EventDate = registrationRequest.EventDate,
 				From = "loppen@spejderknud.dk",
 				To = registrationRequest.Email,
 				Subject = "Tilmelding til loppekørsel",

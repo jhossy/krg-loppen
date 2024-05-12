@@ -2,7 +2,7 @@
 
 namespace Krg.Database
 {
-	public interface INotificationRepository
+	public interface IEmailNotificationRepository
 	{
 		void AddNotification(EmailNotification notification);
 
