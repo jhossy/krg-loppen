@@ -16,7 +16,7 @@ jobs:
         run: dotnet build ./src/Krg.sln --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish ./src/Krg.Web/Krg.Web.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp/
+        run: dotnet publish ./src/Krg.Web/Krg.Web.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Create app_offline file
         run: |
@@ -38,7 +38,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: '/public_html/'
-          local-dir: ${{env.DOTNET_ROOT}}/myapp
+          local-dir: ${{env.DOTNET_ROOT}}/myapp/
 
       - name: Cleanup app_offline
         uses: StephanThierry/ftp-delete-action@v2.1
