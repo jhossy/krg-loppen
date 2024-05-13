@@ -12,11 +12,11 @@ jobs:
           dotnet-version: '8.x'
           include-prerelease: true
 
-      - name: Build with dotnet
-        run: dotnet build ./src/Krg.sln --configuration Release
+      # - name: Build with dotnet
+      #   run: dotnet build ./src/Krg.sln --configuration Release
 
-      - name: dotnet publish
-        run: dotnet publish ./src/Krg.Web/Krg.Web.csproj -c Release --self-contained -r win-x86 -o ${{env.DOTNET_ROOT}}/myapp
+      # - name: dotnet publish
+      #   run: dotnet publish ./src/Krg.Web/Krg.Web.csproj -c Release --self-contained -r win-x86 -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Create app_offline file
         run: |
@@ -31,20 +31,20 @@ jobs:
           server-dir: '/public_html/'
           local-dir: './dist/'
 
-      - name: 📂 Sync app files
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: '/public_html/'
-          local-dir: ${{env.DOTNET_ROOT}}/myapp/
+      # - name: 📂 Sync app files
+      #   uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      #   with:
+      #     server: ${{ secrets.FTP_HOST }}
+      #     username: ${{ secrets.FTP_USERNAME }}
+      #     password: ${{ secrets.FTP_PASSWORD }}
+      #     server-dir: '/public_html/'
+      #     local-dir: ${{env.DOTNET_ROOT}}/myapp/
 
-      - name: Cleanup app_offline
-        uses: StephanThierry/ftp-delete-action@v2.1
-        with:
-          host: ${{ secrets.FTP_HOST }}
-          user: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          remoteFiles: "app_offline.htm"
-          workingDir: "/public_html"
+      # - name: Cleanup app_offline
+      #   uses: StephanThierry/ftp-delete-action@v2.1
+      #   with:
+      #     host: ${{ secrets.FTP_HOST }}
+      #     user: ${{ secrets.FTP_USERNAME }}
+      #     password: ${{ secrets.FTP_PASSWORD }}
+      #     remoteFiles: "app_offline.htm"
+      #     workingDir: "/public_html"
