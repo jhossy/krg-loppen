@@ -21,17 +21,41 @@ namespace Krg.Web.Composers
 		public event EventHandler PeriodChanged { add { } remove { } }
 
 		private readonly IEmailservice _emailService;
+		private readonly IEmailNotificationService _notificationService;
+		private readonly ILogger<EmailNotificationsJob> _logger;
 
-        public EmailNotificationsJob(IEmailservice emailservice)
+		public EmailNotificationsJob(
+			IEmailservice emailservice,
+			IEmailNotificationService notificationService,
+			ILogger<EmailNotificationsJob> logger)
         {
             _emailService = emailservice;
+			_notificationService = notificationService;
+			_logger = logger;
         }
 
         public async Task RunJobAsync()
 		{
 			Console.WriteLine("Executing EmailNotificationsJob...");
 
-			await _emailService.SendEmail("sender@spejderknud.dk", new[] { "receiver@knud.dk" }, "tilmelding", "du er tilmeldt");
+			_logger.LogInformation("Executing EmailNotificationsJob...");
+
+			var nonProcessedNotifications = _notificationService.GetNonProcessedNotifications();
+
+			if (!nonProcessedNotifications.Any())
+			{
+				_logger.LogInformation("Finished EmailNotificationsJob - zero unprocessed notifications in queue");
+				return;
+			}
+
+			foreach(var notification in nonProcessedNotifications)
+			{			
+				await _emailService.SendEmail("support@spejderknud.dk", new[] {  notification.To }, notification.Subject, notification.Body);
+
+				_notificationService.RemoveNotification(notification.Id);
+			}
+
+			_logger.LogInformation("Finished EmailNotificationsJob.");
 
 			return;
 		}

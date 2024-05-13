@@ -101,6 +101,7 @@ namespace Krg.Database
 			public required string Subject { get; set; }
 
 			[Column("Body")]
+			[SpecialDbType(SpecialDbTypes.NVARCHARMAX)]
 			public required string Body { get; set; }
 			
 			[Column("Processed")]

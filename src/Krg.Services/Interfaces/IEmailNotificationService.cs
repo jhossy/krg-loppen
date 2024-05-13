@@ -6,6 +6,8 @@ namespace Krg.Services.Interfaces
     {
         void AddNotification(AddRegistrationRequest registrationRequest);
 
+        void RemoveNotification(int id);
+
         List<Notification> GetNonProcessedNotifications();
     }
 }

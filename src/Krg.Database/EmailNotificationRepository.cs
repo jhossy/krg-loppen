@@ -20,6 +20,30 @@ namespace Krg.Database
 			scope.Complete();
 		}
 
+		public void RemoveNotification(int id)
+		{
+			using var scope = _scopeProvider.CreateScope();
+
+			EmailNotification notificationFromDb = GetById(id);
+			
+			notificationFromDb.Processed = true;
+
+			scope.Database.Update(notificationFromDb);
+
+			scope.Complete();
+		}
+
+		internal EmailNotification GetById(int id)
+		{
+			using var scope = _scopeProvider.CreateScope();
+
+			var emailNotification = scope.Database.SingleById<EmailNotification>(id);
+
+			scope.Complete();
+
+			return emailNotification;
+		}
+
 		public List<EmailNotification> GetUnprocessedNotifications()
 		{
 			using var scope = _scopeProvider.CreateScope();
@@ -29,6 +53,6 @@ namespace Krg.Database
 			scope.Complete();
 
 			return notifications.ToList();
-		}
+		}		
 	}
 }

@@ -6,6 +6,8 @@ namespace Krg.Database
 	{
 		void AddNotification(EmailNotification notification);
 
+		void RemoveNotification(int id);
+
 		List<EmailNotification> GetUnprocessedNotifications();
 	}
 }

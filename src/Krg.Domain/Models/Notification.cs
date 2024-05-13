@@ -8,6 +8,7 @@ namespace Krg.Domain.Models
 		[SetsRequiredMembers]
 		public Notification(EmailNotification emailNotification)
         {
+			Id = emailNotification.Id;
 			EventDate = emailNotification.EventDate;
             From = emailNotification.From;
 			To = emailNotification.To;
@@ -15,6 +16,8 @@ namespace Krg.Domain.Models
 			Body = emailNotification.Body;
 			Processed = emailNotification.Processed;
         }
+
+		public int Id { get; set; }
 
 		public DateTime EventDate { get; set; }
 
