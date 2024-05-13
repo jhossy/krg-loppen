@@ -25,7 +25,7 @@ namespace Krg.Services.Tests
 		}
 
 		[TestMethod]
-		public void AddRegistration_DoesNotCallRepository_ProvidedInvalidInput()
+		public void AddNotification_DoesNotCallRepository_ProvidedInvalidInput()
 		{
 			//Arrange
 
@@ -37,7 +37,7 @@ namespace Krg.Services.Tests
 		}
 
 		[TestMethod]
-		public void AddRegistration_CallsRepository_ProvidedValidInput()
+		public void AddNotification_CallsRepository_ProvidedValidInput()
 		{
 			//Arrange
 
@@ -47,6 +47,19 @@ namespace Krg.Services.Tests
 			//Assert
 			_mockNotificationRepository.Verify(mock => mock.AddNotification(It.IsAny<EmailNotification>()), Times.Once());
 		}
+
+		[TestMethod]
+		public void RemoveNotification_CallsRepository_ProvidedValidInput()
+		{
+			//Arrange
+
+			//Act
+			_sut.RemoveNotification(_fixture.Create<int>());
+
+			//Assert
+			_mockNotificationRepository.Verify(mock => mock.RemoveNotification(It.IsAny<int>()), Times.Once());
+		}
+
 
 		[TestMethod]
 		public void GetNonProcessedNotifications_GetsOnlyActiveNotifications_ProvidedTheyExist()
