@@ -20,7 +20,7 @@ jobs:
 
       - name: Create app_offline file
         run: |
-          mkdir -p ./dist && touch ./dist/app_offline.htm       
+          mkdir -p ./dist && echo "The website is being updated..." > ./dist/app_offline.htm       
     
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
