@@ -23,11 +23,11 @@ try
 		Environment.SetEnvironmentVariable("BASEDIR", AppContext.BaseDirectory);
 
 		configuration
-        .ReadFrom.Configuration(builder.Configuration)
-		.Enrich.FromLogContext();
+			.ReadFrom.Configuration(builder.Configuration)
+			.Enrich.FromLogContext();
     });
 
-	builder.Services.AddServiceExtensions();
+	builder.Services.AddServiceExtensions(builder.Configuration);
     
 	WebApplication app = builder.Build();
 

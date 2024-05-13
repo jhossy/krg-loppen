@@ -1,5 +1,4 @@
 using AutoFixture;
-using Castle.Core.Logging;
 using Krg.Database;
 using Krg.Database.Models;
 using Krg.Domain.Models;
@@ -9,7 +8,7 @@ using Moq;
 
 namespace Krg.Services.Tests
 {
-    [TestClass]
+	[TestClass]
 	public class EventRegistrationServiceTests
 	{
 		private readonly IFixture _fixture = new Fixture();
