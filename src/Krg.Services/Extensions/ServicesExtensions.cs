@@ -1,16 +1,16 @@
 ﻿using Krg.Database;
 using Krg.Services.Interfaces;
 using Krg.Web.Controllers;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Net.Mail;
-using System.Numerics;
 
 namespace Krg.Services.Extensions
 {
-    public static class ServicesExtensions
+	public static class ServicesExtensions
 	{
-		public static IServiceCollection AddServiceExtensions(this IServiceCollection services)
+		public static IServiceCollection AddServiceExtensions(this IServiceCollection services, IConfiguration configuration)
 		{
 			services.AddTransient<IEventRegistrationService, EventRegistrationService>();
 			services.AddTransient<IRegistrationRepository, RegistrationRepository>();
@@ -20,12 +20,15 @@ namespace Krg.Services.Extensions
 
 			services.AddTransient<IEmailservice>(provider =>
 			{
-				ILogger<EmailService> logger = provider.GetService<ILogger<EmailService>>();
+				ILogger<EmailService> logger = provider.GetRequiredService<ILogger<EmailService>>();
 
+				SmtpSettings settings = configuration.GetRequiredSection("SmtpSettings").Get<SmtpSettings>();
+
+				//SmtpClient smtpClient = new SmtpClient(settings.Host, settings.Port);
 				SmtpClient smtpClient = new SmtpClient();
 				smtpClient.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
 
-				string mailDir = "c:\\temp\\mails";
+				string mailDir = AppContext.BaseDirectory + "/mails";
 				if (!Directory.Exists(mailDir))
 				{
 					Directory.CreateDirectory(mailDir);
