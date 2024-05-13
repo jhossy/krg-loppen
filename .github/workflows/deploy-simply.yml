@@ -1,22 +1,50 @@
 on: [push, workflow_dispatch]
 name: 🚀 Deploy website on push
 jobs:
-  web-deploy:
-    name: 🎉 Deploy
+   build:
     runs-on: ubuntu-latest
     steps:
-    - name: 🚚 Get latest code
-      uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Create app_offline file
-      run: |
-        mkdir -p ./dist && touch ./dist/app_offline.htm       
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '8.x'
+          include-prerelease: true
+
+      - name: Build with dotnet
+        run: dotnet build ./src/Krg.sln --configuration Release
+
+      - name: dotnet publish
+        run: dotnet publish ./src/Krg.Web/Krg.Web.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
+
+      - name: Create app_offline file
+        run: |
+          mkdir -p ./dist && touch ./dist/app_offline.htm       
     
-    - name: 📂 Sync files
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-      with:
-        server: ${{ secrets.FTP_HOST }}
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
-        server-dir: '/public_html/'
-        local-dir: './dist/'
+      - name: 📂 Sync files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: '/public_html/'
+          local-dir: './dist/'
+
+      - name: 📂 Sync app files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: '/public_html/'
+          local-dir: ${{env.DOTNET_ROOT}}/myapp
+
+      - name: Cleanup app_offline
+        uses: StephanThierry/ftp-delete-action@v2.1
+        with:
+          host: ${{ secrets.FTP_HOST }}
+          user: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          remoteFiles: "app_offline.htm"
+          workingDir: "/public_html"
