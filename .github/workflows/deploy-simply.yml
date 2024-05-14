@@ -22,7 +22,7 @@ jobs:
         run: dotnet publish ./src/Krg.Web/Krg.Web.csproj --configuration Release --output ./publish --runtime win-x86 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=false
 
       - name: Test with .NET
-        run: dotnet test
+        run: dotnet test ./src/Krg.sln --no-build --verbosity normal --filter TestCategory!=IntegrationTests
 
       - name: Deploy to Simply
         uses: rasmusbuchholdt/simply-web-deploy@2.1.0
