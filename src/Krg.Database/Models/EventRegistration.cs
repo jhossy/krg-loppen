@@ -1,7 +1,7 @@
 ﻿namespace Krg.Database.Models
 {
-    public class EventRegistration
-    {
+	public class EventRegistration : IUpdateableEntity
+	{
         public int Id { get; set; }
 
         public int UmbracoEventNodeId { get; set; }

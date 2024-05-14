@@ -27,7 +27,7 @@ try
 			.Enrich.FromLogContext();
     });
 
-	builder.Services.AddServiceExtensions();
+	builder.Services.AddServiceExtensions(builder.Configuration);
     
 	WebApplication app = builder.Build();
 
