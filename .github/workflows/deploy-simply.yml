@@ -13,7 +13,7 @@ jobs:
           include-prerelease: true
 
       - name: Install dependencies
-        run: dotnet restore
+        run: dotnet restore ./src/Krg.sln
 
       - name: Build
         run: dotnet build ./src/Krg.sln --configuration Release --no-restore
@@ -31,3 +31,5 @@ jobs:
           server-computer-name: ${{ secrets.SERVER_COMPUTER_NAME }}
           server-username: ${{ secrets.SERVER_USERNAME }}
           server-password: ${{ secrets.SERVER_PASSWORD }}
+          source-path: './publish'
+          target-path: '/public_html/'
