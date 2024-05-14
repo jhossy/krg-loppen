@@ -1,8 +1,8 @@
 on: [push, workflow_dispatch]
 name: 🚀 Deploy website on push
 jobs:
-   build:
-    runs-on: ubuntu-latest
+  build_and_deploy:
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -12,39 +12,22 @@ jobs:
           dotnet-version: '8.x'
           include-prerelease: true
 
-      # - name: Build with dotnet
-      #   run: dotnet build ./src/Krg.sln --configuration Release
+      - name: Install dependencies
+        run: dotnet restore
 
-      # - name: dotnet publish
-      #   run: dotnet publish ./src/Krg.Web/Krg.Web.csproj -c Release --self-contained -r win-x86 -o ${{env.DOTNET_ROOT}}/myapp
+      - name: Build
+        run: dotnet build ./src/Krg.sln --configuration Release --no-restore
 
-      - name: Create app_offline file
-        run: |
-          mkdir -p ./dist && echo "The website is being updated..." > ./dist/app_offline.htm       
-    
-      - name: 📂 Sync files
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      - name: Publish
+        run: dotnet publish ./src/Krg.Web/Krg.Web.csproj --configuration Release --output ./publish --runtime win-x86 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=false
+
+      - name: Test with .NET
+        run: dotnet test
+
+      - name: Deploy to Simply
+        uses: rasmusbuchholdt/simply-web-deploy@2.1.0
         with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: '/public_html/'
-          local-dir: './dist/'
-
-      # - name: 📂 Sync app files
-      #   uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-      #   with:
-      #     server: ${{ secrets.FTP_HOST }}
-      #     username: ${{ secrets.FTP_USERNAME }}
-      #     password: ${{ secrets.FTP_PASSWORD }}
-      #     server-dir: '/public_html/'
-      #     local-dir: ${{env.DOTNET_ROOT}}/myapp/
-
-      # - name: Cleanup app_offline
-      #   uses: StephanThierry/ftp-delete-action@v2.1
-      #   with:
-      #     host: ${{ secrets.FTP_HOST }}
-      #     user: ${{ secrets.FTP_USERNAME }}
-      #     password: ${{ secrets.FTP_PASSWORD }}
-      #     remoteFiles: "app_offline.htm"
-      #     workingDir: "/public_html"
+          website-name: ${{ secrets.WEBSITE_NAME }}
+          server-computer-name: ${{ secrets.SERVER_COMPUTER_NAME }}
+          server-username: ${{ secrets.SERVER_USERNAME }}
+          server-password: ${{ secrets.SERVER_PASSWORD }}
