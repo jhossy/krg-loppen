@@ -23,8 +23,8 @@ try
 		Environment.SetEnvironmentVariable("BASEDIR", AppContext.BaseDirectory);
 
 		configuration
-        .ReadFrom.Configuration(builder.Configuration)
-		.Enrich.FromLogContext();
+			.ReadFrom.Configuration(builder.Configuration)
+			.Enrich.FromLogContext();
     });
 
 	builder.Services.AddServiceExtensions();
@@ -35,7 +35,9 @@ try
 
     await app.BootUmbracoAsync();
 
-    app.UseUmbraco()
+	app.UseHttpsRedirection();
+
+	app.UseUmbraco()
         .WithMiddleware(u =>
         {
             u.UseBackOffice();

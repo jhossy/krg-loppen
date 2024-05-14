@@ -27,7 +27,7 @@ jobs:
         run: dotnet build ./src/Krg.sln --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish ./src/Krg.Web/Krg.Web.csproj --configuration Release --output ./publish --runtime win-x86 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=false
+        run: dotnet publish ./src/Krg.Web/Krg.Web.csproj --configuration Release --output ${{ github.workspace }}/publish --runtime win-x86 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=false
 
       - name: Test with .NET
         run: dotnet test ./src/Krg.sln --configuration Release --no-build --verbosity normal --filter TestCategory!=IntegrationTests
@@ -39,5 +39,5 @@ jobs:
           server-computer-name: ${{ secrets.SERVER_COMPUTER_NAME }}
           server-username: ${{ secrets.SERVER_USERNAME }}
           server-password: ${{ secrets.SERVER_PASSWORD }}
-          source-path: './publish'
+          source-path: ${{ github.workspace }}/publish
           target-path: '/public_html/'
