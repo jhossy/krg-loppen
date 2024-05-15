@@ -1,4 +1,8 @@
-on: [push, workflow_dispatch]
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
 
 name: 🚀 Deploy website on push
 jobs:
