@@ -4,6 +4,7 @@ using Krg.Web.Controllers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.Net;
 using System.Net.Mail;
 
 namespace Krg.Services.Extensions
@@ -42,6 +43,7 @@ namespace Krg.Services.Extensions
 				else
 				{
 					smtpClient = new SmtpClient(settings.Host, settings.Port);
+					smtpClient.Credentials = new NetworkCredential(settings.UserName, settings.Password);
 				}				
 
 				return new EmailService(logger, smtpClient);
