@@ -22,18 +22,27 @@ namespace Krg.Services.Extensions
 			{
 				ILogger<EmailService> logger = provider.GetRequiredService<ILogger<EmailService>>();
 
-				SmtpSettings settings = configuration.GetRequiredSection("SmtpSettings").Get<SmtpSettings>();
+				SmtpSettings settings = configuration
+											.GetRequiredSection("SmtpSettings")
+											.Get<SmtpSettings>();
+				SmtpClient smtpClient;
 
-				//SmtpClient smtpClient = new SmtpClient(settings.Host, settings.Port);
-				SmtpClient smtpClient = new SmtpClient();
-				smtpClient.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
-
-				string mailDir = AppContext.BaseDirectory + "/mails";
-				if (!Directory.Exists(mailDir))
+				if (settings != null && string.IsNullOrEmpty(settings.Host))
 				{
-					Directory.CreateDirectory(mailDir);
+					smtpClient = new SmtpClient();
+					smtpClient.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
+
+					string mailDir = AppContext.BaseDirectory + "/mails";
+					if (!Directory.Exists(mailDir))
+					{
+						Directory.CreateDirectory(mailDir);
+					}
+					smtpClient.PickupDirectoryLocation = mailDir;
 				}
-				smtpClient.PickupDirectoryLocation = mailDir;
+				else
+				{
+					smtpClient = new SmtpClient(settings.Host, settings.Port);
+				}				
 
 				return new EmailService(logger, smtpClient);
 			});
