@@ -29,21 +29,21 @@ namespace Krg.Web.Jobs
             _logger = logger;
 
 			_pipeline = new ResiliencePipelineBuilder()
-	                                        .AddRetry(new RetryStrategyOptions() 
-                                            {
-												BackoffType = DelayBackoffType.Exponential,
-												Delay = TimeSpan.FromSeconds(3),
-												MaxRetryAttempts = 3,
-                                                UseJitter = true,
-                                                OnRetry = args =>
-                                                {
-                                                    _logger.LogWarning("OnRetry, Attempt: {0}", args.AttemptNumber);
+	                        .AddRetry(new RetryStrategyOptions() 
+                            {
+							    BackoffType = DelayBackoffType.Exponential,
+							    Delay = TimeSpan.FromSeconds(3),
+							    MaxRetryAttempts = 3,
+                                UseJitter = true,
+                                OnRetry = args =>
+                                {
+                                    _logger.LogWarning("OnRetry, Attempt: {0}", args.AttemptNumber);
                                                     
-                                                    return default;
-												}
-                                            }) // Add retry using the default options
-	                                        .AddTimeout(TimeSpan.FromSeconds(10)) // Add 10 seconds timeout
-	                                        .Build(); // Builds the resilience pipeline
+                                    return default;
+							    }
+                            }) // Add retry using the default options
+	                        .AddTimeout(TimeSpan.FromSeconds(10)) // Add 10 seconds timeout
+	                        .Build(); // Builds the resilience pipeline
 		}
 
 		public async Task RunJobAsync()
