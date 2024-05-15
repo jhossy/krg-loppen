@@ -28,7 +28,7 @@ namespace Krg.Services.Extensions
 											.Get<SmtpSettings>();
 				SmtpClient smtpClient;
 
-				if (settings != null && string.IsNullOrEmpty(settings.Host))
+				if (settings.UseLocalShare())
 				{
 					smtpClient = new SmtpClient();
 					smtpClient.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
