@@ -40,4 +40,4 @@ jobs:
           server-username: ${{ secrets.SERVER_USERNAME }}
           server-password: ${{ secrets.SERVER_PASSWORD }}
           source-path: '\publish\'
-          target-path: '/public_html/'
+          target-path: './public_html/'
