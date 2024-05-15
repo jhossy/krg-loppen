@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="EPPlus" Version="7.1.2" />
+    <PackageReference Include="Polly.Core" Version="8.4.0" />
     <PackageReference Include="Umbraco.Cms.Infrastructure" Version="13.2.2" />
   </ItemGroup>
 
