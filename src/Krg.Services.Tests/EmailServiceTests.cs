@@ -53,5 +53,21 @@ namespace Krg.Services.Tests
 				$"Din kontaktperson vil også kunne hjælpe dig hvis du har praktiske spørgsmål.<br><br>Venlig hilsen<br>Knud Rasmussengruppen"
 			);
 		}
+
+		[TestMethod]
+		public async Task SendEmail_Throws_ProvidedExceptionOccurs()
+		{
+			//Arrange
+
+			//Act
+
+			//Assert
+			await Assert.ThrowsExceptionAsync<Exception>(() => 
+				_sut.SendEmail("test@mail.dk",
+					new[] { "test@mail.dk" } ,
+					"test@mail.dk", 
+					"email body"));
+			
+		}
 	}
 }
