@@ -1,4 +1,5 @@
 using Krg.Services.Extensions;
+using Microsoft.AspNetCore.Rewrite;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -35,7 +36,10 @@ try
 
     await app.BootUmbracoAsync();
 
-    app.UseUmbraco()
+	app.UseHttpsRedirection();
+	app.UseRewriter(new RewriteOptions().AddRedirectToWwwPermanent());
+
+	app.UseUmbraco()
         .WithMiddleware(u =>
         {
             u.UseBackOffice();

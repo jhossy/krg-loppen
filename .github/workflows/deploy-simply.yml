@@ -1,0 +1,46 @@
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+name: 🚀 Deploy website on push
+jobs:
+  build_and_deploy:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '8.x'
+          include-prerelease: true
+
+      - uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }} #hash of project files
+          restore-keys: |
+            ${{ runner.os }}-nuget
+
+      - name: Restore dependencies
+        run: dotnet restore ./src/Krg.sln
+
+      - name: Build
+        run: dotnet build ./src/Krg.sln --configuration Release --no-restore
+
+      - name: Publish
+        run: dotnet publish ./src/Krg.Web/Krg.Web.csproj --configuration Release --output './publish' --runtime win-x86 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=false
+
+      - name: Test with .NET
+        run: dotnet test ./src/Krg.sln --configuration Release --no-build --verbosity normal --filter TestCategory!=IntegrationTests
+
+      - name: Deploy to Simply
+        uses: rasmusbuchholdt/simply-web-deploy@2.1.0
+        with:
+          website-name: ${{ secrets.WEBSITE_NAME }}
+          server-computer-name: ${{ secrets.SERVER_COMPUTER_NAME }}
+          server-username: ${{ secrets.SERVER_USERNAME }}
+          server-password: ${{ secrets.SERVER_PASSWORD }}
+          source-path: '\publish\'

@@ -9,5 +9,13 @@
         public required string UserName { get; set; }
 
 		public required string Password { get; set; }
+
+		public bool UseLocalShare()
+		{
+			return string.IsNullOrEmpty(Host) || 
+				Port == 0 || 
+				string.IsNullOrEmpty(UserName) || 
+				string.IsNullOrEmpty(Password);
+		}
 	}
 }
