@@ -39,6 +39,8 @@ namespace Krg.Services
 			catch(Exception ex)
 			{
 				_logger.LogError(ex.Message);
+
+				throw;
 			}
 		}
 	}
