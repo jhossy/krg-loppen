@@ -6,7 +6,6 @@ using System.Threading;
 
 namespace Krg.Web.Jobs
 {
-
     public class EmailNotificationsJob : IRecurringBackgroundJob
     {
         public TimeSpan Period => TimeSpan.FromMinutes(5);
@@ -28,22 +27,22 @@ namespace Krg.Web.Jobs
             _notificationService = notificationService;
             _logger = logger;
 
-			_pipeline = new ResiliencePipelineBuilder()
-	                        .AddRetry(new RetryStrategyOptions() 
+            _pipeline = new ResiliencePipelineBuilder()
+                            .AddRetry(new RetryStrategyOptions()
                             {
-							    BackoffType = DelayBackoffType.Exponential,
-							    Delay = TimeSpan.FromSeconds(3),
-							    MaxRetryAttempts = 3,
+                                BackoffType = DelayBackoffType.Exponential,
+                                Delay = TimeSpan.FromSeconds(3),
+                                MaxRetryAttempts = 2,
                                 UseJitter = true,
                                 OnRetry = args =>
                                 {
                                     _logger.LogWarning("OnRetry, Attempt: {0}", args.AttemptNumber);
-                                                    
+
                                     return default;
-							    }
+                                }
                             }) // Add retry using the default options
-	                        .AddTimeout(TimeSpan.FromSeconds(10)) // Add 10 seconds timeout
-	                        .Build(); // Builds the resilience pipeline
+                            .AddTimeout(TimeSpan.FromSeconds(10)) // Add 10 seconds timeout
+                            .Build(); // Builds the resilience pipeline
 		}
 
 		public async Task RunJobAsync()
