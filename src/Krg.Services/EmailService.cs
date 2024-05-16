@@ -32,7 +32,7 @@ namespace Krg.Services
 			
 			try
 			{
-				_logger.LogDebug("Sending email: {sender}, {receiver}, {subject}", sender, string.Join(",", receivers), subject);
+				_logger.LogInformation("Sending email: {sender}, {receiver}, {subject}", sender, string.Join(",", receivers), subject);
 
 				await _smtpClient.SendMailAsync(message);
 			} 

@@ -11,9 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Krg.Services", "Krg.Service
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Krg.Domain", "Krg.Domain\Krg.Domain.csproj", "{181F92E3-3B1E-4F75-85FC-36804F1A42B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krg.Services.Tests", "Krg.Services.Tests\Krg.Services.Tests.csproj", "{F57C1A4C-FDC3-4D75-BDAE-BB6FF791A940}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Krg.Services.Tests", "Krg.Services.Tests\Krg.Services.Tests.csproj", "{F57C1A4C-FDC3-4D75-BDAE-BB6FF791A940}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krg.Domain.Tests", "Krg.Domain.Tests\Krg.Domain.Tests.csproj", "{557B5837-9455-4DE8-ABE2-7D1DC5849949}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Krg.Domain.Tests", "Krg.Domain.Tests\Krg.Domain.Tests.csproj", "{557B5837-9455-4DE8-ABE2-7D1DC5849949}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krg.Web.Tests", "Krg.Web.Tests\Krg.Web.Tests.csproj", "{32488FE5-B86F-412B-A15A-F4C9F15B859F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{557B5837-9455-4DE8-ABE2-7D1DC5849949}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{557B5837-9455-4DE8-ABE2-7D1DC5849949}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{557B5837-9455-4DE8-ABE2-7D1DC5849949}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32488FE5-B86F-412B-A15A-F4C9F15B859F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32488FE5-B86F-412B-A15A-F4C9F15B859F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32488FE5-B86F-412B-A15A-F4C9F15B859F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32488FE5-B86F-412B-A15A-F4C9F15B859F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
