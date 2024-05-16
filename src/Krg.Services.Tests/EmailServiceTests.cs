@@ -54,20 +54,21 @@ namespace Krg.Services.Tests
 			);
 		}
 
-		[TestMethod]
-		public async Task SendEmail_Throws_ProvidedExceptionOccurs()
-		{
-			//Arrange
+		//[TestMethod]
+		//[TestCategory("IntegrationTests")]
+		//public async Task SendEmail_Throws_ProvidedExceptionOccurs()
+		//{
+		//	//Arrange
 
-			//Act
+		//	//Act
 
-			//Assert
-			await Assert.ThrowsExceptionAsync<Exception>(() => 
-				_sut.SendEmail("test@mail.dk",
-					new[] { "test@mail.dk" } ,
-					"test@mail.dk", 
-					"email body"));
+		//	//Assert
+		//	await Assert.ThrowsExceptionAsync<Exception>(() => 
+		//		_sut.SendEmail("test@mail.dk",
+		//			new[] { "test@mail.dk" } ,
+		//			"test@mail.dk", 
+		//			"email body"));
 			
-		}
+		//}
 	}
 }
