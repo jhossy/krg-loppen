@@ -1,5 +1,5 @@
 angular.module('umbraco').controller('RegistrationsPluginController', // Scope object is the main object which is used to pass information from the controller to the view.
-    function ($scope, $http, editorState, contentResource, overlayService, $window) {
+    function ($scope, $http, editorState, contentResource, overlayService) {
         $scope.aRegistrations = [];
         $scope.exportDocument = {}
         $scope.loading = false;
