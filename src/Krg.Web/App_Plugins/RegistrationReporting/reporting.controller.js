@@ -1,5 +1,5 @@
 angular.module('umbraco').controller('RegistrationsPluginController', // Scope object is the main object which is used to pass information from the controller to the view.
-    function ($scope, $http, editorState, contentResource, $window) {
+    function ($scope, $http, editorState, contentResource, overlayService, $window) {
         $scope.aRegistrations = [];
         $scope.exportDocument = {}
         $scope.loading = false;
@@ -71,20 +71,29 @@ angular.module('umbraco').controller('RegistrationsPluginController', // Scope o
         }
 
         $scope.delete = function (id) {
+            var options = {
+                title: 'Slet tilmelding',
+                content: 'Er du sikker p&aring; at du vil slette denne tilmelding?',
+                disableBackdropClick: false,
+                disableEscKey: false,
+                submit: function () {
+                    $scope.aRegistrations = $http({
+                            method: 'POST',
+                            url: '/umbraco/backoffice/api/registrations/delete/?id=' + id + '&year=' + $scope.exportYear,
+                        }).then(function successCallback(response) {
+                            $scope.aRegistrations = response.data;
+                        }, function errorCallback(response) {
+                            // called asynchronously if an error occurs
+                            // or server returns response with an error status.
+                            console.log(response);
+                        });
 
-            var deleteUser = $window.confirm("Er du sikker?");
+                    overlayService.close();
+                }
+            };
 
-            if (deleteUser) {
-                $scope.aRegistrations = $http({
-                    method: 'POST',
-                    url: '/umbraco/backoffice/api/registrations/delete/?id=' + id + '&year=' + $scope.exportYear,
-                }).then(function successCallback(response) {
-                    $scope.aRegistrations = response.data;
-                }, function errorCallback(response) {
-                    // called asynchronously if an error occurs
-                    // or server returns response with an error status.
-                    console.log(response);
-                });
-            }
+            overlayService.confirmDelete(options);
         }
-});
+
+    });
+
