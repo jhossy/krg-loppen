@@ -9,5 +9,10 @@
         public const string DepartmentRequiredMessage = "Gren skal angives";
 		public const string NoOfAdultsRequiredMessage = "Antal voksne skal angives";
 		public const string NoOfChildrenRequiredMessage = "Antal børn skal angives";
+
+		public struct Email
+		{
+			public const string EmailSender = "support@spejderknud.dk";
+		}
 	}
 }
