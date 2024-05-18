@@ -21,14 +21,14 @@ namespace Krg.Services
 			_logger = logger;
 		}
 
-		public void AddNotification(AddRegistrationRequest registrationRequest)
+		public void AddNotification(AddRegistrationRequest registrationRequest, string emailSender)
 		{
 			if (registrationRequest == null || string.IsNullOrEmpty(registrationRequest.Email)) return;
 
 			_notificationRepository.AddNotification(new EmailNotification
 			{
 				EventDate = registrationRequest.EventDate,
-				From = "loppen@spejderknud.dk",
+				From = emailSender,
 				To = registrationRequest.Email,
 				Subject = $"Tak for din tilmelding til loppekørsel søndag d. {registrationRequest.EventDate.ToString("d. MMMM", CultureInfo.CreateSpecificCulture("da-DK"))} kl. 09:00",
 				Body = $"Kære {registrationRequest.Name}.<br><br>Du har tilmeldt dig Loppekørsel søndag d. {registrationRequest.EventDate.ToString("d. MMMM", CultureInfo.CreateSpecificCulture("da-DK"))} kl. 09:00.<br>" +

@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Results;
+using Krg.Domain;
 using Krg.Domain.Models;
 using Krg.Services.Interfaces;
 using Krg.Web.Models;
@@ -9,6 +10,7 @@ using Umbraco.Cms.Core.Routing;
 using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Core.Web;
 using Umbraco.Cms.Infrastructure.Persistence;
+using Umbraco.Cms.Web.Common;
 using Umbraco.Cms.Web.Common.Filters;
 
 namespace Krg.Web.Controllers
@@ -17,6 +19,7 @@ namespace Krg.Web.Controllers
 	{
 		private readonly IEventRegistrationService _eventRegistrationService;
 		private readonly IEmailNotificationService _notificationService;
+		private readonly UmbracoHelper _umbracoHelper;
 		private readonly ILogger<RegistrationSurfaceController> _logger;
 
 		public RegistrationSurfaceController(
@@ -28,10 +31,12 @@ namespace Krg.Web.Controllers
 			IPublishedUrlProvider publishedUrlProvider,
 			IEventRegistrationService eventRegistrationService,
 			IEmailNotificationService notificationService,
+			UmbracoHelper umbracoHelper,
 			ILogger<RegistrationSurfaceController> logger) : base(umbracoContextAccessor, databaseFactory, services, appCaches, profilingLogger, publishedUrlProvider)
 		{
 			_eventRegistrationService = eventRegistrationService;
 			_notificationService = notificationService;
+			_umbracoHelper = umbracoHelper;
 			_logger = logger;
 		}
 
@@ -40,6 +45,7 @@ namespace Krg.Web.Controllers
 		public IActionResult HandleSubmit(AddRegistrationRequest request)
 		{
 			AddRegistrationRequestValidator validator = new AddRegistrationRequestValidator();
+			
 			ValidationResult validationResult = validator.Validate(request);
 
 			if (!ModelState.IsValid || !validationResult.IsValid)
@@ -49,9 +55,11 @@ namespace Krg.Web.Controllers
 				return RedirectToCurrentUmbracoPage(); //CurrentUmbracoPage() keeps 'old' viewstate
 			}
 
-			_eventRegistrationService.AddRegistration(request.UmbracoNodeId, request);
+			string emailSender = _umbracoHelper.GetEmailSenderOrFallback();
 
-			_notificationService.AddNotification(request);
+			_eventRegistrationService.AddRegistration(request.UmbracoNodeId, request);
+			
+			_notificationService.AddNotification(request, emailSender);
 
 			return RedirectToCurrentUmbracoPage();
 		}

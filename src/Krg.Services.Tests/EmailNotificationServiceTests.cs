@@ -30,7 +30,7 @@ namespace Krg.Services.Tests
 			//Arrange
 
 			//Act
-			_sut.AddNotification(null);
+			_sut.AddNotification(null, null);
 
 			//Assert
 			_mockNotificationRepository.Verify(mock => mock.AddNotification(It.IsAny<EmailNotification>()), Times.Never());
@@ -42,7 +42,7 @@ namespace Krg.Services.Tests
 			//Arrange
 
 			//Act
-			_sut.AddNotification(_fixture.Create<AddRegistrationRequest>());
+			_sut.AddNotification(_fixture.Create<AddRegistrationRequest>(), _fixture.Create<string>());
 
 			//Assert
 			_mockNotificationRepository.Verify(mock => mock.AddNotification(It.IsAny<EmailNotification>()), Times.Once());

@@ -4,7 +4,7 @@ namespace Krg.Services.Interfaces
 {
     public interface IEmailNotificationService
     {
-        void AddNotification(AddRegistrationRequest registrationRequest);
+        void AddNotification(AddRegistrationRequest registrationRequest, string emailSender);
 
         void RemoveNotification(int id);
 
