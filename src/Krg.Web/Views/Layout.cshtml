@@ -43,7 +43,7 @@
 	<!-- Footer -->
 	<div class="container footer shadow p-2 rounded krg-blue">
 		<div class="container text-white">
-		    @Model.Value("footerText")
+		    @Model.Value("footerText", fallback: Fallback.ToAncestors)
 		</div>
 	</div>
 	
