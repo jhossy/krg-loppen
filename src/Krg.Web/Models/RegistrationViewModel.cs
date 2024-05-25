@@ -10,7 +10,10 @@ namespace Krg.Services
         {
             Content = eventNode;
             Registrations = new ReadOnlyCollection<Registration>(registrations);
-        }
+			ContactName = Content.ContactName ?? string.Empty;
+			ContactPhone = Content.ContactPhoneNo ?? string.Empty;
+			ContactEmail = Content.ContactEmail ?? string.Empty;
+	}
 
 		public Event Content { get; }
 
@@ -23,6 +26,12 @@ namespace Krg.Services
 		public int TotalNoOfChildren => Registrations.Sum(x => x.NoOfChildren);
 
 		public int TotalNoOfTrailers => Registrations.Count(x => x.BringsTrailer);
+
+		public string ContactName { get; }
+
+		public string ContactPhone { get; }
+
+		public string ContactEmail { get; }
 
 		public ReadOnlyCollection<Registration> Registrations { get; }		
     }

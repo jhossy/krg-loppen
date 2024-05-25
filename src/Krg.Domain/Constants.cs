@@ -10,6 +10,8 @@
 		public const string NoOfAdultsRequiredMessage = "Antal voksne skal angives";
 		public const string NoOfChildrenRequiredMessage = "Antal børn skal angives";
 
+		public const string FallBackContactName = "Jacob Mikkelsen";
+
 		public struct Email
 		{
 			public const string EmailSender = "support@spejderknud.dk";

@@ -49,26 +49,25 @@
 							<div class="container p-3 border bg-light">
 								<div class="row py-2">
 									<div class="col-8 col-md-10">
-										<div class="d-flex align-items-center"><i class="material-icons">contact_support</i><span class="px-2">Jacob Mikkelsen</span></div>
+										<div class="d-flex align-items-center @(string.IsNullOrEmpty(eventItem.ContactName)? "visually-hidden" : string.Empty)"><i class="material-icons">contact_support</i><span class="px-2">@eventItem.ContactName</span></div>
 										<div class="collapse" id="collapseInfo-@i-@j">
-											<div class="d-flex align-items-center">
-												<i class="material-icons">email</i><span class="px-2">jacobtambourmikkelsen@gmail.com</span>
+											<div class="d-flex align-items-center @(string.IsNullOrEmpty(eventItem.ContactEmail)? "visually-hidden" : string.Empty)">
+												<i class="material-icons">email</i><span class="px-2">@eventItem.ContactEmail</span>
 											</div>
-											<div class="d-flex align-items-center">
-												<i class="material-icons">call</i><span class="px-2">21486949</span>
+											<div class="d-flex align-items-center @(string.IsNullOrEmpty(eventItem.ContactPhone)? "visually-hidden" : string.Empty)">
+												<i class="material-icons">call</i><span class="px-2">@eventItem.ContactPhone</span>
 											</div>
 										</div>												
 									</div>
-									<div class="col-4 col-md-2 text-end">
+									<div class="col-4 col-md-2 text-end @(string.IsNullOrEmpty(eventItem.ContactPhone) && string.IsNullOrEmpty(eventItem.ContactEmail)? "visually-hidden" : string.Empty)">
 										<a class="link-secondary link-underline-light" data-bs-toggle="collapse" href="#collapseInfo-@i-@j" role="button" aria-expanded="false" aria-controls="collapseInfo-@i-@j">
 											@Umbraco.GetDictionaryValueOrDefault("Kontaktinfo", "Kontaktinfo")</a>
 									</div>
 								</div>
 								<div class="row py-2">
 									<div class="col-8 col-md-10 d-flex align-items-center">
-										@* @Umbraco.GetDictionaryValueOrDefault("Antal tilmeldte", "Antal tilmeldte"): *@
 										<i class="material-icons">people</i>
-										<span class="px-2">@eventItem.TotalNoOfParticipants</span> @* (@eventItem.TotalNoOfAdults) @Umbraco.GetDictionaryValueOrDefault("Voksne", "Voksne") (@eventItem.TotalNoOfChildren) @Umbraco.GetDictionaryValueOrDefault("Børn", "Børn") (@eventItem.TotalNoOfTrailers) @Umbraco.GetDictionaryValueOrDefault("Trailer", "Trailer") *@
+										<span class="px-2">@eventItem.TotalNoOfParticipants</span>
 									</div>
 									<div class="col-4 col-md-2 text-end">
 										<a class="link-secondary link-underline-light" data-bs-toggle="collapse" href="#collapseRegistrations-@i-@j" role="button" aria-expanded="false" aria-controls="collapseRegistrations-@i-@j">@Umbraco.GetDictionaryValueOrDefault("Deltagere", "Deltagere")</a>
@@ -151,7 +150,7 @@
 								</div>
 								<div class="mb-3">
 									@Html.Label("NoOfChildren", "Antal børn", new { @class = "visually-hidden" })
-									@Html.DropDownList("NoOfChildren", new SelectList(Enumerable.Range(0, 3)), "Antal børn", new { @class = "form-select form-select mb-3", @data_val = "true", @data_val_required = Krg.Domain.Constants.NoOfChildrenRequiredMessage })
+									@Html.DropDownList("NoOfChildren", new SelectList(Enumerable.Range(0, 5)), "Antal børn", new { @class = "form-select form-select mb-3", @data_val = "true", @data_val_required = Krg.Domain.Constants.NoOfChildrenRequiredMessage })
 								</div>								
 								<div class="mb-3">
 									@Html.Label("PhoneNo", "Telefon", new { @class = "visually-hidden" })
