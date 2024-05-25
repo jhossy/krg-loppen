@@ -49,17 +49,17 @@
 							<div class="container p-3 border bg-light">
 								<div class="row py-2">
 									<div class="col-8 col-md-10">
-										<div class="d-flex align-items-center"><i class="material-icons">contact_support</i><span class="px-2">Jacob Mikkelsen</span></div>
+										<div class="d-flex align-items-center @(string.IsNullOrEmpty(eventItem.ContactName)? "visually-hidden" : string.Empty)"><i class="material-icons">contact_support</i><span class="px-2">@eventItem.ContactName</span></div>
 										<div class="collapse" id="collapseInfo-@i-@j">
-											<div class="d-flex align-items-center">
-												<i class="material-icons">email</i><span class="px-2">jacobtambourmikkelsen@gmail.com</span>
+											<div class="d-flex align-items-center @(string.IsNullOrEmpty(eventItem.ContactEmail)? "visually-hidden" : string.Empty)">
+												<i class="material-icons">email</i><span class="px-2">@eventItem.ContactEmail</span>
 											</div>
-											<div class="d-flex align-items-center">
-												<i class="material-icons">call</i><span class="px-2">21486949</span>
+											<div class="d-flex align-items-center @(string.IsNullOrEmpty(eventItem.ContactPhone)? "visually-hidden" : string.Empty)">
+												<i class="material-icons">call</i><span class="px-2">@eventItem.ContactPhone</span>
 											</div>
 										</div>												
 									</div>
-									<div class="col-4 col-md-2 text-end">
+									<div class="col-4 col-md-2 text-end @(string.IsNullOrEmpty(eventItem.ContactPhone) && string.IsNullOrEmpty(eventItem.ContactEmail)? "visually-hidden" : string.Empty)">
 										<a class="link-secondary link-underline-light" data-bs-toggle="collapse" href="#collapseInfo-@i-@j" role="button" aria-expanded="false" aria-controls="collapseInfo-@i-@j">
 											@Umbraco.GetDictionaryValueOrDefault("Kontaktinfo", "Kontaktinfo")</a>
 									</div>
