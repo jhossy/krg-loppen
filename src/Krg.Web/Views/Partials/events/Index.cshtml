@@ -49,13 +49,18 @@
 							<div class="container p-3 border bg-light">
 								<div class="row py-2">
 									<div class="col-8 col-md-10">
-										<div class="d-flex align-items-center @(string.IsNullOrEmpty(eventItem.ContactName)? "visually-hidden" : string.Empty)"><i class="material-icons">contact_support</i><span class="px-2">@eventItem.ContactName</span></div>
+										<div class="d-flex align-items-center @(string.IsNullOrEmpty(eventItem.ContactName)? "visually-hidden" : string.Empty)">											
+											<i class="fa-sharp fa-solid fa-circle-info"></i>
+											<span class="px-2">@eventItem.ContactName</span>
+										</div>
 										<div class="collapse" id="collapseInfo-@i-@j">
 											<div class="d-flex align-items-center @(string.IsNullOrEmpty(eventItem.ContactEmail)? "visually-hidden" : string.Empty)">
-												<i class="material-icons">email</i><span class="px-2">@eventItem.ContactEmail</span>
+												<i class="fa-sharp fa-solid fa-envelope"></i>
+												<span class="px-2">@eventItem.ContactEmail</span>
 											</div>
 											<div class="d-flex align-items-center @(string.IsNullOrEmpty(eventItem.ContactPhone)? "visually-hidden" : string.Empty)">
-												<i class="material-icons">call</i><span class="px-2">@eventItem.ContactPhone</span>
+												<i class="fa-sharp fa-solid fa-phone"></i>
+												<span class="px-2">@eventItem.ContactPhone</span>
 											</div>
 										</div>												
 									</div>
@@ -66,7 +71,7 @@
 								</div>
 								<div class="row py-2">
 									<div class="col-8 col-md-10 d-flex align-items-center">
-										<i class="material-icons">people</i>
+										<i class="fa-sharp fa-solid fa-user-group"></i>
 										<span class="px-2">@eventItem.TotalNoOfParticipants</span>
 									</div>
 									<div class="col-4 col-md-2 text-end">
@@ -80,11 +85,11 @@
 												<table class="table table-sm table-striped table-hover">
 													<thead>
 														<tr>
-															<th scope="col"><i class="material-icons" rel="tooltip" title="@Umbraco.GetDictionaryValueOrDefault("Spejder", "Spejder")">badge</i></th>
-															<th scope="col"><i class="material-icons" rel="tooltip" title="@Umbraco.GetDictionaryValueOrDefault("Gren", "Gren")">timeline</i></th>															
-															<th scope="col"><i class="material-icons" rel="tooltip" title="@Umbraco.GetDictionaryValueOrDefault("Voksne", "Voksne")">escalator_warning</i></th>
-															<th scope="col"><i class="material-icons" rel="tooltip" title="@Umbraco.GetDictionaryValueOrDefault("Børn", "Børn")">boy</i></th>
-															<th scope="col"><i class="material-icons" rel="tooltip" title="@Umbraco.GetDictionaryValueOrDefault("Trailer", "Trailer")">rv_hookup</i></th>
+															<th scope="col"><i class="fa-sharp fa-solid fa-id-badge" rel="tooltip" title="@Umbraco.GetDictionaryValueOrDefault("Spejder", "Spejder")"></i></th>
+															<th scope="col"><i class="fa-sharp fa-solid fa-sitemap" rel="tooltip" title="@Umbraco.GetDictionaryValueOrDefault("Gren", "Gren")"></i></th>
+															<th scope="col"><i class="fa-sharp fa-solid fa-person" rel="tooltip" title="@Umbraco.GetDictionaryValueOrDefault("Voksne", "Voksne")"></i></th>															
+															<th scope="col"><i class="fa-sharp fa-solid fa-children" rel="tooltip" title="@Umbraco.GetDictionaryValueOrDefault("Børn", "Børn")"></i></th>
+															<th scope="col"><i class="fa-sharp fa-solid fa-trailer" rel="tooltip" title="@Umbraco.GetDictionaryValueOrDefault("Trailer", "Trailer")"></i></th>
 														</tr>
 													</thead>
 													<tbody>
@@ -162,13 +167,13 @@
 								</div>
 								<div class="mb-3">
 									<div class="form-check form-switch">
-										@Html.CheckBox("BringsTrailer", false, new { @class = "form-check-input", id = "bringsTrailer" })
+										@Html.CheckBox("BringsTrailer", false, new { @class = "form-check-input", id = "BringsTrailer" })
 										@Html.Label("BringsTrailer", "Medbringer trailer?", new { @class = "form-check-label" })
 									</div>
 								</div>
 								<div class="mb-3">
 									<div class="form-check form-switch">
-										@Html.CheckBox("ShowName", false, new { @class = "form-check-input", id = "showName" })
+										@Html.CheckBox("ShowName", false, new { @class = "form-check-input", id = "ShowName" })
 										@Html.Label("ShowName", "Vis navn?", new { @class = "form-check-label" })
 									</div>
 								</div>
