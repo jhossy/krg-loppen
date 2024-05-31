@@ -1,4 +1,5 @@
 using Krg.Services.Extensions;
+using Krg.Web.Extensions;
 using Microsoft.AspNetCore.Rewrite;
 using Serilog;
 
@@ -11,6 +12,8 @@ try
 	Log.Information("Starting web application");
 
 	WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+	builder.Configuration.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
     
 	builder.CreateUmbracoBuilder()
         .AddBackOffice()
@@ -36,8 +39,11 @@ try
 
     await app.BootUmbracoAsync();
 
-	app.UseHttpsRedirection();
-	app.UseRewriter(new RewriteOptions().AddRedirectToWwwPermanent());
+	if (!builder.Environment.IsAzure())
+	{
+		app.UseHttpsRedirection();
+		app.UseRewriter(new RewriteOptions().AddRedirectToWwwPermanent());
+	}
 
 	app.UseUmbraco()
         .WithMiddleware(u =>
