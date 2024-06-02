@@ -34,6 +34,8 @@ namespace Krg.Services
 			{
 				_logger.LogInformation("Sending email: {sender}, {receiver}, {subject}", sender, string.Join(",", receivers), subject);
 
+				_smtpClient.EnableSsl = true;
+
 				await _smtpClient.SendMailAsync(message);
 			} 
 			catch(Exception ex)
