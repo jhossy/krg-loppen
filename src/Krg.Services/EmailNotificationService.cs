@@ -25,6 +25,10 @@ namespace Krg.Services
 		{
 			if (registrationRequest == null || string.IsNullOrEmpty(registrationRequest.Email)) return;
 
+			string contactName = string.IsNullOrEmpty(registrationRequest.ContactName) ? "Jacob Mikkelsen" : registrationRequest.ContactName;
+			string contactPhone = string.IsNullOrEmpty(registrationRequest.ContactPhone) ? "21486949" : registrationRequest.ContactPhone; ;
+			string contactEmail = string.IsNullOrEmpty(registrationRequest.ContactEmail) ? "jacobtambourmikkelsen@gmail.com" : registrationRequest.ContactEmail; ;
+
 			_notificationRepository.AddNotification(new EmailNotification
 			{
 				EventDate = registrationRequest.EventDate,
@@ -34,7 +38,7 @@ namespace Krg.Services
 				Body = $"Kære {registrationRequest.Name}.<br><br>Du har tilmeldt dig Loppekørsel søndag d. {registrationRequest.EventDate.ToString("d. MMMM", CultureInfo.CreateSpecificCulture("da-DK"))} kl. 09:00.<br>" +
 					$"Tak for din deltagelse, som er med til at sikre vores børn nogle gode spejderoplevelser!<br><br>" +
 					$"Vi mødes på Hundested Genbrugsstation, Håndværkervej 16, 3390 Hundested, og forventer at være færdige efter ca. 2 timer.<br>" +
-					$"Din kontaktperson på dagen er:<br>Jacob Mikkelsen<br>Telefon: 21486949<br>E-mail: jacobtambourmikkelsen@gmail.com<br><br>" +
+					$"Din kontaktperson på dagen er:<br>{contactName}<br>Telefon: {contactPhone}<br>E-mail: {contactEmail}<br><br>" +
 					$"Hvis du bliver forhindret i at deltage er der vigtigt at du kontakter din kontaktperson hurtigst muligt. " +
 					$"Din kontaktperson vil også kunne hjælpe dig hvis du har praktiske spørgsmål.<br><br>Venlig hilsen<br>Knud Rasmussengruppen",
 				Processed = false,

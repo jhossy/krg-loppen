@@ -29,5 +29,11 @@ namespace Krg.Domain.Models
         
         public bool ShowName { get; set; } = false;
 
-    }
+        public required string ContactName { get; set; }
+
+        public required string ContactEmail { get; set; }
+
+        public required string ContactPhone { get; set; }
+
+	}
 }
