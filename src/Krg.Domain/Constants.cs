@@ -11,6 +11,8 @@
 		public const string NoOfChildrenRequiredMessage = "Antal børn skal angives";
 
 		public const string FallBackContactName = "Jacob Mikkelsen";
+		public const string FallBackContactPhoneNo = "21486949";
+		public const string FallBackContactEmail = "jacobtambourmikkelsen@gmail.com";
 
 		public struct Email
 		{
