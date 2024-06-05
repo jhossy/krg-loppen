@@ -7,8 +7,8 @@ namespace Krg.Web.Jobs
 {
 	public class EmailReminderNotificationsJob : IRecurringBackgroundJob
     {
-        public TimeSpan Period => TimeSpan.FromSeconds(5);
-        public TimeSpan Delay => TimeSpan.FromSeconds(5);
+        public TimeSpan Period => TimeSpan.FromHours(12);
+        public TimeSpan Delay => TimeSpan.FromMinutes(5);
         
         public event EventHandler PeriodChanged { add { } remove { } }
 
