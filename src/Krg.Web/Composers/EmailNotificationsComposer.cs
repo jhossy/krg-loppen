@@ -8,6 +8,7 @@ namespace Krg.Database
 		public void Compose(IUmbracoBuilder builder)
 		{
 			builder.AddNotificationHandler<UmbracoApplicationStartingNotification, RunEmailNotificationsMigration>();
+			builder.AddNotificationHandler<UmbracoApplicationStartingNotification, RunEmailReminderNotificationsMigration>();
 		}
 	}
 }

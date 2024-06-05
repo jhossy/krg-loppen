@@ -11,13 +11,16 @@ namespace Krg.Services
 	public class EmailNotificationService : IEmailNotificationService
 	{
 		private readonly IEmailNotificationRepository _notificationRepository;
+		private readonly IEmailReminderNotificationRepository _emailReminderNotificationRepository;
 		private readonly ILogger<IEmailNotificationService> _logger;
 
 		public EmailNotificationService(
 			IEmailNotificationRepository notificationRepository,
+			IEmailReminderNotificationRepository emailReminderNotificationRepository,
 			ILogger<EmailNotificationService> logger)
 		{
 			_notificationRepository = notificationRepository;
+			_emailReminderNotificationRepository = emailReminderNotificationRepository;
 			_logger = logger;
 		}
 
@@ -46,6 +49,30 @@ namespace Krg.Services
 			});
 		}
 
+		public void AddReminder(AddRegistrationRequest registrationRequest, string emailSender)
+		{
+			if (registrationRequest == null || string.IsNullOrEmpty(registrationRequest.Email)) return;
+
+			string contactName = string.IsNullOrEmpty(registrationRequest.ContactName) ? "Jacob Mikkelsen" : registrationRequest.ContactName;
+			string contactPhone = string.IsNullOrEmpty(registrationRequest.ContactPhone) ? "21486949" : registrationRequest.ContactPhone; ;
+			string contactEmail = string.IsNullOrEmpty(registrationRequest.ContactEmail) ? "jacobtambourmikkelsen@gmail.com" : registrationRequest.ContactEmail; ;
+
+			_emailReminderNotificationRepository.AddReminder(new EmailReminderNotification
+			{
+				EventDate = registrationRequest.EventDate,
+				From = emailSender,
+				To = registrationRequest.Email,
+				Subject = $"Påmindelse om loppekørsel søndag d. {registrationRequest.EventDate.ToString("d. MMMM", CultureInfo.CreateSpecificCulture("da-DK"))} kl. 09:00",
+				Body = $"Kære {registrationRequest.Name}.<br><br>Husk at du har tilmeldt dig Loppekørsel søndag d. {registrationRequest.EventDate.ToString("d. MMMM", CultureInfo.CreateSpecificCulture("da-DK"))} kl. 09:00.<br>" +					
+					$"Vi mødes på Hundested Genbrugsstation, Håndværkervej 16, 3390 Hundested, og forventer at være færdige efter ca. 2 timer.<br>" +
+					$"Din kontaktperson på dagen er:<br>{contactName}<br>Telefon: {contactPhone}<br>E-mail: {contactEmail}<br><br>" +
+					$"Hvis du bliver forhindret i at deltage er der vigtigt at du kontakter din kontaktperson hurtigst muligt. " +
+					$"Din kontaktperson vil også kunne hjælpe dig hvis du har praktiske spørgsmål.<br><br>Venlig hilsen<br>Knud Rasmussengruppen",
+				Processed = false,
+				UpdateTimeUtc = DateTime.UtcNow
+			});
+		}
+
 		public List<Notification> GetNonProcessedNotifications()
 		{
 			try
@@ -62,6 +89,22 @@ namespace Krg.Services
 			return new List<Notification>();
 		}
 
+		public List<EmailReminder> GetNonProcessedReminders()
+		{
+			try
+			{
+				return _emailReminderNotificationRepository
+					.GetUnprocessedReminders()
+					.Select(notification => new EmailReminder(notification))
+					.ToList();
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError($"GetNonProcessedReminders error: {ex.Message}", ex);
+			}
+			return new List<EmailReminder>();
+		}
+
 		public void RemoveNotification(int id)
 		{
 			try
@@ -72,6 +115,18 @@ namespace Krg.Services
 			{
 				_logger.LogError($"RemoveNotification error: {ex.Message}", ex);
 			}			
+		}
+
+		public void RemoveReminder(int id)
+		{
+			try
+			{
+				_emailReminderNotificationRepository.RemoveReminder(id);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError($"RemoveReminder error: {ex.Message}", ex);
+			}
 		}
 	}
 }
