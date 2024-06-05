@@ -47,8 +47,8 @@ namespace Krg.Database
 		public List<EmailReminderNotification> GetUnprocessedReminders()
 		{
 			using var scope = _scopeProvider.CreateScope();
-			
-			var emailReminderNotifications = scope.Database.Fetch<EmailReminderNotification>($"WHERE [Processed] = 0 AND [EventDate] > {DateOnly.FromDateTime(DateTime.UtcNow)} AND {DateOnly.FromDateTime(DateTime.UtcNow.AddDays(3))} > [EventDate]");
+
+			var emailReminderNotifications = scope.Database.Fetch<EmailReminderNotification>($"WHERE [Processed] = 0 AND [EventDate] > '{DateOnly.FromDateTime(DateTime.UtcNow).ToString("yyyy-MM-dd")}' AND '{DateOnly.FromDateTime(DateTime.UtcNow.AddDays(3)).ToString("yyyy-MM-dd")}' > [EventDate]");
 
 			scope.Complete();
 
