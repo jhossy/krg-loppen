@@ -71,7 +71,7 @@ namespace Krg.Web.NotificationHandlers
 						if (propContactPhone is not null)
 						{
 							// set default value of the publish date property if it exists
-							propContactPhone.Value = "21486949";
+							propContactPhone.Value = Domain.Constants.FallBackContactPhoneNo;
 						}
 
 						var propContactEmail = variant.Tabs
@@ -80,7 +80,7 @@ namespace Krg.Web.NotificationHandlers
 						if (propContactEmail is not null)
 						{
 							// set default value of the publish date property if it exists
-							propContactEmail.Value = "jacobtambourmikkelsen@gmail.com";
+							propContactEmail.Value = Domain.Constants.FallBackContactEmail;
 						}
 					}
 				}

@@ -180,9 +180,9 @@
 								@Html.ValidationSummary()
 								@Html.Hidden("UmbracoNodeId", eventItem.Content.Id)
 								@Html.Hidden("EventDate", eventItem.Content.Date)
-								@Html.Hidden("ContactName", string.IsNullOrEmpty(eventItem.Content.ContactName) ? "Jacob Mikkelsen" : eventItem.Content.ContactName)
-								@Html.Hidden("ContactPhone", string.IsNullOrEmpty(eventItem.Content.ContactPhoneNo) ? "21486949" : eventItem.Content.ContactPhoneNo)
-								@Html.Hidden("ContactEmail", string.IsNullOrEmpty(eventItem.Content.ContactEmail) ? "jacobtambourmikkelsen@gmail.com" : eventItem.Content.ContactEmail)
+								@Html.Hidden("ContactName", string.IsNullOrEmpty(eventItem.Content.ContactName) ? Krg.Domain.Constants.FallBackContactName : eventItem.Content.ContactName)
+								@Html.Hidden("ContactPhone", string.IsNullOrEmpty(eventItem.Content.ContactPhoneNo) ? Krg.Domain.Constants.FallBackContactPhoneNo : eventItem.Content.ContactPhoneNo)
+								@Html.Hidden("ContactEmail", string.IsNullOrEmpty(eventItem.Content.ContactEmail) ? Krg.Domain.Constants.FallBackContactEmail : eventItem.Content.ContactEmail)
 							}
 						</div>
 						<div class="modal-footer">

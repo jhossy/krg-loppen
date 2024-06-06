@@ -25,9 +25,9 @@ namespace Krg.Services
 		{
 			if (registrationRequest == null || string.IsNullOrEmpty(registrationRequest.Email)) return;
 
-			string contactName = string.IsNullOrEmpty(registrationRequest.ContactName) ? "Jacob Mikkelsen" : registrationRequest.ContactName;
-			string contactPhone = string.IsNullOrEmpty(registrationRequest.ContactPhone) ? "21486949" : registrationRequest.ContactPhone; ;
-			string contactEmail = string.IsNullOrEmpty(registrationRequest.ContactEmail) ? "jacobtambourmikkelsen@gmail.com" : registrationRequest.ContactEmail; ;
+			string contactName = string.IsNullOrEmpty(registrationRequest.ContactName) ? Krg.Domain.Constants.FallBackContactName : registrationRequest.ContactName;
+			string contactPhone = string.IsNullOrEmpty(registrationRequest.ContactPhone) ? Krg.Domain.Constants.FallBackContactPhoneNo : registrationRequest.ContactPhone; ;
+			string contactEmail = string.IsNullOrEmpty(registrationRequest.ContactEmail) ? Krg.Domain.Constants.FallBackContactEmail : registrationRequest.ContactEmail; ;
 
 			_notificationRepository.AddNotification(new EmailNotification
 			{
