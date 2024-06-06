@@ -13,6 +13,7 @@ namespace Krg.Services.Tests
 	{
 		private readonly IFixture _fixture = new Fixture();
 		private Mock<IEmailNotificationRepository> _mockNotificationRepository = new Mock<IEmailNotificationRepository>();
+		private Mock<IEmailReminderNotificationRepository> _mockEmailReminderNotificationRepository = new Mock<IEmailReminderNotificationRepository>();
 		private Mock<ILogger<EmailNotificationService>> _logger = new Mock<ILogger<EmailNotificationService>>();
 		private IEmailNotificationService _sut = null!;
 
@@ -20,6 +21,7 @@ namespace Krg.Services.Tests
 		public void Initialize()
 		{
 			_fixture.Inject(_mockNotificationRepository.Object);
+			_fixture.Inject(_mockEmailReminderNotificationRepository.Object);
 			_fixture.Inject(_logger.Object);
 			_sut = _fixture.Create<EmailNotificationService>();
 		}
