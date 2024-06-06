@@ -61,6 +61,8 @@ namespace Krg.Web.Controllers
 			
 			_notificationService.AddNotification(request, emailSender);
 
+			_notificationService.AddReminder(request, emailSender);
+
 			return RedirectToCurrentUmbracoPage();
 		}
 	}

@@ -18,6 +18,7 @@ namespace Krg.Services.Extensions
 			services.AddTransient<IExcelService, ExcelService>();
 			services.AddTransient<IEmailNotificationService, EmailNotificationService>();
 			services.AddTransient<IEmailNotificationRepository, EmailNotificationRepository>();
+			services.AddTransient<IEmailReminderNotificationRepository, EmailReminderNotificationRepository>();
 
 			services.AddTransient<IEmailservice>(provider =>
 			{
