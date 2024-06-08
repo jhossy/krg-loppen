@@ -7,7 +7,7 @@ namespace Krg.Web.Jobs
 {
 	public class EmailReminderNotificationsJob : IRecurringBackgroundJob
     {
-        public TimeSpan Period => TimeSpan.FromHours(12);
+        public TimeSpan Period => TimeSpan.FromHours(6);
         public TimeSpan Delay => TimeSpan.FromMinutes(5);
         
         public event EventHandler PeriodChanged { add { } remove { } }
@@ -50,8 +50,14 @@ namespace Krg.Web.Jobs
 
             _logger.LogInformation("Executing EmailReminderNotificationsJob...");
 
-            var nonProcessedReminders = _notificationService.GetNonProcessedReminders();
+            var nonProcessedNotifications = _notificationService.GetNonProcessedNotifications();
+            if(nonProcessedNotifications.Any())
+            {
+                _logger.LogInformation($"Skipping EmailReminderNotificationsJob - {nonProcessedNotifications.Count} pending notifications");
+                return;
+            }
 
+            var nonProcessedReminders = _notificationService.GetNonProcessedReminders();
             if (!nonProcessedReminders.Any())
             {
                 _logger.LogInformation("Finished EmailReminderNotificationsJob - zero unprocessed reminders in queue");
