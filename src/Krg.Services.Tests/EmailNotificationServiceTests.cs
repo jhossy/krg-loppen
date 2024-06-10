@@ -15,7 +15,7 @@ namespace Krg.Services.Tests
 		private Mock<IEmailNotificationRepository> _mockNotificationRepository = new Mock<IEmailNotificationRepository>();
 		private Mock<IEmailReminderNotificationRepository> _mockEmailReminderNotificationRepository = new Mock<IEmailReminderNotificationRepository>();
 		private Mock<ILogger<EmailNotificationService>> _logger = new Mock<ILogger<EmailNotificationService>>();
-		private IEmailNotificationService _sut = null!;
+		private EmailNotificationService _sut = null!;
 
 		[TestInitialize]
 		public void Initialize()
@@ -98,7 +98,6 @@ namespace Krg.Services.Tests
 			_mockEmailReminderNotificationRepository.Verify(mock => mock.CancelReminder(It.IsAny<int>()), Times.Once());
 		}
 
-
 		[TestMethod]
 		public void GetNonProcessedNotifications_GetsOnlyActiveNotifications_ProvidedTheyExist()
 		{
@@ -135,6 +134,87 @@ namespace Krg.Services.Tests
 			//Assert
 			Assert.IsTrue(result.All(p => !p.Processed));
 			Assert.IsTrue(emailReminderNotifications.Count() == result.Count);
+		}
+
+		[TestMethod]
+		public void GetContactNameOrFallback_ReturnsFallbackName_ProvidedMissingContactName()
+		{
+			//Arrange
+			AddRegistrationRequest addRegistrationRequest = _fixture.Create<AddRegistrationRequest>();
+			addRegistrationRequest.ContactName = string.Empty;
+
+			//Act
+			string result = _sut.GetContactNameOrFallback(addRegistrationRequest);
+
+			//Assert
+			Assert.AreEqual(Domain.Constants.FallBackContactName, result);
+		}
+
+		[TestMethod]
+		public void GetContactNameOrFallback_ReturnsContactName_ProvidedItExists()
+		{
+			//Arrange
+			AddRegistrationRequest addRegistrationRequest = _fixture.Create<AddRegistrationRequest>();
+
+			//Act
+			string result = _sut.GetContactNameOrFallback(addRegistrationRequest);
+
+			//Assert
+			Assert.AreEqual(addRegistrationRequest.ContactName, result);
+		}
+
+		[TestMethod]
+		public void GetContactPhoneOrFallback_ReturnsFallbackPhone_ProvidedMissingContactPhone()
+		{
+			//Arrange
+			AddRegistrationRequest addRegistrationRequest = _fixture.Create<AddRegistrationRequest>();
+			addRegistrationRequest.ContactPhone = string.Empty;
+
+			//Act
+			string result = _sut.GetContactPhoneOrFallback(addRegistrationRequest);
+
+			//Assert
+			Assert.AreEqual(Domain.Constants.FallBackContactPhoneNo, result);
+		}
+
+		[TestMethod]
+		public void GetContactPhoneOrFallback_ReturnsContactPhone_ProvidedItExists()
+		{
+			//Arrange
+			AddRegistrationRequest addRegistrationRequest = _fixture.Create<AddRegistrationRequest>();
+
+			//Act
+			string result = _sut.GetContactPhoneOrFallback(addRegistrationRequest);
+
+			//Assert
+			Assert.AreEqual(addRegistrationRequest.ContactPhone, result);
+		}
+
+		[TestMethod]
+		public void GetContactEmailOrFallback_ReturnsFallbackEmail_ProvidedMissingContactEmail()
+		{
+			//Arrange
+			AddRegistrationRequest addRegistrationRequest = _fixture.Create<AddRegistrationRequest>();
+			addRegistrationRequest.ContactEmail = string.Empty;
+
+			//Act
+			string result = _sut.GetContactEmailOrFallback(addRegistrationRequest);
+
+			//Assert
+			Assert.AreEqual(Domain.Constants.FallBackContactEmail, result);
+		}
+
+		[TestMethod]
+		public void GetContactEmailOrFallback_ReturnsContactEmail_ProvidedItExists()
+		{
+			//Arrange
+			AddRegistrationRequest addRegistrationRequest = _fixture.Create<AddRegistrationRequest>();
+
+			//Act
+			string result = _sut.GetContactEmailOrFallback(addRegistrationRequest);
+
+			//Assert
+			Assert.AreEqual(addRegistrationRequest.ContactEmail, result);
 		}
 	}
 }
