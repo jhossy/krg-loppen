@@ -39,6 +39,8 @@ namespace Krg.Services
 			});
 		}
 
+
+
 		public List<Registration> GetAllRegistrations(int year)
 		{
 			try
@@ -54,6 +56,20 @@ namespace Krg.Services
 			}
 
 			return new List<Registration>();
+		}
+
+		public EventRegistration GetById(int id)
+		{
+			try
+			{
+				return _registrationRepository.GetById(id);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError("GetById failed {@Ex}", ex);
+			}
+
+			return null;
 		}
 
 		public List<Registration> GetNonDeletedRegistrations(int year)

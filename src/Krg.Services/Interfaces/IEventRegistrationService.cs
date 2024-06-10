@@ -1,4 +1,5 @@
-﻿using Krg.Domain.Models;
+﻿using Krg.Database.Models;
+using Krg.Domain.Models;
 
 namespace Krg.Services.Interfaces
 {
@@ -6,7 +7,9 @@ namespace Krg.Services.Interfaces
     {
         void AddRegistration(int umbracoNodeId, AddRegistrationRequest addRegistrationRequest);
 
-        void RemoveRegistration(int eventId);
+        EventRegistration GetById(int id);
+
+		void RemoveRegistration(int eventId);
 
         List<Registration> GetAllRegistrations(int year);
 

@@ -85,6 +85,9 @@ namespace Krg.Database
 			[Column("Id")]
 			public int Id { get; set; }
 
+			[Column("UmbracoEventNodeId")]
+			public int UmbracoEventNodeId { get; set; }
+
 			[Column("UpdateTimeUtc")]
 			public DateTime UpdateTimeUtc { get; set; }
 
@@ -106,6 +109,9 @@ namespace Krg.Database
 			
 			[Column("Processed")]
 			public bool Processed { get; set; }
+
+			[Column("IsCancelled")]
+			public bool IsCancelled { get; set; }
 		}
 	}
 }

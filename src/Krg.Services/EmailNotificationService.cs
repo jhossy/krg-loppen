@@ -69,8 +69,21 @@ namespace Krg.Services
 					$"Hvis du bliver forhindret i at deltage er der vigtigt at du kontakter din kontaktperson hurtigst muligt. " +
 					$"Din kontaktperson vil også kunne hjælpe dig hvis du har praktiske spørgsmål.<br><br>Venlig hilsen<br>Knud Rasmussengruppen",
 				Processed = false,
-				UpdateTimeUtc = DateTime.UtcNow
+				UpdateTimeUtc = DateTime.UtcNow,
+				UmbracoEventNodeId = registrationRequest.UmbracoNodeId
 			});
+		}
+
+		public void CancelReminder(int umbracoNodeId)
+		{
+			try
+			{
+				_emailReminderNotificationRepository.CancelReminder(umbracoNodeId);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError($"RemoveNotification error: {ex.Message}", ex);
+			}
 		}
 
 		public List<Notification> GetNonProcessedNotifications()

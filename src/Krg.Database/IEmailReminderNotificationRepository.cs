@@ -8,6 +8,8 @@ namespace Krg.Database
 
 		void RemoveReminder(int id);
 
+		void CancelReminder(int umbracoNodeId);
+
 		List<EmailReminderNotification> GetUnprocessedReminders();
 	}
 }
