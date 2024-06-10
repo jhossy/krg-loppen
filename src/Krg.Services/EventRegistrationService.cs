@@ -19,24 +19,25 @@ namespace Krg.Services
 			_logger = logger;
 		}
 
-		public void AddRegistration(int umbracoNodeId, AddRegistrationRequest addRegistrationRequest)
+		public int AddRegistration(int umbracoNodeId, AddRegistrationRequest addRegistrationRequest)
 		{
-			if (addRegistrationRequest == null) return;
+			if (addRegistrationRequest == null) return 0;
 
-			_registrationRepository.AddRegistration(new EventRegistration
-			{
-				BringsTrailer = addRegistrationRequest.BringsTrailer,
-				Department = addRegistrationRequest.Department,
-				Email = addRegistrationRequest.Email,
-				EventDate = addRegistrationRequest.EventDate,
-				Name = addRegistrationRequest.Name,
-				NoOfAdults = addRegistrationRequest.NoOfAdults,
-				NoOfChildren = addRegistrationRequest.NoOfChildren,
-				PhoneNo = addRegistrationRequest.PhoneNo,
-				ShowName = addRegistrationRequest.ShowName,
-				UmbracoEventNodeId = umbracoNodeId,
-				UpdateTimeUtc = DateTime.UtcNow
-			});
+			return _registrationRepository.AddRegistration(
+				new EventRegistration
+				{
+					BringsTrailer = addRegistrationRequest.BringsTrailer,
+					Department = addRegistrationRequest.Department,
+					Email = addRegistrationRequest.Email,
+					EventDate = addRegistrationRequest.EventDate,
+					Name = addRegistrationRequest.Name,
+					NoOfAdults = addRegistrationRequest.NoOfAdults,
+					NoOfChildren = addRegistrationRequest.NoOfChildren,
+					PhoneNo = addRegistrationRequest.PhoneNo,
+					ShowName = addRegistrationRequest.ShowName,
+					UmbracoEventNodeId = umbracoNodeId,
+					UpdateTimeUtc = DateTime.UtcNow
+				});
 		}
 
 

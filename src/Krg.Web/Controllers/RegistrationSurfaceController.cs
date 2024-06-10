@@ -1,5 +1,5 @@
 ﻿using FluentValidation.Results;
-using Krg.Domain;
+using Krg.Database.Models;
 using Krg.Domain.Models;
 using Krg.Services.Interfaces;
 using Krg.Web.Models;
@@ -15,7 +15,7 @@ using Umbraco.Cms.Web.Common.Filters;
 
 namespace Krg.Web.Controllers
 {
-    public class RegistrationSurfaceController : Umbraco.Cms.Web.Website.Controllers.SurfaceController
+	public class RegistrationSurfaceController : Umbraco.Cms.Web.Website.Controllers.SurfaceController
 	{
 		private readonly IEventRegistrationService _eventRegistrationService;
 		private readonly IEmailNotificationService _notificationService;
@@ -57,11 +57,11 @@ namespace Krg.Web.Controllers
 
 			string emailSender = _umbracoHelper.GetEmailSenderOrFallback();
 
-			_eventRegistrationService.AddRegistration(request.UmbracoNodeId, request);
+			int eventRegistrationId = _eventRegistrationService.AddRegistration(request.UmbracoNodeId, request);
 			
 			_notificationService.AddNotification(request, emailSender);
 
-			_notificationService.AddReminder(request, emailSender);
+			_notificationService.AddReminder(request, emailSender, eventRegistrationId);
 
 			return RedirectToCurrentUmbracoPage();
 		}

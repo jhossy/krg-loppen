@@ -69,7 +69,7 @@ namespace Krg.Web.Controllers
 
 			_eventRegistrationService.RemoveRegistration(id);
 
-			_emailNotificationService.CancelReminder(registration.UmbracoEventNodeId);
+			_emailNotificationService.CancelReminder(id);
 
 			return Ok(GetRegistrations(year));
 		}

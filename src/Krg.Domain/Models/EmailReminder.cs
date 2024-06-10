@@ -15,6 +15,7 @@ namespace Krg.Domain.Models
 			Subject = emailReminderNotification.Subject;
 			Body = emailReminderNotification.Body;
 			Processed = emailReminderNotification.Processed;
+			RegistrationId = emailReminderNotification.FkEventRegistrationId;
 		}
 
 		public int Id { get; set; }
@@ -30,5 +31,7 @@ namespace Krg.Domain.Models
 		public required string Body { get; set; }
 
 		public bool Processed { get; set; }
+
+		public int RegistrationId { get; set; }
 	}
 }

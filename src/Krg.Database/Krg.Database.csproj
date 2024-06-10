@@ -10,6 +10,7 @@
     <Compile Remove="EventRegistrationRepository.cs" />
     <Compile Remove="IEventRegistrationRepository.cs" />
     <Compile Remove="IUnitOfWork.cs" />
+    <Compile Remove="Models\EventRegistrationContext.cs" />
     <Compile Remove="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>

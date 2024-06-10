@@ -21,5 +21,7 @@
 		public bool Processed { get; set; }
 
 		public bool IsCancelled { get; set; }
+
+		public int FkEventRegistrationId { get; set; }
 	}
 }

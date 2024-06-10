@@ -1,4 +1,5 @@
-﻿using Krg.Domain.Models;
+﻿using Krg.Database.Models;
+using Krg.Domain.Models;
 
 namespace Krg.Services.Interfaces
 {
@@ -6,7 +7,7 @@ namespace Krg.Services.Interfaces
     {
         void AddNotification(AddRegistrationRequest registrationRequest, string emailSender);
 
-        void AddReminder(AddRegistrationRequest registrationRequest, string emailSender);
+        void AddReminder(AddRegistrationRequest registrationRequest, string emailSender, int eventRegistrationId);
 
 		void RemoveNotification(int id);
 

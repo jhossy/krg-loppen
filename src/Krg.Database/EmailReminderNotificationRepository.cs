@@ -1,6 +1,5 @@
 ﻿using Krg.Database.Models;
 using Umbraco.Cms.Infrastructure.Scoping;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace Krg.Database
 {
@@ -21,7 +20,7 @@ namespace Krg.Database
 			scope.Complete();
 		}
 
-		public void RemoveReminder(int id)
+		public void SetIsProcessed(int id)
 		{
 			using var scope = _scopeProvider.CreateScope();
 
@@ -59,11 +58,11 @@ namespace Krg.Database
 			return emailReminderNotifications.ToList();
 		}
 
-		public void CancelReminder(int umbracoNodeId)
+		public void CancelReminder(int eventRegistrationId)
 		{
 			using var scope = _scopeProvider.CreateScope();
 
-			var reminderFromDb = scope.Database.FirstOrDefault<EmailReminderNotification>($"WHERE [UmbracoEventNodeId] = {umbracoNodeId}");
+			var reminderFromDb = scope.Database.FirstOrDefault<EmailReminderNotification>($"WHERE [FkEventRegistrationId] = {eventRegistrationId}");
 
 			scope.Complete();
 
