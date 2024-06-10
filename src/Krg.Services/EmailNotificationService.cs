@@ -49,7 +49,7 @@ namespace Krg.Services
 			});
 		}
 
-		public void AddReminder(AddRegistrationRequest registrationRequest, string emailSender)
+		public void AddReminder(AddRegistrationRequest registrationRequest, string emailSender, int eventRegistrationId)
 		{
 			if (registrationRequest == null || string.IsNullOrEmpty(registrationRequest.Email)) return;
 
@@ -69,8 +69,22 @@ namespace Krg.Services
 					$"Hvis du bliver forhindret i at deltage er der vigtigt at du kontakter din kontaktperson hurtigst muligt. " +
 					$"Din kontaktperson vil også kunne hjælpe dig hvis du har praktiske spørgsmål.<br><br>Venlig hilsen<br>Knud Rasmussengruppen",
 				Processed = false,
-				UpdateTimeUtc = DateTime.UtcNow
+				UpdateTimeUtc = DateTime.UtcNow,			
+				UmbracoEventNodeId = registrationRequest.UmbracoNodeId,
+				FkEventRegistrationId = eventRegistrationId
 			});
+		}
+
+		public void CancelReminder(int eventRegistrationId)
+		{
+			try
+			{
+				_emailReminderNotificationRepository.CancelReminder(eventRegistrationId);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError($"RemoveNotification error: {ex.Message}", ex);
+			}
 		}
 
 		public List<Notification> GetNonProcessedNotifications()
@@ -121,7 +135,7 @@ namespace Krg.Services
 		{
 			try
 			{
-				_emailReminderNotificationRepository.RemoveReminder(id);
+				_emailReminderNotificationRepository.SetIsProcessed(id);
 			}
 			catch (Exception ex)
 			{

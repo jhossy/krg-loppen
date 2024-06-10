@@ -8,6 +8,7 @@ using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Infrastructure.Migrations;
 using Umbraco.Cms.Infrastructure.Migrations.Upgrade;
 using Umbraco.Cms.Infrastructure.Persistence.DatabaseAnnotations;
+using static Krg.Database.AddEventRegistrationTable;
 using ColumnAttribute = NPoco.ColumnAttribute;
 
 namespace Krg.Database
@@ -85,6 +86,9 @@ namespace Krg.Database
 			[Column("Id")]
 			public int Id { get; set; }
 
+			[Column("UmbracoEventNodeId")]
+			public int UmbracoEventNodeId { get; set; }
+
 			[Column("UpdateTimeUtc")]
 			public DateTime UpdateTimeUtc { get; set; }
 
@@ -106,6 +110,13 @@ namespace Krg.Database
 			
 			[Column("Processed")]
 			public bool Processed { get; set; }
+
+			[Column("IsCancelled")]
+			public bool IsCancelled { get; set; }
+
+			[ForeignKey(typeof(EventRegistrationSchema))]
+			[Column("FkEventRegistrationId")]
+			public int FkEventRegistrationId { get; set; }
 		}
 	}
 }

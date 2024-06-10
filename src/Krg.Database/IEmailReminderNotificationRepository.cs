@@ -6,7 +6,9 @@ namespace Krg.Database
 	{
 		void AddReminder(EmailReminderNotification notification);
 
-		void RemoveReminder(int id);
+		void SetIsProcessed(int id);
+
+		void CancelReminder(int eventRegistrationId);
 
 		List<EmailReminderNotification> GetUnprocessedReminders();
 	}

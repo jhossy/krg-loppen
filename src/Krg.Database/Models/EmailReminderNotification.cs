@@ -4,6 +4,8 @@
 	{
 		public int Id { get; set; }
 
+		public int UmbracoEventNodeId { get; set; }
+
 		public DateTime UpdateTimeUtc { get; set; }
 
 		public DateTime EventDate { get; set; }
@@ -17,5 +19,9 @@
 		public required string Body { get; set; }
 
 		public bool Processed { get; set; }
+
+		public bool IsCancelled { get; set; }
+
+		public int FkEventRegistrationId { get; set; }
 	}
 }

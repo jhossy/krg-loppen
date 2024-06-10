@@ -11,13 +11,15 @@ namespace Krg.Database
 			_scopeProvider = scopeProvider;
 		}
 
-		public void AddRegistration(EventRegistration registration)
+		public int AddRegistration(EventRegistration registration)
 		{
 			using var scope = _scopeProvider.CreateScope();
 												
 			scope.Database.Insert(registration);
 
 			scope.Complete();
+
+			return registration.Id;
 		}
 
 		public void UpdateRegistration(EventRegistration registration)

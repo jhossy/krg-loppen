@@ -9,12 +9,15 @@ namespace Krg.Web.Controllers
     public class RegistrationsController : UmbracoAuthorizedApiController
 	{
 		private readonly IEventRegistrationService _eventRegistrationService;
+		private readonly IEmailNotificationService _emailNotificationService;
 		private readonly IExcelService _excelService;
         public RegistrationsController(
 			IEventRegistrationService eventRegistrationService,
+			IEmailNotificationService emailNotificationService,
 			IExcelService excelService)
         {
             _eventRegistrationService = eventRegistrationService;
+			_emailNotificationService = emailNotificationService;
 			_excelService = excelService;
         }
 
@@ -60,7 +63,13 @@ namespace Krg.Web.Controllers
 		[HttpPost]
 		public IActionResult Delete(int id, int year)
 		{
+			var registration = _eventRegistrationService.GetById(id);
+
+			if (registration == null) return Ok();
+
 			_eventRegistrationService.RemoveRegistration(id);
+
+			_emailNotificationService.CancelReminder(id);
 
 			return Ok(GetRegistrations(year));
 		}
