@@ -51,6 +51,30 @@ namespace Krg.Services.Tests
 		}
 
 		[TestMethod]
+		public void AddReminder_DoesNotCallRepository_ProvidedInvalidInput()
+		{
+			//Arrange
+
+			//Act
+			_sut.AddReminder(null, null, 0);
+
+			//Assert
+			_mockEmailReminderNotificationRepository.Verify(mock => mock.AddReminder(It.IsAny<EmailReminderNotification>()), Times.Never());
+		}
+
+		[TestMethod]
+		public void AddReminder_CallsRepository_ProvidedValidInput()
+		{
+			//Arrange
+
+			//Act
+			_sut.AddReminder(_fixture.Create<AddRegistrationRequest>(), _fixture.Create<string>(), _fixture.Create<int>());
+
+			//Assert
+			_mockEmailReminderNotificationRepository.Verify(mock => mock.AddReminder(It.IsAny<EmailReminderNotification>()), Times.Once());
+		}
+
+		[TestMethod]
 		public void RemoveNotification_CallsRepository_ProvidedValidInput()
 		{
 			//Arrange
@@ -60,6 +84,18 @@ namespace Krg.Services.Tests
 
 			//Assert
 			_mockNotificationRepository.Verify(mock => mock.RemoveNotification(It.IsAny<int>()), Times.Once());
+		}
+
+		[TestMethod]
+		public void CancelReminder_CallsRepository_ProvidedValidInput()
+		{
+			//Arrange
+
+			//Act
+			_sut.CancelReminder(_fixture.Create<int>());
+
+			//Assert
+			_mockEmailReminderNotificationRepository.Verify(mock => mock.CancelReminder(It.IsAny<int>()), Times.Once());
 		}
 
 
@@ -79,6 +115,26 @@ namespace Krg.Services.Tests
 
 			//Assert
 			Assert.IsTrue(result.All(p => !p.Processed));
+			Assert.IsTrue(emailNotifications.Count() == result.Count);
+		}
+
+		[TestMethod]
+		public void GetNonProcessedReminders_GetsOnlyActiveNotifications_ProvidedTheyExist()
+		{
+			//Arrange
+			var emailReminderNotifications = _fixture.Build<EmailReminderNotification>()
+										.With(p => p.Processed, false)
+										.CreateMany();
+
+			_mockEmailReminderNotificationRepository.Setup(repository => repository.GetUnprocessedReminders())
+				.Returns(() => emailReminderNotifications.ToList());
+
+			//Act
+			var result = _sut.GetNonProcessedReminders();
+
+			//Assert
+			Assert.IsTrue(result.All(p => !p.Processed));
+			Assert.IsTrue(emailReminderNotifications.Count() == result.Count);
 		}
 	}
 }
