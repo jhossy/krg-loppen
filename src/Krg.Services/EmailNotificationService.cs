@@ -28,9 +28,9 @@ namespace Krg.Services
 		{
 			if (registrationRequest == null || string.IsNullOrEmpty(registrationRequest.Email)) return;
 
-			string contactName = string.IsNullOrEmpty(registrationRequest.ContactName) ? Krg.Domain.Constants.FallBackContactName : registrationRequest.ContactName;
-			string contactPhone = string.IsNullOrEmpty(registrationRequest.ContactPhone) ? Krg.Domain.Constants.FallBackContactPhoneNo : registrationRequest.ContactPhone; ;
-			string contactEmail = string.IsNullOrEmpty(registrationRequest.ContactEmail) ? Krg.Domain.Constants.FallBackContactEmail : registrationRequest.ContactEmail; ;
+			string contactName = GetContactNameOrFallback(registrationRequest);
+			string contactPhone = GetContactPhoneOrFallback(registrationRequest);
+			string contactEmail = GetContactEmailOrFallback(registrationRequest);
 
 			_notificationRepository.AddNotification(new EmailNotification
 			{
@@ -53,9 +53,9 @@ namespace Krg.Services
 		{
 			if (registrationRequest == null || string.IsNullOrEmpty(registrationRequest.Email)) return;
 
-			string contactName = string.IsNullOrEmpty(registrationRequest.ContactName) ? "Jacob Mikkelsen" : registrationRequest.ContactName;
-			string contactPhone = string.IsNullOrEmpty(registrationRequest.ContactPhone) ? "21486949" : registrationRequest.ContactPhone; ;
-			string contactEmail = string.IsNullOrEmpty(registrationRequest.ContactEmail) ? "jacobtambourmikkelsen@gmail.com" : registrationRequest.ContactEmail; ;
+			string contactName = GetContactNameOrFallback(registrationRequest);
+			string contactPhone = GetContactPhoneOrFallback(registrationRequest);
+			string contactEmail = GetContactEmailOrFallback(registrationRequest);
 
 			_emailReminderNotificationRepository.AddReminder(new EmailReminderNotification
 			{
@@ -141,6 +141,21 @@ namespace Krg.Services
 			{
 				_logger.LogError($"RemoveReminder error: {ex.Message}", ex);
 			}
+		}
+
+		internal string GetContactNameOrFallback(AddRegistrationRequest registrationRequest)
+		{
+			return string.IsNullOrEmpty(registrationRequest.ContactName) ? Domain.Constants.FallBackContactName : registrationRequest.ContactName;
+		}
+
+		internal string GetContactPhoneOrFallback(AddRegistrationRequest registrationRequest)
+		{
+			return string.IsNullOrEmpty(registrationRequest.ContactPhone) ? Domain.Constants.FallBackContactPhoneNo : registrationRequest.ContactPhone;
+		}
+
+		internal string GetContactEmailOrFallback(AddRegistrationRequest registrationRequest)
+		{
+			return string.IsNullOrEmpty(registrationRequest.ContactEmail) ? Domain.Constants.FallBackContactEmail : registrationRequest.ContactEmail;
 		}
 	}
 }
