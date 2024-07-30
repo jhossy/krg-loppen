@@ -29,12 +29,24 @@ try
     });
 
 	builder.Services.AddServiceExtensions(builder.Configuration);
-    
+	
+	builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+	builder.Services.AddProblemDetails();
+
 	WebApplication app = builder.Build();
 
-    app.UseStaticFiles();
+	if (builder.Environment.IsDevelopment())
+	{
+		app.UseDeveloperExceptionPage();
+	}
+	else
+	{
+		app.UseExceptionHandler();
+	}
 
-    await app.BootUmbracoAsync();
+	app.UseStaticFiles();	
+
+	await app.BootUmbracoAsync();
 
 	app.UseHttpsRedirection();
 	app.UseRewriter(new RewriteOptions().AddRedirectToWwwPermanent());

@@ -46,6 +46,9 @@
     <None Include="app_plugins\registrationreporting\reporting.controller.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Content Include="wwwroot\media\circle-exclamation-solid.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -53,6 +56,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Views\Error\500.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\android-chrome-192x192.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
