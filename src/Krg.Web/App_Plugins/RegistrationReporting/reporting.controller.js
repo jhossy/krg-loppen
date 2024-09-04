@@ -3,6 +3,8 @@ angular.module('umbraco').controller('RegistrationsPluginController', // Scope o
         $scope.aRegistrations = [];
         $scope.exportDocument = {}
         $scope.loading = false;
+        $scope.editMode = false;
+        $scope.editRecord = '';
 
         var vm = this;
         vm.CurrentNodeId = editorState.current.id;
@@ -22,9 +24,9 @@ angular.module('umbraco').controller('RegistrationsPluginController', // Scope o
             }).then(function successCallback(response) {
                 // this callback will be called asynchronously
                 // when the response is available
-                console.log($scope.loading);
+                /*console.log($scope.loading);*/
                 $scope.loading = false;
-                console.log($scope.loading);
+                /*console.log($scope.loading);*/
                 $scope.aRegistrations = response.data;
             }, function errorCallback(response) {
                 // called asynchronously if an error occurs
@@ -95,5 +97,40 @@ angular.module('umbraco').controller('RegistrationsPluginController', // Scope o
             overlayService.confirmDelete(options);
         }
 
+        $scope.isEditing = function (id) {
+            return $scope.editMode && $scope.editRecord === id;
+        }
+
+        $scope.edit = function (id) {
+            $scope.editMode = !$scope.editMode;
+            $scope.editRecord = id;
+
+            console.log('editMode:' + $scope.editMode + '- id:' + id);
+        }
+
+        $scope.saveEdit = function (reg) {
+            $scope.editMode = !$scope.editMode;
+
+            console.log(reg.Name + '-' + reg.Id);
+
+            $http({
+                    method: 'POST',
+                    url: '/umbraco/backoffice/api/registrations/Update/',
+                    data: {
+                        id: reg.Id,
+                        year: $scope.exportYear,
+                        name: reg.Name
+                    },
+                })
+                .then(function successCallback(response) {
+                    $scope.aRegistrations = response.data;
+                }, function errorCallback(response) {
+                    // called asynchronously if an error occurs
+                    // or server returns response with an error status.
+                    console.log(response);
+                });
+            
+            console.log('name: ' + reg.Name + ' - Email: ' + reg.Email);
+        }
     });
 

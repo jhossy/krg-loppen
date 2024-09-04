@@ -16,14 +16,18 @@
         </thead>
         <tbody>
             <tr ng-repeat="reg in aRegistrations">
-                <th scope="row"><button type="button" ng-disabled="getState()" ng-click="delete(reg.Id)">Slet</button></th>
+                <th scope="row">
+                    <button type="button" ng-disabled="getState()" ng-click="delete(reg.Id)">Slet</button>
+                    <button type="button" ng-click="edit(reg.Id)" ng-disabled="isEditing(reg.Id)">Rediger</button>
+                    <button type="button" ng-click="saveEdit(reg)" ng-disabled="!isEditing(reg.Id)">Gem</button>
+                </th>
                 <th scope="row">{{ reg.EventDate }}</th>
-                <th scope="row">{{ reg.Name }}</th>
-                <th scope="row">{{ reg.Email }}</th>
-                <th scope="row">{{ reg.Department }}</th>
-                <th scope="row">{{ reg.NoOfAdults }}</th>
-                <th scope="row">{{ reg.NoOfChildren }}</th>
-                <th scope="row">{{ reg.BringsTrailer }}</th>
+                <th scope="row"><input type="text" ng-disabled="!isEditing(reg.Id)" ng-model="reg.Name" value="{{ reg.Name }}" /></th>
+                <th scope="row"><input type="text" ng-disabled="!isEditing(reg.Id)" value="{{ reg.Email }}" /></th>
+                <th scope="row"><input type="text" ng-disabled="!isEditing(reg.Id)" value="{{ reg.Department }}" /></th>
+                <th scope="row"><input type="text" ng-disabled="!isEditing(reg.Id)" value="{{ reg.NoOfAdults }}" /></th>
+                <th scope="row"><input type="text" ng-disabled="!isEditing(reg.Id)" value="{{ reg.NoOfChildren }}" /></th>
+                <th scope="row"><input type="text" ng-disabled="!isEditing(reg.Id)" value="{{ reg.BringsTrailer }}" /></th>
             </tr>
         </tbody>
     </table>

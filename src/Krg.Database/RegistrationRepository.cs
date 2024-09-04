@@ -90,5 +90,16 @@ namespace Krg.Database
 
 			UpdateRegistration(eventFound);
 		}
+
+		public void UpdateRegistration(int id, string name)
+		{
+			EventRegistration eventFound = GetById(id);
+
+			if (eventFound == null) return;
+
+			eventFound.Name = name;
+
+			UpdateRegistration(eventFound);
+		}
 	}
 }

@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Krg.Services
 {
-    public class EventRegistrationService : IEventRegistrationService
+	public class EventRegistrationService : IEventRegistrationService
 	{
 		private readonly IRegistrationRepository _registrationRepository;
 		private readonly ILogger<IEventRegistrationService> _logger;
@@ -97,8 +97,20 @@ namespace Krg.Services
 			}
 			catch (Exception ex) 
 			{
-				_logger.LogError("GetNonDeletedRegistrations failed {@Ex}", ex);
+				_logger.LogError("RemoveRegistration failed {@Ex}", ex);
 			}			
+		}
+
+		public void UpdateRegistration(int eventId, string newName)
+		{
+			try
+			{
+				_registrationRepository.UpdateRegistration(eventId, newName);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError("UpdateRegistration failed {@Ex}", ex);
+			}
 		}
 	}
 }

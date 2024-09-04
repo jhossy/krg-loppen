@@ -3,7 +3,7 @@ using Krg.Domain.Models;
 
 namespace Krg.Services.Interfaces
 {
-    public interface IEventRegistrationService
+	public interface IEventRegistrationService
     {
 		int AddRegistration(int umbracoNodeId, AddRegistrationRequest addRegistrationRequest);
 
@@ -14,5 +14,8 @@ namespace Krg.Services.Interfaces
         List<Registration> GetAllRegistrations(int year);
 
         List<Registration> GetNonDeletedRegistrations(int year);
-    }
+
+        void UpdateRegistration(int eventId, string newName);
+
+	}
 }

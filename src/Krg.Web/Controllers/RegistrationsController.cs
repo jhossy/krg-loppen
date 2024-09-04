@@ -73,5 +73,28 @@ namespace Krg.Web.Controllers
 
 			return Ok(GetRegistrations(year));
 		}
+
+		[HttpPost]
+		public IActionResult Update([FromBody] UpdateRegistrationDto registrationInput)
+		{
+			var registration = _eventRegistrationService.GetById(registrationInput.Id);
+
+			if (registration == null) return Ok();
+
+			_eventRegistrationService.UpdateRegistration(registrationInput.Id, registrationInput.Name);
+
+			//_emailNotificationService.CancelReminder(id);
+
+			return Ok(GetRegistrations(registrationInput.Year));
+		}
 	}
+
+	public class UpdateRegistrationDto
+	{
+        public int Id { get; set; }
+
+        public int Year { get; set; }
+
+        public string Name { get; set; }
+    }
 }
