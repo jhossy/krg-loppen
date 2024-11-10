@@ -97,10 +97,10 @@
 														</tr>
 													</thead>
 													<tbody>
-														@foreach (var registration in eventItem.Registrations.Where(x => x.ShowName))
+														@foreach (var registration in eventItem.Registrations)
 														{
 															<tr>
-																<th scope="row">@registration.Name</th>
+																<th scope="row">@(registration.ShowName ? registration.Name : ("<Skjult navn>"))</th>
 																<th scope="row">@registration.Department</th>
 																<th scope="row">@registration.NoOfAdults</th>
 																<th scope="row">@registration.NoOfChildren</th>
