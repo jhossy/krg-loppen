@@ -43,24 +43,22 @@ namespace Krg.Web.Controllers
 			{
 				return CurrentTemplate(new HomePageViewModel(CurrentPage, new PublishedValueFallback(_serviceContext, _variationContextAccessor)));
 			}
-
-			List<Event> umbEvents = new List<Event>();
-			
+		
 			List<RegistrationViewModel> results = new List<RegistrationViewModel>();
 
             foreach (var root in eventRoots)
 			{
-				umbEvents.AddRange(root
-                    .DescendantsOrSelf<Event>()
-					.Where(x => x.Date.Date > (DateTime.Now.AddDays(-1)).Date)
-					.OrderBy(x => x.Date.Date)
-					.ToList());
+                int exportYear = root.ExportYear > 0 ? root.ExportYear : DateTime.Now.Year;
 
-				int exportYear = root.ExportYear > 0 ? root.ExportYear : DateTime.Now.Year;
+				var eventsForExportYear = root
+					.DescendantsOrSelf<Event>()
+					.Where(x => x.Date.Date > (DateTime.Now.AddDays(-1)).Date && x.Date.Year == exportYear)
+					.OrderBy(x => x.Date.Date)
+					.ToList();
 
 				List<Registration> dbRegistrations = _eventRegistrationService.GetNonDeletedRegistrations(exportYear).ToList();
 
-				results.AddRange(BuildListOfRegistrations(dbRegistrations, umbEvents));
+				results.AddRange(BuildListOfRegistrations(dbRegistrations, eventsForExportYear));
 			}
 
             var viewModel = new HomePageViewModel(CurrentPage, new PublishedValueFallback(_serviceContext, _variationContextAccessor))
