@@ -1,4 +1,5 @@
 ﻿using Krg.Domain;
+using System.Linq;
 using Umbraco.Cms.Web.Common;
 using Umbraco.Cms.Web.Common.PublishedModels;
 
@@ -17,13 +18,13 @@ public static class UmbracoHelperExtensions
 		return siteSettingsNode;
 	}
 
-	public static EventRoot? EventRoot(this UmbracoHelper umbracoHelper)
+	public static IEnumerable<EventRoot> EventRoot(this UmbracoHelper umbracoHelper)
 	{
 		var siteSettings = SiteSettings(umbracoHelper);
 
-		if (siteSettings == null) return null;
+		if (siteSettings == null || siteSettings.EventRoot == null) return new List<EventRoot>();
 
-		return siteSettings.Value<EventRoot>("eventroot");
+		return siteSettings.EventRoot.Cast<EventRoot>();
 	}
 
 	public static string GetEmailSenderOrFallback(this UmbracoHelper umbracoHelper)

@@ -37,26 +37,31 @@ namespace Krg.Web.Controllers
 
 		public IActionResult HomePage()
 		{
-			var eventRoot = _umbracoHelper.EventRoot();
+			var eventRoots = _umbracoHelper.EventRoot();
 
-			if (eventRoot == null)
+			if (eventRoots == null)
 			{
 				return CurrentTemplate(new HomePageViewModel(CurrentPage, new PublishedValueFallback(_serviceContext, _variationContextAccessor)));
 			}
+		
+			List<RegistrationViewModel> results = new List<RegistrationViewModel>();
 
-			List<Event> umbEvents = eventRoot
-				.DescendantsOrSelf<Event>()
-				.Where(x => x.Date.Date > (DateTime.Now.AddDays(-1)).Date)
-				.OrderBy(x => x.Date.Date)
-				.ToList();
+            foreach (var root in eventRoots)
+			{
+                int exportYear = root.ExportYear > 0 ? root.ExportYear : DateTime.Now.Year;
 
-			int exportYear = eventRoot.ExportYear > 0 ? eventRoot.ExportYear : DateTime.Now.Year;
+				var eventsForExportYear = root
+					.DescendantsOrSelf<Event>()
+					.Where(x => x.Date.Date > (DateTime.Now.AddDays(-1)).Date && x.Date.Year == exportYear)
+					.OrderBy(x => x.Date.Date)
+					.ToList();
 
-			List<Registration> dbRegistrations = _eventRegistrationService.GetNonDeletedRegistrations(exportYear).ToList();
+				List<Registration> dbRegistrations = _eventRegistrationService.GetNonDeletedRegistrations(exportYear).ToList();
 
-			List<RegistrationViewModel> results = BuildListOfRegistrations(dbRegistrations, umbEvents);
+				results.AddRange(BuildListOfRegistrations(dbRegistrations, eventsForExportYear));
+			}
 
-			var viewModel = new HomePageViewModel(CurrentPage, new PublishedValueFallback(_serviceContext, _variationContextAccessor))
+            var viewModel = new HomePageViewModel(CurrentPage, new PublishedValueFallback(_serviceContext, _variationContextAccessor))
 			{
 				Events = results
 			};
