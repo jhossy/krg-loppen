@@ -1,14 +1,13 @@
 using AutoFixture;
-using Krg.Database;
+using Krg.Database.Interfaces;
 using Krg.Database.Models;
 using Krg.Domain.Models;
-using Krg.Services.Interfaces;
 using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace Krg.Services.Tests
 {
-    [TestClass]
+	[TestClass]
 	public class EmailNotificationServiceTests
 	{
 		private readonly IFixture _fixture = new Fixture();

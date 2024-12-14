@@ -1,9 +1,8 @@
-﻿using Krg.Database.Models;
-using Krg.Domain.Models;
+﻿using Krg.Domain.Models;
 
 namespace Krg.Services.Interfaces
 {
-    public interface IEmailNotificationService
+	public interface IEmailNotificationService
     {
         void AddNotification(AddRegistrationRequest registrationRequest, string emailSender);
 

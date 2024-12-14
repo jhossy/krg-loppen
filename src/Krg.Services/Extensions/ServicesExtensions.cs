@@ -1,4 +1,5 @@
-﻿using Krg.Database;
+﻿using Krg.Database.Interfaces;
+using Krg.Database.Repositories;
 using Krg.Services.Interfaces;
 using Krg.Web.Controllers;
 using Microsoft.Extensions.Configuration;
@@ -9,7 +10,7 @@ using System.Net.Mail;
 
 namespace Krg.Services.Extensions
 {
-	public static class ServicesExtensions
+    public static class ServicesExtensions
 	{
 		public static IServiceCollection AddServiceExtensions(this IServiceCollection services, IConfiguration configuration)
 		{

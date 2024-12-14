@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Results;
+using Krg.Database.Models;
 using Krg.Domain.Models;
 using Krg.Services.Interfaces;
 using Krg.Web.Models;
@@ -14,7 +15,7 @@ using Umbraco.Cms.Web.Common.Filters;
 
 namespace Krg.Web.Controllers
 {
-	public class RegistrationSurfaceController : Umbraco.Cms.Web.Website.Controllers.SurfaceController
+	public class RegistrationSurfaceController : Controller
 	{
 		private readonly IEventRegistrationService _eventRegistrationService;
 		private readonly IEmailNotificationService _notificationService;

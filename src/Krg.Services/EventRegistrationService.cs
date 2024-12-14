@@ -1,4 +1,4 @@
-﻿using Krg.Database;
+﻿using Krg.Database.Interfaces;
 using Krg.Database.Models;
 using Krg.Domain.Models;
 using Krg.Services.Interfaces;
@@ -8,14 +8,14 @@ namespace Krg.Services
 {
     public class EventRegistrationService : IEventRegistrationService
 	{
-		private readonly IRegistrationRepository _registrationRepository;
+		private readonly IUnitOfWork _unitOfWork;
 		private readonly ILogger<IEventRegistrationService> _logger;
 
 		public EventRegistrationService(
-			IRegistrationRepository registrationRepository,
+			IUnitOfWork unitOfWork,
 			ILogger<EventRegistrationService> logger)
 		{
-			_registrationRepository = registrationRepository;
+			_unitOfWork = unitOfWork;
 			_logger = logger;
 		}
 
@@ -23,7 +23,7 @@ namespace Krg.Services
 		{
 			if (addRegistrationRequest == null) return 0;
 
-			return _registrationRepository.AddRegistration(
+			var registrationAdded = _unitOfWork.RegistrationRepository.AddRegistration(
 				new EventRegistration
 				{
 					BringsTrailer = addRegistrationRequest.BringsTrailer,
@@ -38,6 +38,10 @@ namespace Krg.Services
 					UmbracoEventNodeId = umbracoNodeId,
 					UpdateTimeUtc = DateTime.UtcNow
 				});
+
+			_unitOfWork.Commit();
+
+			return registrationAdded;
 		}
 
 
@@ -46,7 +50,7 @@ namespace Krg.Services
 		{
 			try
 			{
-				return _registrationRepository
+				return _unitOfWork.RegistrationRepository
 					.GetAllRegistrations(year)
 					.Select(reg => new Registration(reg))
 					.ToList();
@@ -63,7 +67,7 @@ namespace Krg.Services
 		{
 			try
 			{
-				return _registrationRepository.GetById(id);
+				return _unitOfWork.RegistrationRepository.GetById(id);				
 			}
 			catch (Exception ex)
 			{
@@ -77,7 +81,7 @@ namespace Krg.Services
 		{
 			try
 			{
-				return _registrationRepository
+				return _unitOfWork.RegistrationRepository
 					.GetNonDeletedRegistrations(year)
 					.Select(reg => new Registration(reg))
 					.ToList();
@@ -93,7 +97,9 @@ namespace Krg.Services
 		{
 			try
 			{
-				_registrationRepository.RemoveRegistration(eventId);
+				_unitOfWork.RegistrationRepository.RemoveRegistration(eventId);
+
+				_unitOfWork.Commit();
 			}
 			catch (Exception ex) 
 			{

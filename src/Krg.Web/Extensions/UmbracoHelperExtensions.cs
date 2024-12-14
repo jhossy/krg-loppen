@@ -1,5 +1,4 @@
 ﻿using Krg.Domain;
-using System.Linq;
 using Umbraco.Cms.Web.Common;
 using Umbraco.Cms.Web.Common.PublishedModels;
 
