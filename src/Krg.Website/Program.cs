@@ -5,7 +5,9 @@ using Krg.Services;
 using Krg.Services.Extensions;
 using Krg.Services.Interfaces;
 using Krg.Website.Extensions;
+using Krg.Website.Jobs;
 using Microsoft.EntityFrameworkCore;
+using Quartz;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -35,6 +37,30 @@ try
 	builder.Services.AddDatabaseExtensions();
 	builder.Services.AddServiceExtensions(builder.Configuration);
 	builder.Services.AddWebsiteExtensions(builder.Configuration);
+
+	//quartz
+	builder.Services.AddQuartz(configure =>
+	{
+		var jobKey = new JobKey(nameof(ConsoleJob));
+
+		configure
+			.AddJob<ConsoleJob>(jobKey)			
+			.AddTrigger(
+				trigger => trigger.ForJob(jobKey).WithSimpleSchedule(
+					schedule => schedule.WithIntervalInSeconds(10).RepeatForever()));
+
+		//configure.UsePersistentStore(configure =>
+		//{
+		//	configure.UseMicrosoftSQLite(options => { options.ConnectionStringName = "Jobs"; });
+		//});
+		//q.UseMicrosoftDependencyInjectionJobFactory();
+	});
+	//quartz end
+
+	builder.Services.AddQuartzHostedService(opt =>
+	{
+		opt.WaitForJobsToComplete = true;
+	});
 
 	var app = builder.Build();
 

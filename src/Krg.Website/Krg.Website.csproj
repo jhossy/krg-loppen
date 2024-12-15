@@ -34,8 +34,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Krg.Domain\Krg.Domain.csproj" />
-      <ProjectReference Include="..\Krg.Services\Krg.Services.csproj" />
+      <ProjectReference Include="..\Krg.Infrastructure\Krg.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>

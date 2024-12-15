@@ -30,7 +30,7 @@ namespace Krg.Services.Tests
 			//Arrange
 
 			//Act
-			_sut.AddRegistration(_fixture.Create<int>(), null);
+			_sut.AddRegistration(null);
 
 			//Assert
 			_mockRegistrationRepository.Verify(mock => mock.AddRegistration(It.IsAny<EventRegistration>()), Times.Never());
@@ -42,7 +42,7 @@ namespace Krg.Services.Tests
 			//Arrange
 
 			//Act
-			_sut.AddRegistration(_fixture.Create<int>(), _fixture.Create<AddRegistrationRequest>());
+			_sut.AddRegistration(_fixture.Create<AddRegistrationRequest>());
 
 			//Assert
 			_mockRegistrationRepository.Verify(mock => mock.AddRegistration(It.IsAny<EventRegistration>()), Times.Once());
