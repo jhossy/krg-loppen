@@ -49,14 +49,14 @@ namespace Krg.Web.Controllers
 
 			if (!ModelState.IsValid || !validationResult.IsValid)
 			{
-				_logger.LogError($"Error when trying to sign up for event. NodeId: {request.UmbracoNodeId}, EventDate: {request.EventDate} - {validationResult}");
+				_logger.LogError($"Error when trying to sign up for event. EventDate: {request.EventDate} - {validationResult}");
 
 				return RedirectToCurrentUmbracoPage(); //CurrentUmbracoPage() keeps 'old' viewstate
 			}
 
 			string emailSender = _umbracoHelper.GetEmailSenderOrFallback();
 
-			int eventRegistrationId = _eventRegistrationService.AddRegistration(request.UmbracoNodeId, request);
+			int eventRegistrationId = _eventRegistrationService.AddRegistration(request);
 			
 			_notificationService.AddNotification(request, emailSender);
 
