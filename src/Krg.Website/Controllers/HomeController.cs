@@ -1,10 +1,11 @@
 ﻿using FluentValidation.Results;
-using Krg.Database.Interfaces;
 using Krg.Domain.Models;
 using Krg.Services;
 using Krg.Services.Interfaces;
 using Krg.Web.Models;
+using Krg.Website.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace Krg.Web.Controllers
 {
@@ -12,7 +13,8 @@ namespace Krg.Web.Controllers
 	{
 		private readonly IEventRegistrationService _eventRegistrationService;		
 		private readonly IEmailNotificationService _notificationService;
-		private readonly IUnitOfWork _unitOfWork;
+		private readonly IEventDateService _eventDateService;
+		private readonly SiteSettings _siteSettings;
 
 		private readonly ILogger _logger;
 
@@ -20,33 +22,25 @@ namespace Krg.Web.Controllers
 			ILogger<HomeController> logger,
 			IEventRegistrationService eventRegistrationService,
 			IEmailNotificationService notificationService,
-			IUnitOfWork unitOfWork)
+			IEventDateService eventDateService,
+			IOptions<SiteSettings> siteSettings)
 		{
 			_eventRegistrationService = eventRegistrationService;
 			_notificationService = notificationService;
-			_unitOfWork = unitOfWork;
+			_eventDateService = eventDateService;
+			_siteSettings = siteSettings.Value;
 			_logger = logger;
 		}
 
 		public IActionResult Index()
 		{
-			List<int> yearsToShow = new List<int> { 2024, 2025 }; //TODO from settings
+			int[] yearsToShow = _siteSettings.YearsToShow;
 
 			List<RegistrationViewModel> results = new List<RegistrationViewModel>();
 
 			foreach (var year in yearsToShow)
 			{
-				List<EventDate> events = _unitOfWork.EventRepository
-					.GetAllEvents(year)
-					.Select(x => 
-						new EventDate 
-						{
-							Date = x.Date,							
-							ContactEmail = x.ContactEmail,
-							ContactName = x.ContactName,
-							ContactPhone = x.ContactPhone,
-						})
-					.ToList(); //TODO move to event service
+				List<EventDate> events = _eventDateService.GetEvents(year);
 
 				List<Registration> dbRegistrations = _eventRegistrationService.GetNonDeletedRegistrations(year).ToList();
 
@@ -55,7 +49,7 @@ namespace Krg.Web.Controllers
 
 			var viewModel = new HomeViewModel
 			{
-				Events = results
+				Events = results.OrderBy(evt => evt.EventContent.Date).ToList()
 			};
 
 			return View(viewModel);
@@ -71,14 +65,14 @@ namespace Krg.Web.Controllers
 
 			if (!ModelState.IsValid || !validationResult.IsValid)
 			{
-				_logger.LogError($"Error when trying to sign up for event. NodeId: {request.UmbracoNodeId}, EventDate: {request.EventDate} - {validationResult}");
+				_logger.LogError($"Error when trying to sign up for event. EventDate: {request.EventDate} - {validationResult}");
 
 				return View("Index");
 			}
 
-			string emailSender = "from-address"; /*_umbracoHelper.GetEmailSenderOrFallback();*/ //todo settings
+			string emailSender = _siteSettings.EmailFromAddress;
 
-			int eventRegistrationId = _eventRegistrationService.AddRegistration(request.UmbracoNodeId, request);
+			int eventRegistrationId = _eventRegistrationService.AddRegistration(request);
 
 			_notificationService.AddNotification(request, emailSender);
 

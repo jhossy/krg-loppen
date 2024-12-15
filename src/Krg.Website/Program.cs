@@ -1,8 +1,10 @@
 using Krg.Database;
+using Krg.Database.Extensions;
 using Krg.Database.Interfaces;
 using Krg.Services;
 using Krg.Services.Extensions;
 using Krg.Services.Interfaces;
+using Krg.Website.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -17,9 +19,7 @@ try
 
 	// Add services to the container.
 	builder.Services.AddControllersWithViews();
-
-	builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-	builder.Services.AddTransient<IEventRegistrationService, EventRegistrationService>();
+		
 	builder.Services.AddSerilog((context, configuration) =>
 	{
 		Environment.SetEnvironmentVariable("BASEDIR", AppContext.BaseDirectory);
@@ -32,7 +32,9 @@ try
 	builder.Services.AddDbContext<KrgContext>(options =>
 		options.UseSqlServer(builder.Configuration.GetConnectionString("KrgContext")));
 
+	builder.Services.AddDatabaseExtensions();
 	builder.Services.AddServiceExtensions(builder.Configuration);
+	builder.Services.AddWebsiteExtensions(builder.Configuration);
 
 	var app = builder.Build();
 

@@ -5,7 +5,7 @@ namespace Krg.Services.Interfaces
 {
     public interface IEventRegistrationService
     {
-		int AddRegistration(int umbracoNodeId, AddRegistrationRequest addRegistrationRequest);
+		int AddRegistration(AddRegistrationRequest addRegistrationRequest);
 
         EventRegistration GetById(int id);
 

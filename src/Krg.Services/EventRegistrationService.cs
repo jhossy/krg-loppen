@@ -19,7 +19,7 @@ namespace Krg.Services
 			_logger = logger;
 		}
 
-		public int AddRegistration(int umbracoNodeId, AddRegistrationRequest addRegistrationRequest)
+		public int AddRegistration(AddRegistrationRequest addRegistrationRequest)
 		{
 			if (addRegistrationRequest == null) return 0;
 
@@ -35,7 +35,7 @@ namespace Krg.Services
 					NoOfChildren = addRegistrationRequest.NoOfChildren,
 					PhoneNo = addRegistrationRequest.PhoneNo,
 					ShowName = addRegistrationRequest.ShowName,
-					UmbracoEventNodeId = umbracoNodeId,
+					UmbracoEventNodeId = 0, //todo remove
 					UpdateTimeUtc = DateTime.UtcNow
 				});
 

@@ -4,8 +4,6 @@ namespace Krg.Domain.Models
 {
     public class AddRegistrationRequest
     {
-        public int UmbracoNodeId { get; set; }
-        
         public DateTime EventDate { get; set; }
         
         [Required(ErrorMessage = Constants.NameRequiredMessage)]        

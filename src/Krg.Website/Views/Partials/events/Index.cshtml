@@ -12,37 +12,23 @@
 
 @foreach (var eventItemGroup in Model.Events.GroupBy(x => x.EventContent.Date.Month))
 {
-	@* var parentNode = Umbraco.Content(eventItemGroup.Key);
-
-	if(parentNode != null) 
+	var monthYear = eventItemGroup.FirstOrDefault();
+	if (monthYear is not null)
 	{
-		var grandParentNode = Umbraco.Content(parentNode.Parent.Id);
-	
-		if (grandParentNode != null)
-		{
-			<div class="row py-3">
-				<div class="col">
-					<div class="h2">
-						@parentNode.Name @grandParentNode.Name
-					</div>
+		<div class="row py-3">
+			<div class="col">
+				<div class="h2">
+					@monthYear.EventContent.Date.ToDkMonth() - @monthYear.EventContent.Date.Year
 				</div>
 			</div>
-		}
-	} *@
-
-	<div class="row py-3">
-		<div class="col">
-			<div class="h2">
-				@eventItemGroup.Key
-			</div>
 		</div>
-	</div>
+	}
 
 	<div class="row row-cols-1 row-cols-md-1 g-3">
 		@{
 			int j = 0;			
 		}
-		@foreach (RegistrationViewModel eventItem in eventItemGroup)
+		@foreach (var eventItem in eventItemGroup)
 		{
 			<div class="col border" style="max-width:960px">
 				<div class="row g-0">					
@@ -153,7 +139,7 @@
 							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Luk"></button>
 						</div>
 						<div class="modal-body">
-							@using (Html.BeginForm("HandleSubmit", "Home", new { @id = $"form-{@i}-{@j}" }))
+							@using (Html.BeginForm("HandleSubmit", "Home", FormMethod.Post, new { @id = $"form-{@i}-{@j}" }))
 							{
 								@Html.AntiForgeryToken()
 								<div class="mb-3">
@@ -193,11 +179,10 @@
 									</div>
 								</div>
 								@Html.ValidationSummary()
-								@* @Html.Hidden("UmbracoNodeId", eventItem.Content.Id) *@
 								@Html.Hidden("EventDate", eventItem.EventContent.Date)
 								@Html.Hidden("ContactName", string.IsNullOrEmpty(eventItem.EventContent.ContactName) ? Krg.Domain.Constants.FallBackContactName : eventItem.EventContent.ContactName)
 								@Html.Hidden("ContactPhone", string.IsNullOrEmpty(eventItem.EventContent.ContactPhone) ? Krg.Domain.Constants.FallBackContactPhoneNo : eventItem.EventContent.ContactPhone)
-								@Html.Hidden("ContactEmail", string.IsNullOrEmpty(eventItem.EventContent.ContactEmail) ? Krg.Domain.Constants.FallBackContactEmail : eventItem.EventContent.ContactEmail)
+								@Html.Hidden("ContactEmail", string.IsNullOrEmpty(eventItem.EventContent.ContactEmail) ? Krg.Domain.Constants.FallBackContactEmail : eventItem.EventContent.ContactEmail)								
 							}
 						</div>
 						<div class="modal-footer">

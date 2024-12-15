@@ -7,7 +7,6 @@ namespace Krg.Web.Models
     {
         public AddRegistrationRequestValidator()
         {
-            RuleFor(request => request.UmbracoNodeId).GreaterThan(0);
             RuleFor(request => request.EventDate).NotEmpty();
             RuleFor(request => request.Name).MinimumLength(1);
             RuleFor(request => request.Email).EmailAddress();

@@ -69,7 +69,8 @@ namespace Krg.Services
 					$"Din kontaktperson vil også kunne hjælpe dig hvis du har praktiske spørgsmål.<br><br>Venlig hilsen<br>Knud Rasmussengruppen",
 				Processed = false,
 				UpdateTimeUtc = DateTime.UtcNow,
-				UmbracoEventNodeId = registrationRequest.UmbracoNodeId,
+				//UmbracoEventNodeId = registrationRequest.UmbracoNodeId,
+				UmbracoEventNodeId = 0, //TODO remove
 				FkEventRegistrationId = eventRegistrationId
 			});
 
