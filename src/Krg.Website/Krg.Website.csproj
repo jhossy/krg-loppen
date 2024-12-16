@@ -82,4 +82,10 @@
       <PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
       <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
     </ItemGroup>
+
+    <ItemGroup>
+      <None Update="jobs.db">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
 </Project>

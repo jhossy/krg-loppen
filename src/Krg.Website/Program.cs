@@ -39,21 +39,34 @@ try
 	builder.Services.AddWebsiteExtensions(builder.Configuration);
 
 	//quartz
-	builder.Services.AddQuartz(configure =>
+	builder.Services.AddQuartz(q =>
 	{
 		var jobKey = new JobKey(nameof(ConsoleJob));
+			
 
-		configure
-			.AddJob<ConsoleJob>(jobKey)			
-			.AddTrigger(
-				trigger => trigger.ForJob(jobKey).WithSimpleSchedule(
-					schedule => schedule.WithIntervalInSeconds(10).RepeatForever()));
-
-		//configure.UsePersistentStore(configure =>
-		//{
-		//	configure.UseMicrosoftSQLite(options => { options.ConnectionStringName = "Jobs"; });
-		//});
-		//q.UseMicrosoftDependencyInjectionJobFactory();
+		q.AddJob<ConsoleJob>(jobKey)						
+			.AddTrigger(opts => opts.ForJob(jobKey)
+					.WithIdentity("ConsoleJob-trigger")
+					.WithCronSchedule("0 * * ? * *"))
+			.UsePersistentStore(s =>
+			{
+				
+				s.RetryInterval = TimeSpan.FromSeconds(1);
+				s.UseMicrosoftSQLite(
+					options =>
+					{
+						options.ConnectionStringName = "Jobs";
+						//options.ConnectionString = "Data Source=C:\\Development\\krg-loppen\\src\\Krg.Infrastructure\\jobs.db";
+						//options.ConnectionString = "Data Source=jobs.db";
+					}
+				);
+				s.UseNewtonsoftJsonSerializer();
+				//s.UseSqlServer(sqlserver =>
+				//{
+				//	sqlserver.ConnectionString = "Server=.\\sqlexpress;Database=quartz-sample;Integrated Security=True;TrustServerCertificate=True;MultipleActiveResultSets=true";
+				//});
+			});
+		
 	});
 	//quartz end
 
