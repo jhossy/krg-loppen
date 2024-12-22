@@ -19,10 +19,4 @@
     <ProjectReference Include="..\Krg.Services\Krg.Services.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="jobs.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>
