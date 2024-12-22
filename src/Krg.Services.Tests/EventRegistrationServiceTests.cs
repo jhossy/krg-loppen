@@ -13,6 +13,7 @@ namespace Krg.Services.Tests
 	{
 		private readonly IFixture _fixture = new Fixture();
 		private Mock<IRegistrationRepository> _mockRegistrationRepository = new Mock<IRegistrationRepository>();
+		private Mock<IUnitOfWork> _mockUnitOfWork = new Mock<IUnitOfWork>();
 		private Mock<ILogger<EventRegistrationService>> _logger = new Mock<ILogger<EventRegistrationService>>();
 		private IEventRegistrationService _sut = null!;
 
@@ -21,6 +22,11 @@ namespace Krg.Services.Tests
 		{
 			_fixture.Inject(_mockRegistrationRepository.Object);
 			_fixture.Inject(_logger.Object);
+
+			_mockUnitOfWork.Setup(service => service.RegistrationRepository)
+				.Returns(_mockRegistrationRepository.Object);
+			_fixture.Inject(_mockUnitOfWork.Object);
+
 			_sut = _fixture.Create<EventRegistrationService>();
 		}
 
