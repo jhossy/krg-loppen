@@ -1,6 +1,4 @@
-﻿using Krg.Database.Interfaces;
-using Krg.Database.Repositories;
-using Krg.Services.Interfaces;
+﻿using Krg.Services.Interfaces;
 using Krg.Web.Controllers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

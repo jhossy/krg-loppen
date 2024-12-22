@@ -37,44 +37,8 @@ try
 	builder.Services.AddDatabaseExtensions();
 	builder.Services.AddServiceExtensions(builder.Configuration);
 	builder.Services.AddWebsiteExtensions(builder.Configuration);
-
-	//quartz
-	builder.Services.AddQuartz(q =>
-	{
-		var jobKey = new JobKey(nameof(ConsoleJob));
-			
-
-		q.AddJob<ConsoleJob>(jobKey)						
-			.AddTrigger(opts => opts.ForJob(jobKey)
-					.WithIdentity("ConsoleJob-trigger")
-					.WithCronSchedule("0 * * ? * *"))
-			.UsePersistentStore(s =>
-			{
-				
-				s.RetryInterval = TimeSpan.FromSeconds(1);
-				s.UseMicrosoftSQLite(
-					options =>
-					{
-						options.ConnectionStringName = "Jobs";
-						//options.ConnectionString = "Data Source=C:\\Development\\krg-loppen\\src\\Krg.Infrastructure\\jobs.db";
-						//options.ConnectionString = "Data Source=jobs.db";
-					}
-				);
-				s.UseNewtonsoftJsonSerializer();
-				//s.UseSqlServer(sqlserver =>
-				//{
-				//	sqlserver.ConnectionString = "Server=.\\sqlexpress;Database=quartz-sample;Integrated Security=True;TrustServerCertificate=True;MultipleActiveResultSets=true";
-				//});
-			});
-		
-	});
-	//quartz end
-
-	builder.Services.AddQuartzHostedService(opt =>
-	{
-		opt.WaitForJobsToComplete = true;
-	});
-
+	builder.Services.AddScheduledJobs();
+	
 	var app = builder.Build();
 
 	// Configure the HTTP request pipeline.
