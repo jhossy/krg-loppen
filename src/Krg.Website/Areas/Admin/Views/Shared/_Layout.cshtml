@@ -1,0 +1,66 @@
+﻿@{
+	Layout = null;
+}
+
+<html lang="da">
+	<head>
+		<title>Admin</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Administration">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+		<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+	</head>
+	
+	<body>
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-auto sticky-top text-bg-dark">
+                <div class="d-flex flex-sm-column flex-row flex-nowrap text-decoration-none align-items-center sticky-top">
+                    <a href="/Admin" class="d-block p-3 text-white text-decoration-none" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">
+                        <i class="bi-house fs-4 me-2"></i>
+                        <span class="fs-4">Home</span>
+                    </a>
+                    <ul class="nav nav-pills nav-flush flex-sm-column flex-row flex-nowrap mb-auto mx-auto text-center align-items-center">                        
+                        <li>
+                            <a href="/admin/stats" class="nav-link py-3 px-2 text-white" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Stats">
+                                <i class="bi-speedometer2 fs-4 me-2"></i>
+                                <span class="fs-4">Stats</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="dropdown">
+                        <a href="#" class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi-person-circle h2"></i>
+                        </a>
+                        <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
+                            <li><a class="dropdown-item" href="#">New project...</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                        </ul>
+                    </div>
+                </div>                
+            </div>
+            <div class="col-sm p-3 min-vh-100">
+                <!-- content -->
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+
+
+	<!-- Scripts -->
+	<script src="https://www.unpkg.com/aspnet-client-validation/dist/aspnet-validation.min.js" crossorigin="anonymous"></script>
+	<script>
+		const v = new aspnetValidation.ValidationService()
+		v.bootstrap()
+	</script>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+	<script src="https://kit.fontawesome.com/6c8b7dd163.js" crossorigin="anonymous"></script>	
+	</body>
+</html>

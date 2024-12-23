@@ -1,11 +1,7 @@
 using Krg.Database;
 using Krg.Database.Extensions;
-using Krg.Database.Interfaces;
-using Krg.Services;
 using Krg.Services.Extensions;
-using Krg.Services.Interfaces;
 using Krg.Website.Extensions;
-using Krg.Website.Jobs;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
 using Serilog;
@@ -70,7 +66,12 @@ try
 		name: "default",
 		pattern: "{controller=Home}/{action=Index}/{id?}");
 
-	app.Run();
+    app.MapControllerRoute(
+        name: "Admin",
+        pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+    );
+
+    app.Run();
 
 	Log.Information("Stopped cleanly");
 	return 0;
