@@ -1,0 +1,95 @@
+<script>
+    function FetchRegistrations() {
+        var data = {
+            year: $("#year").val()
+        }
+        console.log(data);
+        $.ajax({
+            type: 'POST',
+            url: '/Admin/Registrations/GetRegistrations',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data),
+            success: function (result) {
+                $('#registrations-parent').empty();
+                updateRegistrationsList(result);
+            },
+            error: function () {
+                alert('Failed to receive the Data');
+                console.log('Failed ');
+            }
+        });
+    }
+    
+    function updateRegistrationsList(data) {
+        $.each(data, function (k, v) {
+            $('#registrations-parent')
+                .append('<tr>')
+                .append('<th scope="row"><button type="button" onClick="deleteRegistration(' + v.id + ')">Slet</button></th>')
+                .append('<th scope="row">'+ v.eventDate + '</th>')
+                .append('<th scope="row">'+ v.name + '</th>')
+                .append('<th scope="row">'+ v.email + '</th>')
+                .append('<th scope="row">'+ v.department + '</th>')
+                .append('<th scope="row">'+ v.noOfAdults + '</th>')
+                .append('<th scope="row">'+ v.noOfChildren + '</th>')
+                .append('<th scope="row">'+ v.bringsTrailer + '</th>')
+                .append('</tr>')
+        });    
+    }
+
+    function deleteRegistration(id) {
+        if (confirm('Are you sure you want to delete?')) {
+            var data = {
+                id: id, 
+                year: $("#year").val()
+            }
+            console.log(data);
+            $.ajax({
+                type: 'POST',
+                url: '/Admin/Registrations/Delete',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(data),
+                success: function (result) {
+                    $('#registrations-parent').empty();
+                    updateRegistrationsList(result);
+                },
+                error: function () {
+                    alert('Failed to receive the Data');
+                    console.log('Failed ');
+                }
+            });
+        }
+    }
+
+</script>
+<div>
+    <div>
+        <h1>Registrations</h1>
+    </div>
+    <div>
+        @using (Html.BeginForm("ExportAsExcel", "Registrations", FormMethod.Post, new { area = "Admin" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.TextBox("year", "2024", new { @class = "form-control", placeholder = @DateTime.Now.Year, @data_val = "true", @data_val_required = "År skal angives", autocomplete = "on" })
+            <input type="submit" value="Export"/>
+            <input type="button" value="Hent" onclick="FetchRegistrations()"/>
+        }
+    </div>
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Dato</th>
+                    <th scope="col">Navn</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Afdeling</th>
+                    <th scope="col">Antal voksne</th>
+                    <th scope="col">Antal børn</th>
+                    <th scope="col">Medbringer trailer</th>
+                </tr>
+            </thead>
+            <tbody id="registrations-parent">
+            </tbody>
+        </table>
+    </div>
+</div>
