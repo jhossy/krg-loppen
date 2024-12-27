@@ -20,9 +20,10 @@ public class RegistrationsController(
     }
     
     [HttpPost]
-    public List<BackofficeRegistrationDto> GetRegistrations([FromBody]int year)
+    public List<BackofficeRegistrationDto> GetRegistrations([FromBody]GetRequestDto getRequest)
     {
-        int parsedYear = year == 0 ? DateTime.Now.Year : year;
+        Thread.Sleep(3000);
+        int parsedYear = getRequest.Year == 0 ? DateTime.Now.Year : getRequest.Year;
 
         return eventRegistrationService
             .GetNonDeletedRegistrations(parsedYear)
@@ -70,8 +71,13 @@ public class RegistrationsController(
 
         emailNotificationService.CancelReminder(deleteRequestDto.Id);
 
-        return Ok(GetRegistrations(deleteRequestDto.Year));
+        return Ok(GetRegistrations(new GetRequestDto{Year = deleteRequestDto.Year}));
     }
+}
+
+public class GetRequestDto
+{
+    public int Year { get; set; }
 }
 
 public class DeleteRequestDto

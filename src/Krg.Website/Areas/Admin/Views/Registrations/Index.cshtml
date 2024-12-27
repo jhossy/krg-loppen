@@ -1,17 +1,49 @@
 <script>
-    function FetchRegistrations() {
+    function FetchRegistrations() {           
         var data = {
             year: $("#year").val()
         }
-        console.log(data);
+        
+        $('#btnFetchRegistrations').prop('disabled', true)
+            .addClass('btn-disabled');
+
+        $('#btnFetchRegistrations').append('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>\n' +
+            '                <span class="visually-hidden">Loading...</span>');
+
+        callApi('/Admin/Registrations/GetRegistrations', data, function () {
+            $('#btnFetchRegistrations').prop('disabled', false)
+                .removeClass('btn-disabled');
+
+            $('#btnFetchRegistrations .spinner-border').remove();
+            $('#btnFetchRegistrations .visually-hidden').remove();
+        });
+    }
+    
+    function deleteRegistration(id) {
+        if (confirm('Are you sure you want to delete?')) {
+            var data = {
+                id: id, 
+                year: $("#year").val()
+            }
+            
+            console.log(data);
+            
+            callApi('/Admin/Registrations/Delete', data);
+        }
+    }
+    
+    function callApi(url, data, callback) {
         $.ajax({
             type: 'POST',
-            url: '/Admin/Registrations/GetRegistrations',
+            url: url,
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data),
             success: function (result) {
                 $('#registrations-parent').empty();
                 updateRegistrationsList(result);
+                
+                if (typeof callback == "function")
+                    callback();
             },
             error: function () {
                 alert('Failed to receive the Data');
@@ -19,45 +51,22 @@
             }
         });
     }
-    
+
     function updateRegistrationsList(data) {
         $.each(data, function (k, v) {
             $('#registrations-parent')
-                .append('<tr>')
-                .append('<th scope="row"><button type="button" onClick="deleteRegistration(' + v.id + ')">Slet</button></th>')
-                .append('<th scope="row">'+ v.eventDate + '</th>')
-                .append('<th scope="row">'+ v.name + '</th>')
-                .append('<th scope="row">'+ v.email + '</th>')
-                .append('<th scope="row">'+ v.department + '</th>')
-                .append('<th scope="row">'+ v.noOfAdults + '</th>')
-                .append('<th scope="row">'+ v.noOfChildren + '</th>')
-                .append('<th scope="row">'+ v.bringsTrailer + '</th>')
-                .append('</tr>')
-        });    
-    }
-
-    function deleteRegistration(id) {
-        if (confirm('Are you sure you want to delete?')) {
-            var data = {
-                id: id, 
-                year: $("#year").val()
-            }
-            console.log(data);
-            $.ajax({
-                type: 'POST',
-                url: '/Admin/Registrations/Delete',
-                contentType: 'application/json; charset=utf-8',
-                data: JSON.stringify(data),
-                success: function (result) {
-                    $('#registrations-parent').empty();
-                    updateRegistrationsList(result);
-                },
-                error: function () {
-                    alert('Failed to receive the Data');
-                    console.log('Failed ');
-                }
-            });
-        }
+                .append(
+                    '<tr>' +
+                        '<th scope="row"><button type="button" onClick="deleteRegistration(' + v.id + ')">Slet</button></th>' +
+                        '<th scope="row">'+ v.eventDate + '</th>' +
+                        '<th scope="row">'+ v.name + '</th>' +
+                        '<th scope="row">'+ v.email + '</th>' +
+                        '<th scope="row">'+ v.department + '</th>' +
+                        '<th scope="row">'+ v.noOfAdults + '</th>' +
+                        '<th scope="row">'+ v.noOfChildren + '</th>' +
+                        '<th scope="row">'+ v.bringsTrailer + '</th>' +
+                    '</tr>')
+        });
     }
 
 </script>
@@ -65,17 +74,22 @@
     <div>
         <h1>Registrations</h1>
     </div>
-    <div>
-        @using (Html.BeginForm("ExportAsExcel", "Registrations", FormMethod.Post, new { area = "Admin" }))
-        {
-            @Html.AntiForgeryToken()
+    @using (Html.BeginForm("ExportAsExcel", "Registrations", FormMethod.Post, new { area = "Admin", @class = "row g-3" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="col-auto">
+            @Html.Label("Year", "Year", new { @class = "visually-hidden"})
             @Html.TextBox("year", "2024", new { @class = "form-control", placeholder = @DateTime.Now.Year, @data_val = "true", @data_val_required = "År skal angives", autocomplete = "on" })
-            <input type="submit" value="Export"/>
-            <input type="button" value="Hent" onclick="FetchRegistrations()"/>
-        }
-    </div>
+        </div>
+        <div class="col-auto">
+            <input type="submit" class="btn btn-outline-secondary" value="Export"/>
+            <button id="btnFetchRegistrations" class="btn btn-outline-secondary" type="button" onclick="FetchRegistrations()">
+                Hent
+            </button>
+        </div>
+    }
     <div>
-        <table>
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th scope="col">#</th>
