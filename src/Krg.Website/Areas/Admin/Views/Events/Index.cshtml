@@ -1,1 +1,17 @@
-<h1>This is events view</h1>
+<div>
+    <h1>This is events view</h1>
+    <div>
+        @using (Html.BeginForm("Create", "Events", FormMethod.Post, new { area = "Admin", @class = "row g-3" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="col-auto">
+                @Html.Label("Date", "Date", new { @class = "visually-hidden"})
+                @Html.TextBox("startDate", DateTime.Now.ToString("yyyy-MM-dd"), new { @class = "form-control", type="date", placeholder = @DateTime.Now.Year, @data_val = "true", @data_val_required = "År skal angives", autocomplete = "on" })
+                @* <input id="startDate" class="form-control" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" /> *@
+            </div>
+            <div class="col-auto">
+                <input type="submit" class="btn btn-outline-secondary" value="Create"/>
+            </div>
+        }
+    </div>
+</div>

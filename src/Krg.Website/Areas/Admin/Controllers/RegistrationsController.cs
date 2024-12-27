@@ -22,7 +22,6 @@ public class RegistrationsController(
     [HttpPost]
     public List<BackofficeRegistrationDto> GetRegistrations([FromBody]GetRequestDto getRequest)
     {
-        Thread.Sleep(3000);
         int parsedYear = getRequest.Year == 0 ? DateTime.Now.Year : getRequest.Year;
 
         return eventRegistrationService
