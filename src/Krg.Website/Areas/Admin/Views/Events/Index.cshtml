@@ -1,5 +1,5 @@
-
 @using Krg.Domain
+@model Krg.Website.Models.EventsViewModel
 <div class="row">
     <div>
         <h1>This is events view</h1>
@@ -39,6 +39,14 @@
                     </div>
                 </div>
             </div>
-        }
+            }
+    </div>
+    <div>
+        <ul>
+            @foreach (var evt in Model.Events)
+            {
+                <li>@evt.Date</li>   
+            }
+        </ul>
     </div>
 </div>
