@@ -55,6 +55,11 @@ namespace Krg.Web.Controllers
 			return View(viewModel);
 		}
 
+		public IActionResult About()
+		{
+			return View();
+		}
+
 		[ValidateAntiForgeryToken]
 		[HttpPost]
 		public IActionResult HandleSubmit(AddRegistrationRequest request)

@@ -24,13 +24,9 @@
 				<li class="nav-item">
 					<a class="nav-link text-white" href="/"><img src="/media/krg_logo.png" alt="Logo" width="80%" /></a>
 				</li>
-				@* @foreach (var item in Model.DescendantsOrSelfOfType("TextPage"))
-				{
-					<li class="nav-item">
-						<a class="nav-link text-white fs-5" href="@item.Url()">@item.Name</a>
-					</li>
-				} *@
-				Menu here
+				<li class="nav-item">
+					@Html.ActionLink("Om loppen", "About", "Home", routeValues:null, htmlAttributes:new { @class="nav-link text-white fs-5"})
+				</li>
 			</ul>
 		</nav>
 	</div>
