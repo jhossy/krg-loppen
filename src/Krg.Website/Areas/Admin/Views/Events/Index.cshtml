@@ -1,16 +1,43 @@
+@using Krg.Domain
+@using Krg.Website.Models
 <div>
-    <h1>This is events view</h1>
     <div>
+        <h1>This is events view</h1>
+    </div>
+    <div class="row">
         @using (Html.BeginForm("Create", "Events", FormMethod.Post, new { area = "Admin", @class = "row g-3" }))
         {
-            @Html.AntiForgeryToken()
-            <div class="col-auto">
-                @Html.Label("Date", "Date", new { @class = "visually-hidden"})
-                @Html.TextBox("startDate", DateTime.Now.ToString("yyyy-MM-dd"), new { @class = "form-control", type="date", placeholder = @DateTime.Now.Year, @data_val = "true", @data_val_required = "År skal angives", autocomplete = "on" })
-                @* <input id="startDate" class="form-control" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" /> *@
-            </div>
-            <div class="col-auto">
-                <input type="submit" class="btn btn-outline-secondary" value="Create"/>
+            <div class="col-6">
+                @Html.AntiForgeryToken()
+                <div class="mb-3 row">
+                    @Html.Label("Date", "Date", new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBox("startDate", DateTime.Now.ToString("yyyy-MM-dd"), new { @class = "form-control", type = "date", placeholder = @DateTime.Now.Year, data_val = "true", @data_val_required = "År skal angives", autocomplete = "on" })
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    @Html.Label("ContactName", "Name", new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBox("ContactName", $"{Constants.FallBackContactName}", new { @class = "form-control", type = "text", placeholder = "Name", data_val = "true", @data_val_required = "Navn skal angives", autocomplete = "on" })
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    @Html.Label("ContactPhoneNo", "Phone", new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBox("ContactPhoneNo", $"{Constants.FallBackContactPhoneNo}", new { @class = "form-control", type = "phone", placeholder = "Phone no", data_val = "true", @data_val_required = "Telefon skal angives", autocomplete = "on" })
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    @Html.Label("ContactEmail", "Email", new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBox("ContactEmail", $"{Constants.FallBackContactEmail}", new { @class = "form-control", type = "email", placeholder = "Email", data_val = "true", @data_val_required = "Email skal angives", autocomplete = "on" })
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <div>
+                        <input type="submit" class="btn btn-outline-secondary float-end" value="Create"/>
+                    </div>
+                </div>
             </div>
         }
     </div>
