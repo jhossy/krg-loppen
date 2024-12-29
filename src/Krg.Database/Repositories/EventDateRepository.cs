@@ -10,6 +10,11 @@ namespace Krg.Database.Repositories
             _context = context;
         }
 
+        public Event GetEvent(DateTime date)
+        {
+            return _context.Events.FirstOrDefault(x => x.Date.Year == date.Year && x.Date.Month == date.Month && x.Date.Day == date.Day);
+        }
+
         public List<Event> GetAllEvents(int year)
         {
             var events = _context.Events
@@ -17,6 +22,37 @@ namespace Krg.Database.Repositories
                 .ToList();
 
             return events;
+        }
+
+        public void AddEvent(Event evt)
+        {
+            evt.UpdateTimeUtc = DateTime.UtcNow;
+            
+            _context.Events.Add(evt);
+        }
+
+        public void UpdateEvent(Event evt)
+        {
+            var eventToUpdate = GetEvent(evt.Date);
+
+            if (eventToUpdate != null)
+            {
+                eventToUpdate.ContactName = evt.ContactName;
+                eventToUpdate.ContactPhone = evt.ContactPhone;
+                eventToUpdate.ContactEmail = evt.ContactEmail;
+                eventToUpdate.UpdateTimeUtc = DateTime.UtcNow;
+                
+                _context.Events.Update(eventToUpdate);
+            }
+        }
+
+        public void RemoveEvent(Event evt)
+        {
+            var eventToRemove = GetEvent(evt.Date);
+
+            if (eventToRemove == null) return;
+
+            _context.Events.Remove(eventToRemove);
         }
     }
 }

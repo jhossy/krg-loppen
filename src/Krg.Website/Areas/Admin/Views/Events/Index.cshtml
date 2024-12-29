@@ -1,4 +1,6 @@
 @using Krg.Domain
+@using Krg.Domain.Models
+@using Krg.Web.Extensions
 @model Krg.Website.Models.EventsViewModel
 <div class="row">
     <div>
@@ -12,7 +14,7 @@
                 <div class="mb-3 row">
                     @Html.Label("Date", "Date", new { @class = "col-sm-2 col-form-label" })
                     <div class="col-sm-10">
-                        @Html.TextBox("startDate", DateTime.Now.ToString("yyyy-MM-dd"), new { @class = "form-control", type = "date", placeholder = @DateTime.Now.Year, data_val = "true", @data_val_required = "År skal angives", autocomplete = "on" })
+                        @Html.TextBox("Date", Model.SelectedDate.ToString("yyyy-MM-dd"), new { @class = "form-control", type = "date", placeholder = @DateTime.Now.Year, data_val = "true", @data_val_required = "År skal angives", autocomplete = "on" })
                     </div>
                 </div>
                 <div class="mb-3 row">
@@ -39,14 +41,62 @@
                     </div>
                 </div>
             </div>
-            }
+        }
     </div>
-    <div>
-        <ul>
-            @foreach (var evt in Model.Events)
+    
+    @foreach (var evt in Model.Events)
+    {
+        <div class="row">
+            <div>@evt.Key</div>
+            @foreach (var date in evt.Value.Select(x => x.Date))
             {
-                <li>@evt.Date</li>   
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">@date.ToDkDate()</h5>
+                            @* <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> *@
+                            @* <a href="?edit=@date" class="btn btn-outline-success">Edit</a> *@
+                            @Html.ActionLink("Edit", "Edit", "Events", new {date = date.ToString("yyyy-MM-dd")}, new {@class = "btn btn-outline-success"})
+                            @* <a href="/delete=@date" class="btn btn-danger">Delete</a> *@
+                            @Html.ActionLink("Delete", "Delete", "Events", new {date = date.ToString("yyyy-MM-dd")}, new {@class = "btn btn-danger"})
+                        </div>
+                    </div>
+                </div>
             }
-        </ul>
-    </div>
+        </div>
+    }
 </div>
+
+@* <div> *@
+@*     <ul class="tree"> *@
+@*         <li> *@
+@*             <details open> *@
+@*                 <summary>@Model.Year</summary> *@
+@*                 <ul> *@
+@*                     @foreach (var evt in Model.Events) *@
+@*                     { *@
+@*                         $1$ <li>@evt.Key - @string.Join(",", evt.Value.Select(x => x.Date.ToDkDate()))</li> #1# *@
+@*                         <li> *@
+@*                             <details> *@
+@*                                 <summary>@evt.Key</summary> $1$ month #1# *@
+@*                                 <ul> *@
+@*                                     @foreach (var date in evt.Value.Select(x => x.Date)) $1$ dates #1# *@
+@*                                     { *@
+@*                                         <li class="todo">@date.ToDkDate()</li> *@
+@*                                     } *@
+@*                                 </ul> *@
+@*                             </details> *@
+@*                         </li> *@
+@*                     } *@
+@*                 </ul> *@
+@*             </details> *@
+@*         </li> *@
+@*     </ul> *@
+@* </div> *@
+
+@section Scripts
+{
+    <script src="/lib/custom/tree.js" defer></script>
+@* <link rel="stylesheet" href="/lib/custom/script.css"> *@
+<link rel="stylesheet" href="/lib/custom/tree.css">
+}

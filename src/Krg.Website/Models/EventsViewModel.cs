@@ -4,5 +4,7 @@ namespace Krg.Website.Models;
 
 public class EventsViewModel
 {
-    public List<EventDate> Events { get; set; }
+    public DateTime SelectedDate { get; set; } = DateTime.Now;
+    public int Year { get; set; }
+    public Dictionary<string, List<EventDate>> Events { get; set; }
 }
