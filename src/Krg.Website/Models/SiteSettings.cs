@@ -2,8 +2,8 @@
 {
 	public class SiteSettings
 	{
-        public string EmailFromAddress { get; set; }
+        public required string EmailFromAddress { get; set; }
 
-		public int[] YearsToShow { get; set; }
+		public required int[] YearsToShow { get; set; }
     }
 }
