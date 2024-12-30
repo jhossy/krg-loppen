@@ -1,4 +1,5 @@
-﻿using Krg.Services;
+﻿namespace Krg.Website.Models;
+
 public class HomeViewModel
 {
 	public HomeViewModel()
@@ -6,5 +7,5 @@ public class HomeViewModel
 		Events = new List<RegistrationViewModel>();
 	}
 
-    public List<RegistrationViewModel> Events { get; set; }
+	public List<RegistrationViewModel> Events { get; set; }
 }

@@ -1,7 +1,7 @@
-﻿using Krg.Domain.Models;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using Krg.Domain.Models;
 
-namespace Krg.Services
+namespace Krg.Website.Models
 {
     public class RegistrationViewModel
 	{

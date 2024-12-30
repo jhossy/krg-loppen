@@ -3,6 +3,8 @@ namespace Krg.Database.Interfaces
 {
     public interface IEventDateRepository
     {
+        Event GetEventById(int id);
+        
         Event GetEvent(DateTime date);
         
         List<Event> GetAllEvents(int year);
@@ -11,6 +13,6 @@ namespace Krg.Database.Interfaces
         
         void UpdateEvent(Event evt);
         
-        void RemoveEvent(Event evt);
+        void RemoveEvent(int id);
     }
 }

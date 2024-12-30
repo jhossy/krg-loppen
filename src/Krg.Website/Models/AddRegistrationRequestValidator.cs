@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Krg.Domain.Models;
 
-namespace Krg.Web.Models
+namespace Krg.Website.Models
 {
     public class AddRegistrationRequestValidator : AbstractValidator<AddRegistrationRequest>
     {

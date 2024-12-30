@@ -14,6 +14,22 @@ namespace Krg.Services
             _unitOfWork = unitOfWork;
         }
 
+        public EventDate GetEventById(int id)
+        {
+	        var eventInDb = _unitOfWork.EventRepository.GetEventById(id);
+
+	        if (eventInDb == null) return null;
+	        
+	        return new EventDate
+	        {
+		        Id = eventInDb.Id,
+		        Date = eventInDb.Date, 
+		        ContactEmail = eventInDb.ContactEmail, 
+		        ContactPhone = eventInDb.ContactPhone, 
+		        ContactName = eventInDb.ContactName
+	        };
+        }
+
         public EventDate GetEventByDate(DateTime date)
         {
 	        var eventInDb = _unitOfWork.EventRepository.GetEvent(date);
@@ -22,6 +38,7 @@ namespace Krg.Services
 	        
 	        return new EventDate
 	        {
+		        Id = eventInDb.Id,
 		        Date = eventInDb.Date, 
 		        ContactEmail = eventInDb.ContactEmail, 
 		        ContactPhone = eventInDb.ContactPhone, 
@@ -36,6 +53,7 @@ namespace Krg.Services
 					.Select(x =>
 						new EventDate
 						{
+							Id = x.Id,
 							Date = x.Date,
 							ContactEmail = x.ContactEmail,
 							ContactName = x.ContactName,
@@ -70,9 +88,9 @@ namespace Krg.Services
 			_unitOfWork.Commit();
 		}
 
-		public void RemoveEventDate(EventDate eventDate)
+		public void RemoveEventDate(int id)
 		{
-			_unitOfWork.EventRepository.RemoveEvent(new Event{Date = eventDate.Date});
+			_unitOfWork.EventRepository.RemoveEvent(id);
 			
 			_unitOfWork.Commit();
 		}

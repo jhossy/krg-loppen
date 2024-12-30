@@ -1,13 +1,11 @@
 ﻿using FluentValidation.Results;
 using Krg.Domain.Models;
-using Krg.Services;
 using Krg.Services.Interfaces;
-using Krg.Web.Models;
 using Krg.Website.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
-namespace Krg.Web.Controllers
+namespace Krg.Website.Controllers
 {
     public class HomeController : Controller
 	{

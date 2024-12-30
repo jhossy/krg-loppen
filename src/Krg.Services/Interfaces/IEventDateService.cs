@@ -4,6 +4,8 @@ namespace Krg.Services.Interfaces
 {
     public interface IEventDateService
     {
+        EventDate GetEventById(int id);
+        
         EventDate GetEventByDate(DateTime date);
         
         List<EventDate> GetEvents(int year);
@@ -12,6 +14,6 @@ namespace Krg.Services.Interfaces
         
         void UpdateEventDate(EventDate eventDate);
         
-        void RemoveEventDate(EventDate eventDate);
+        void RemoveEventDate(int id);
     }
 }

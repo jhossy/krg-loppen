@@ -1,4 +1,4 @@
-@model Krg.Website.Areas.Admin.Controllers.EditEventDto
+@model Krg.Website.Areas.Admin.Models.EditEventDto
 <div class="row">
     <h1>Event details</h1>
     @using (Html.BeginForm("Edit", "Events", FormMethod.Post, new { area = "Admin", @class = "row g-3" }))
@@ -31,7 +31,8 @@
             </div>
             <div class="mb-3 row">
                 <div>
-                    <input type="submit" class="btn btn-outline-secondary float-end" value="Edit" />
+                    @Html.Hidden("Id", Model.Id)
+                    <input type="submit" class="btn btn-outline-secondary float-end" value="Edit"/>
                     @Html.ActionLink("Cancel", "Index", "Events", null, new { @class = "btn btn-outline-success float-end" })
                 </div>
             </div>

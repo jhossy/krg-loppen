@@ -2,6 +2,7 @@ using Krg.Domain;
 using Krg.Domain.Models;
 using Krg.Services.Interfaces;
 using Krg.Web.Extensions;
+using Krg.Website.Areas.Admin.Models;
 using Krg.Website.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,12 +11,9 @@ namespace Krg.Website.Areas.Admin.Controllers;
 [Area("Admin")]
 public class EventsController(IEventDateService eventDateService) : Controller
 {
-    private readonly IEventDateService _eventDateService = eventDateService;
-
-    // GET
-    public IActionResult Index(string edit = null)
+    public IActionResult Index()
     {
-        var allDates = _eventDateService.GetEvents(DateTime.Now.Year).OrderBy(x => x.Date);
+        var allDates = eventDateService.GetEvents(DateTime.Now.Year).OrderBy(x => x.Date);
 
         Dictionary<string, List<EventDate>> groupedDates = new Dictionary<string, List<EventDate>>();
         int[] months = new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
@@ -29,16 +27,9 @@ public class EventsController(IEventDateService eventDateService) : Controller
             groupedDates.Add(monthName, eventsInMonth);
         }
 
-        DateTime selectedDate;
-
-        if (string.IsNullOrEmpty(edit) || !DateTime.TryParse(edit, out selectedDate))
-        {
-            selectedDate = DateTime.Now;
-        }
-        
         return View(new EventsViewModel
         {
-            SelectedDate = selectedDate,
+            SelectedDate = DateTime.Now,
             Year = allDates.FirstOrDefault().Date.Year,
             Events = groupedDates
         });
@@ -50,12 +41,12 @@ public class EventsController(IEventDateService eventDateService) : Controller
     {
         if (DateTime.TryParse(createEventDto.Date, out DateTime dateTimeParsed))
         {
-            var eventDate = _eventDateService.GetEventByDate(dateTimeParsed);
+            var eventDate = eventDateService.GetEventByDate(dateTimeParsed);
             
             if(eventDate != null)
                 return RedirectToAction(nameof(Index));
             
-            _eventDateService.AddEventDate(new EventDate
+            eventDateService.AddEventDate(new EventDate
             {
                 Date = dateTimeParsed,
                 ContactName = createEventDto.ContactName,
@@ -68,34 +59,13 @@ public class EventsController(IEventDateService eventDateService) : Controller
         return BadRequest("Error parsing date");
     }
     
-    public IActionResult Edit(string date)
-    {
-        if (DateTime.TryParse(date, out DateTime dateTimeParsed))
-        {
-            var eventDate = _eventDateService.GetEventByDate(dateTimeParsed);
-
-            if (eventDate != null)
-            {
-                return View(new EditEventDto
-                {
-                    Date = eventDate.Date.ToString("yyyy-MM-dd"),
-                    ContactName = eventDate.ContactName,
-                    ContactPhoneNo = eventDate.ContactPhone,
-                    ContactEmail = eventDate.ContactEmail
-                });
-            }
-        }
-
-        return BadRequest();
-    }
-    
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Edit(EditEventDto editEventDto)
     {
         if (DateTime.TryParse(editEventDto.Date, out DateTime dateTimeParsed))
         {
-            var eventDate = _eventDateService.GetEventByDate(dateTimeParsed);
+            var eventDate = eventDateService.GetEventById(editEventDto.Id);
 
             if (eventDate != null)
             {
@@ -103,7 +73,7 @@ public class EventsController(IEventDateService eventDateService) : Controller
                 eventDate.ContactPhone = editEventDto.ContactPhoneNo;
                 eventDate.ContactEmail = editEventDto.ContactEmail;
                 
-                _eventDateService.UpdateEventDate(eventDate);
+                eventDateService.UpdateEventDate(eventDate);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -112,41 +82,29 @@ public class EventsController(IEventDateService eventDateService) : Controller
         return BadRequest();
     }
     
-    public IActionResult Delete(string date)
+    public IActionResult Edit(int id)
     {
-        if (DateTime.TryParse(date, out DateTime dateTimeParsed))
+        var eventDate = eventDateService.GetEventById(id);
+
+        if (eventDate != null)
         {
-            var eventDate = _eventDateService.GetEventByDate(dateTimeParsed);
-            
-            if(eventDate == null)
-                return RedirectToAction(nameof(Index));
-
-            _eventDateService.RemoveEventDate(eventDate);
-            
-            return RedirectToAction(nameof(Index));
+            return View(new EditEventDto
+            {
+                Id = eventDate.Id,
+                Date = eventDate.Date.ToString("yyyy-MM-dd"),
+                ContactName = eventDate.ContactName,
+                ContactPhoneNo = eventDate.ContactPhone,
+                ContactEmail = eventDate.ContactEmail
+            });
         }
-        return BadRequest("Error parsing date");
+        
+        return RedirectToAction(nameof(Index));
     }
-}
-
-public class CreateEventDto
-{
-    public string Date { get; set; }
-
-    public string ContactName { get; set; }
-
-    public string ContactPhoneNo { get; set; }
-
-    public string ContactEmail { get; set; }
-}
-
-public class EditEventDto
-{
-    public string Date { get; set; }
-
-    public string ContactName { get; set; }
-
-    public string ContactPhoneNo { get; set; }
-
-    public string ContactEmail { get; set; }
+    
+    public IActionResult Delete(int id)
+    {
+        eventDateService.RemoveEventDate(id);
+            
+        return RedirectToAction(nameof(Index));
+    }
 }

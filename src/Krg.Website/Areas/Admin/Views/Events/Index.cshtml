@@ -1,5 +1,4 @@
 @using Krg.Domain
-@using Krg.Domain.Models
 @using Krg.Web.Extensions
 @model Krg.Website.Models.EventsViewModel
 <div class="row">
@@ -63,14 +62,14 @@
         {
             <div class="tab-pane @(i == 0 ? "active" : "")" id="@(Model.Events.ElementAt(i).Key)" role="tabpanel" aria-labelledby="@(Model.Events.ElementAt(i).Key)-tab" tabindex="0">
                 <div class="row">
-                    @foreach (var date in Model.Events.ElementAt(i).Value.Select(x => x.Date))
+                    @foreach (var dateElm in Model.Events.ElementAt(i).Value)
                     {
                         <div class="col-sm-3 p-2">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">@date.ToDkDate()</h5>
-                                    @Html.ActionLink("Edit", "Edit", "Events", new { date = date.ToString("yyyy-MM-dd") }, new { @class = "btn btn-outline-success" })
-                                    @Html.ActionLink("Delete", "Delete", "Events", new { date = date.ToString("yyyy-MM-dd") }, new { @class = "btn btn-outline-danger", onclick="return confirm('Are you sure you want to delete this event?')"})
+                                    <h5 class="card-title">@dateElm.Date.ToDkDate()</h5>
+                                    @Html.ActionLink("Edit", "Edit", "Events", new { id = dateElm.Id }, new { @class = "btn btn-outline-success" })
+                                    @Html.ActionLink("Delete", "Delete", "Events", new { id = dateElm.Id }, new { @class = "btn btn-outline-danger", onclick="return confirm('Are you sure you want to delete this event?')"})
                                 </div>
                             </div>
                         </div>

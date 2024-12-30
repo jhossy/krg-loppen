@@ -9,6 +9,11 @@ namespace Krg.Database.Repositories
         {
             _context = context;
         }
+        
+        public Event GetEventById(int id)
+        {
+            return _context.Events.Single(x => x.Id == id);
+        }
 
         public Event GetEvent(DateTime date)
         {
@@ -46,9 +51,9 @@ namespace Krg.Database.Repositories
             }
         }
 
-        public void RemoveEvent(Event evt)
+        public void RemoveEvent(int id)
         {
-            var eventToRemove = GetEvent(evt.Date);
+            var eventToRemove = GetEventById(id);
 
             if (eventToRemove == null) return;
 
