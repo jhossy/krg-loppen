@@ -4,12 +4,12 @@
 @model Krg.Website.Models.EventsViewModel
 <div class="row">
     <div>
-        <h1>This is events view</h1>
+        <h1>Event overview</h1>
     </div>
     <div class="row">
         @using (Html.BeginForm("Create", "Events", FormMethod.Post, new { area = "Admin", @class = "row g-3" }))
         {
-            <div class="col-6">
+            <div class="col">
                 @Html.AntiForgeryToken()
                 <div class="mb-3 row">
                     @Html.Label("Date", "Date", new { @class = "col-sm-2 col-form-label" })
@@ -43,60 +43,40 @@
             </div>
         }
     </div>
-    
-    @foreach (var evt in Model.Events)
-    {
-        <div class="row">
-            <div>@evt.Key</div>
-            @foreach (var date in evt.Value.Select(x => x.Date))
-            {
-                <div class="col-sm-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">@date.ToDkDate()</h5>
-                            @* <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> *@
-                            @* <a href="?edit=@date" class="btn btn-outline-success">Edit</a> *@
-                            @Html.ActionLink("Edit", "Edit", "Events", new {date = date.ToString("yyyy-MM-dd")}, new {@class = "btn btn-outline-success"})
-                            @* <a href="/delete=@date" class="btn btn-danger">Delete</a> *@
-                            @Html.ActionLink("Delete", "Delete", "Events", new {date = date.ToString("yyyy-MM-dd")}, new {@class = "btn btn-danger"})
-                        </div>
-                    </div>
-                </div>
-            }
+
+    <!-- Nav tabs -->
+    <div class="row">
+        <div class="col">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                @for (int i = 0; i < Model.Events.Keys.Count; i++)
+                {
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link @(i == 0 ? "active" : "")" id="@(Model.Events.ElementAt(i).Key)-tab" data-bs-toggle="tab" data-bs-target="#@(Model.Events.ElementAt(i).Key)" type="button" role="tab" aria-controls="@(Model.Events.ElementAt(i).Key)" aria-selected="true">@(Model.Events.ElementAt(i).Key)</button>
+                    </li>
+                }
+            </ul>
         </div>
-    }
+    </div>
+    <!-- Tab panes -->
+    <div class="tab-content">
+        @for (int i = 0; i < Model.Events.Count; i++)
+        {
+            <div class="tab-pane @(i == 0 ? "active" : "")" id="@(Model.Events.ElementAt(i).Key)" role="tabpanel" aria-labelledby="@(Model.Events.ElementAt(i).Key)-tab" tabindex="0">
+                <div class="row">
+                    @foreach (var date in Model.Events.ElementAt(i).Value.Select(x => x.Date))
+                    {
+                        <div class="col-sm-3 p-2">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">@date.ToDkDate()</h5>
+                                    @Html.ActionLink("Edit", "Edit", "Events", new { date = date.ToString("yyyy-MM-dd") }, new { @class = "btn btn-outline-success" })
+                                    @Html.ActionLink("Delete", "Delete", "Events", new { date = date.ToString("yyyy-MM-dd") }, new { @class = "btn btn-outline-danger", onclick="return confirm('Are you sure you want to delete this event?')"})
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
 </div>
-
-@* <div> *@
-@*     <ul class="tree"> *@
-@*         <li> *@
-@*             <details open> *@
-@*                 <summary>@Model.Year</summary> *@
-@*                 <ul> *@
-@*                     @foreach (var evt in Model.Events) *@
-@*                     { *@
-@*                         $1$ <li>@evt.Key - @string.Join(",", evt.Value.Select(x => x.Date.ToDkDate()))</li> #1# *@
-@*                         <li> *@
-@*                             <details> *@
-@*                                 <summary>@evt.Key</summary> $1$ month #1# *@
-@*                                 <ul> *@
-@*                                     @foreach (var date in evt.Value.Select(x => x.Date)) $1$ dates #1# *@
-@*                                     { *@
-@*                                         <li class="todo">@date.ToDkDate()</li> *@
-@*                                     } *@
-@*                                 </ul> *@
-@*                             </details> *@
-@*                         </li> *@
-@*                     } *@
-@*                 </ul> *@
-@*             </details> *@
-@*         </li> *@
-@*     </ul> *@
-@* </div> *@
-
-@section Scripts
-{
-    <script src="/lib/custom/tree.js" defer></script>
-@* <link rel="stylesheet" href="/lib/custom/script.css"> *@
-<link rel="stylesheet" href="/lib/custom/tree.css">
-}

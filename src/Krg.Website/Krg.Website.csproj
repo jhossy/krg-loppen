@@ -31,6 +31,8 @@
       <_ContentIncludedByDefault Remove="wwwroot\media\css\calendar.css" />
       <_ContentIncludedByDefault Remove="wwwroot\media\css\main.css" />
       <_ContentIncludedByDefault Remove="wwwroot\media\krg_logo.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\custom\tree.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\custom\tree.js" />
     </ItemGroup>
 
     <ItemGroup>
