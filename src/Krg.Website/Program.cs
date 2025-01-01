@@ -1,7 +1,9 @@
 using Krg.Database;
 using Krg.Database.Extensions;
+using Krg.Domain.Models;
 using Krg.Services.Extensions;
 using Krg.Website.Extensions;
+using Krg.Website.Models;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
 using Serilog;
@@ -16,7 +18,8 @@ try
 	var builder = WebApplication.CreateBuilder(args);
 
 	// Add services to the container.
-	builder.Services.AddControllersWithViews();
+	builder.Services.AddControllersWithViews()
+		.AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new CustomDateTimeConverter()));
 		
 	builder.Services.AddSerilog((context, configuration) =>
 	{

@@ -38,7 +38,9 @@ namespace Krg.Website.Controllers
 
 			foreach (var year in yearsToShow)
 			{
-				List<EventDate> events = _eventDateService.GetEvents(year);
+				List<EventDate> events = _eventDateService.GetEvents(year)
+					.Where(x => x.Date.Date > (DateTime.Now.AddDays(-1)).Date)
+					.ToList();
 
 				List<Registration> dbRegistrations = _eventRegistrationService.GetNonDeletedRegistrations(year).ToList();
 

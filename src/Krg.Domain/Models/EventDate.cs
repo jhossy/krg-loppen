@@ -1,4 +1,6 @@
-﻿namespace Krg.Domain.Models
+﻿using System.Text.Json.Serialization;
+
+namespace Krg.Domain.Models
 {
 	public class EventDate
 	{

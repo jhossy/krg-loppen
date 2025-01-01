@@ -34,10 +34,6 @@ namespace Krg.Website.Extensions
 							}
 						);
 						s.UseNewtonsoftJsonSerializer();
-						//s.UseSqlServer(sqlserver =>
-						//{
-						//	sqlserver.ConnectionString = "Server=.\\sqlexpress;Database=quartz-sample;Integrated Security=True;TrustServerCertificate=True;MultipleActiveResultSets=true";
-						//});
 					});
 
 				var emailReminderJobKey = new JobKey(nameof(EmailReminderNotificationsJob));
