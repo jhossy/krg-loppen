@@ -18,41 +18,41 @@ public class EventsController(IEventDateService eventDateService, IOptions<SiteS
     [HttpGet]
     public IActionResult Index(string? tab = null)
     {
-        var allDates = eventDateService
-            .GetEvents(DateTime.Now.Year)
-            .OrderBy(x => x.Date)
-            .ToList();
-
-        var groupedDates = GroupEventsByDate(allDates);
+        // var allDates = eventDateService
+        //     .GetEvents(DateTime.Now.Year)
+        //     .OrderBy(x => x.Date)
+        //     .ToList();
+        //
+        // var groupedDates = GroupEventsByDate(allDates);
 
         return View(new EventsViewModel
         {
             SelectedDate = DateTime.Now,
-            Year = allDates.FirstOrDefault().Date.Year,
-            Events = groupedDates
+            // Year = allDates.FirstOrDefault().Date.Year,
+            // Events = groupedDates
         });
     }
 
     [HttpPost]
     public IActionResult Index(int year)
     {
-        if (year != DateTime.Now.Year && !_siteSettings.YearsToShow.Contains(year))
-        {
-            year = DateTime.Now.Year;
-        }
-        
-        var allDates = eventDateService
-            .GetEvents(year)
-            .OrderBy(x => x.Date)
-            .ToList();
-
-        var groupedDates = GroupEventsByDate(allDates);
+        // if (year != DateTime.Now.Year && !_siteSettings.YearsToShow.Contains(year))
+        // {
+        //     year = DateTime.Now.Year;
+        // }
+        //
+        // var allDates = eventDateService
+        //     .GetEvents(year)
+        //     .OrderBy(x => x.Date)
+        //     .ToList();
+        //
+        // var groupedDates = GroupEventsByDate(allDates);
 
         return View(new EventsViewModel
         {
             SelectedDate = DateTime.Now,
-            Year = allDates.FirstOrDefault().Date.Year,
-            Events = groupedDates
+            // Year = allDates.FirstOrDefault().Date.Year,
+            // Events = groupedDates
         });
     }
     
