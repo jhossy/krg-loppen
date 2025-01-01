@@ -10,10 +10,9 @@ using Microsoft.Extensions.Options;
 namespace Krg.Website.Areas.Admin.Controllers;
 
 [Area("Admin")]
-public class EventsController(IEventDateService eventDateService, IOptions<SiteSettings> siteSettings) : Controller
+public class EventsController(IEventDateService eventDateService, ILogger<EventsController> logger) : Controller
 {
     private readonly int[] _months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-    private readonly SiteSettings _siteSettings = siteSettings.Value;
     
     [HttpGet]
     public IActionResult Index(string? tab = null)
@@ -67,6 +66,8 @@ public class EventsController(IEventDateService eventDateService, IOptions<SiteS
             if(eventDate != null)
                 return RedirectToAction(nameof(Index));
             
+            logger.LogInformation("Adding new event: {@createEventDto}", createEventDto);
+            
             eventDateService.AddEventDate(new EventDate
             {
                 Date = dateTimeParsed,
@@ -87,7 +88,9 @@ public class EventsController(IEventDateService eventDateService, IOptions<SiteS
         if (DateTime.TryParse(editEventDto.Date, out DateTime dateTimeParsed))
         {
             var eventDate = eventDateService.GetEventById(editEventDto.Id);
-
+            
+            logger.LogInformation("Updating event - old values: {@eventDate}", eventDate);
+            
             if (eventDate != null)
             {
                 eventDate.ContactName = editEventDto.ContactName;
@@ -95,6 +98,8 @@ public class EventsController(IEventDateService eventDateService, IOptions<SiteS
                 eventDate.ContactEmail = editEventDto.ContactEmail;
                 
                 eventDateService.UpdateEventDate(eventDate);
+                
+                logger.LogInformation("Updating event - new values: {@editEventDto}", editEventDto);
 
                 return RedirectToAction(nameof(Index), new {tab = dateTimeParsed.ToDkMonth()});
             }
@@ -124,24 +129,26 @@ public class EventsController(IEventDateService eventDateService, IOptions<SiteS
     
     public IActionResult Delete(int id)
     {
+        logger.LogInformation($"Deleting event with id: {id}");
+        
         eventDateService.RemoveEventDate(id);
             
         return RedirectToAction(nameof(Index));
     }
     
-    private Dictionary<string, List<EventDate>> GroupEventsByDate(List<EventDate> allDates)
-    {
-        Dictionary<string, List<EventDate>> groupedDates = new Dictionary<string, List<EventDate>>();
-
-        foreach (int month in _months)
-        {
-            var eventsInMonth = new List<EventDate>();
-            eventsInMonth.AddRange(allDates.Where(x => x.Date.Month == month));
-
-            string monthName = new DateTime(DateTime.Now.Year, month, 1).ToDkMonth();
-            groupedDates.Add(monthName, eventsInMonth);
-        }
-
-        return groupedDates;
-    }
+    // private Dictionary<string, List<EventDate>> GroupEventsByDate(List<EventDate> allDates)
+    // {
+    //     Dictionary<string, List<EventDate>> groupedDates = new Dictionary<string, List<EventDate>>();
+    //
+    //     foreach (int month in _months)
+    //     {
+    //         var eventsInMonth = new List<EventDate>();
+    //         eventsInMonth.AddRange(allDates.Where(x => x.Date.Month == month));
+    //
+    //         string monthName = new DateTime(DateTime.Now.Year, month, 1).ToDkMonth();
+    //         groupedDates.Add(monthName, eventsInMonth);
+    //     }
+    //
+    //     return groupedDates;
+    // }
 }
