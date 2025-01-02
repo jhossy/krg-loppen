@@ -18,11 +18,11 @@
     var years = _siteSettings.Value.YearsToShow;
 }
 
-<div class="row ">
+<div class="row">
     <div>
         <h1>Event overview</h1>
     </div>
-    <div class="row">
+    <div class="row shadow-sm p-3 mb-5 bg-body rounded">
         @using (Html.BeginForm("Create", "Events", FormMethod.Post, new { area = "Admin", @class = "row g-3" }))
         {
             <div class="col">
@@ -61,7 +61,7 @@
     </div>
     
     <!-- Nav tabs -->
-    <div class="row p-2">
+    <div class="row p-2 shadow-sm p-3 bg-body rounded">
         <div class="col">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 @* @for (int i = 0; i < Model.Events.Keys.Count; i++) *@
@@ -82,7 +82,7 @@
             </select>
         </div>
     </div>
-    <div class="row">
+    <div class="row shadow-sm p-3 mb-5 bg-body rounded">
         <div class="col">
             <!-- Tab panes -->
             <div class="tab-content" id="tabContentRoot">
