@@ -1,9 +1,9 @@
 using Krg.Database;
 using Krg.Database.Extensions;
-using Krg.Domain.Models;
 using Krg.Services.Extensions;
 using Krg.Website.Extensions;
 using Krg.Website.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
 using Serilog;
@@ -18,9 +18,9 @@ try
 	var builder = WebApplication.CreateBuilder(args);
 
 	// Add services to the container.
-	builder.Services.AddControllersWithViews()
-		.AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new CustomDateTimeConverter()));
-		
+	builder.Services.AddEndpointsApiExplorer();
+	builder.Services.AddSwaggerGen();
+
 	builder.Services.AddSerilog((context, configuration) =>
 	{
 		Environment.SetEnvironmentVariable("BASEDIR", AppContext.BaseDirectory);
@@ -32,7 +32,10 @@ try
 
 	builder.Services.AddDbContext<KrgContext>(options =>
 		options.UseSqlServer(builder.Configuration.GetConnectionString("KrgContext")));
-
+	
+	builder.Services.AddDbContext<ApplicationDbContext>(options =>
+		options.UseSqlServer(builder.Configuration.GetConnectionString("KrgContext")));
+	
 	builder.Services.AddDatabaseExtensions();
 	builder.Services.AddServiceExtensions(builder.Configuration);
 	builder.Services.AddWebsiteExtensions(builder.Configuration);
@@ -46,6 +49,11 @@ try
 		app.UseExceptionHandler("/Home/Error");
 		// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 		app.UseHsts();
+	}
+	else
+	{
+		app.UseSwagger();
+		app.UseSwaggerUI();
 	}
 
 	using (var scope = app.Services.CreateScope())
@@ -61,8 +69,14 @@ try
 	app.UseHttpsRedirection();
 	app.UseStaticFiles();
 
+	app.UseCookiePolicy(new CookiePolicyOptions
+	{
+		MinimumSameSitePolicy = SameSiteMode.Strict, Secure = CookieSecurePolicy.Always
+	});
+
 	app.UseRouting();
 
+	app.UseAuthentication();
 	app.UseAuthorization();
 
 	app.MapControllerRoute(
@@ -74,6 +88,8 @@ try
 		name: "default",
 		pattern: "{controller=Home}/{action=Index}/{id?}");
 
+	app.MapIdentityApi<Microsoft.AspNetCore.Identity.IdentityUser>();
+	
     app.Run();
 
 	Log.Information("Stopped cleanly");

@@ -4,12 +4,14 @@ using Krg.Services.Interfaces;
 using Krg.Web.Extensions;
 using Krg.Website.Areas.Admin.Models;
 using Krg.Website.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
 namespace Krg.Website.Areas.Admin.Controllers;
 
 [Area("Admin")]
+[Authorize]
 public class EventsController(IEventDateService eventDateService, ILogger<EventsController> logger) : Controller
 {
     private readonly int[] _months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
