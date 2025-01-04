@@ -2,10 +2,6 @@ using Krg.Database;
 using Krg.Database.Extensions;
 using Krg.Services.Extensions;
 using Krg.Website.Extensions;
-using Krg.Website.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Quartz;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()

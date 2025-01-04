@@ -12,16 +12,23 @@ public class LoginController(SignInManager<IdentityUser> signInManager) : Contro
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Login([FromForm] LoginDto loginDto)
+    public async Task<IActionResult> Login(LoginDto loginDto)
     {
-        var loginResult = await signInManager.PasswordSignInAsync(loginDto.Username, loginDto.Password, false, lockoutOnFailure: false);
+        if (!ModelState.IsValid)
+        {
+            return View("Index");
+        }
+        
+        var loginResult = await signInManager.PasswordSignInAsync(loginDto.Email, loginDto.Password, false, lockoutOnFailure: false);
         
         if (loginResult.Succeeded)
         {
             return RedirectToAction("Index", "Home", new { area = "Admin" });    
         }
         
-        return RedirectToAction(nameof(Index));
+        ModelState.AddModelError("Password", "Invalid email or password. Please try again.");
+        
+        return View("Index");
     }
     
     [HttpGet]
@@ -35,7 +42,7 @@ public class LoginController(SignInManager<IdentityUser> signInManager) : Contro
 
 public class LoginDto
 {
-    public string Username { get; set; }
+    public string Email { get; set; }
 
     public string Password { get; set; }
 }

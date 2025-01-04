@@ -1,7 +1,6 @@
 ﻿using Krg.Database;
 using Krg.Website.Jobs;
 using Krg.Website.Models;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Quartz;
 

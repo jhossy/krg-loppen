@@ -1,6 +1,3 @@
-using Krg.Domain.Models;
-using Microsoft.AspNetCore.Mvc.Rendering;
-
 namespace Krg.Website.Areas.Admin.Models;
 
 public class EventsViewModel

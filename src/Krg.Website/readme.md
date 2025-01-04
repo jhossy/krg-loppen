@@ -22,6 +22,8 @@ Ref. https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs
 
 1) Change to ./src
 
-2) `dotnet ef migrations add InitialIdentityCreate --output-dir Migrations/Identity --project Krg.Database --startup-project Krg.Website --context IdentityContext`
+2) Create the migration:
+`dotnet ef migrations add InitialIdentityCreate --output-dir Migrations/Identity --project Krg.Database --startup-project Krg.Website --context IdentityContext`
 
-3) `dotnet ef database update --project Krg.Database --startup-project Krg.Website --context IdentityContext`
+3) Update the database:
+`dotnet ef database update --project Krg.Database --startup-project Krg.Website --context IdentityContext`
