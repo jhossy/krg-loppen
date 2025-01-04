@@ -27,7 +27,9 @@ public class ProfileApiController(SignInManager<IdentityUser> signInManager, ILo
 
             var resetToken = await signInManager.UserManager.GeneratePasswordResetTokenAsync(user);
 
-            await signInManager.UserManager.ResetPasswordAsync(user, resetToken, Guid.NewGuid().ToString());
+            string newPassword = Guid.NewGuid().ToString();
+
+            await signInManager.UserManager.ResetPasswordAsync(user, resetToken, newPassword);
 
             return new JsonResult($"Password successfully reset to {newPassword}");
         }
