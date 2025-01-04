@@ -33,6 +33,8 @@
       <_ContentIncludedByDefault Remove="wwwroot\media\krg_logo.png" />
       <_ContentIncludedByDefault Remove="wwwroot\lib\custom\tree.css" />
       <_ContentIncludedByDefault Remove="wwwroot\lib\custom\tree.js" />
+      <_ContentIncludedByDefault Remove="Areas\Admin\Views\Stats\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Areas\Admin\Views\Login\Index.cshtml" />
     </ItemGroup>
 
     <ItemGroup>

@@ -1,0 +1,21 @@
+<h1>Login here</h1>
+
+<div class="col-md-4">
+    <section>
+    @using (Html.BeginForm("Login", "Login", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <hr />
+            <div>
+                @Html.TextBox("Username", "", new { placeholder = "Username"})
+            </div>
+            
+            <div>
+                @Html.Password("Password")
+            </div>
+            <div>
+                <input type="submit" class="btn btn-outline-secondary float-end" value="Login"/>
+            </div>
+        }
+    </section>
+</div>

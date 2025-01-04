@@ -22,7 +22,8 @@ namespace Krg.Website.Extensions
 				{
 					options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
 					options.SlidingExpiration = true;
-					options.AccessDeniedPath = "/Account/AccessDenied";
+					options.AccessDeniedPath = "/Login";
+					options.LoginPath = "/Login";
 				});
 				
 			services.AddIdentityCore<IdentityUser>(options =>

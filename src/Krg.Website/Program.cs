@@ -30,13 +30,7 @@ try
 			.Enrich.FromLogContext();
 	});
 
-	builder.Services.AddDbContext<KrgContext>(options =>
-		options.UseSqlServer(builder.Configuration.GetConnectionString("KrgContext")));
-	
-	builder.Services.AddDbContext<ApplicationDbContext>(options =>
-		options.UseSqlServer(builder.Configuration.GetConnectionString("KrgContext")));
-	
-	builder.Services.AddDatabaseExtensions();
+	builder.Services.AddDatabaseExtensions(builder.Configuration);
 	builder.Services.AddServiceExtensions(builder.Configuration);
 	builder.Services.AddWebsiteExtensions(builder.Configuration);
 	builder.Services.AddScheduledJobs();
