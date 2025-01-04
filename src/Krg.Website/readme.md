@@ -8,11 +8,11 @@ Ref. https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs
 
 2) Initial create: 
  
-`dotnet ef migrations add InitialCreate --output-dir Migrations --project Krg.Database --startup-project Krg.Website`
+`dotnet ef migrations add InitialCreate --output-dir Migrations/Krg --project Krg.Database --startup-project Krg.Website`
 
 3) Apply migrations locally:
 
-`dotnet ef database update --project Krg.Database --startup-project Krg.Website`
+`dotnet ef database update --project Krg.Database --startup-project Krg.Website --context ApplicationDbContext`
 
 4) Add new migration:
  
@@ -22,6 +22,6 @@ Ref. https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs
 
 1) Change to ./src
 
-2) dotnet ef migrations add InitialIdentityCreate --output-dir IdentityMigrations --project Krg.Database --startup-project Krg.Website --context ApplicationDbContext
+2) `dotnet ef migrations add InitialIdentityCreate --output-dir Migrations/Identity --project Krg.Database --startup-project Krg.Website --context IdentityContext`
 
-3dotnet ef database update --project Krg.Database --startup-project Krg.Website --context ApplicationDbContext
+3) `dotnet ef database update --project Krg.Database --startup-project Krg.Website --context IdentityContext`

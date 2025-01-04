@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Krg.Database;
 
-public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+public class IdentityContext(DbContextOptions<IdentityContext> options)
     : IdentityDbContext<IdentityUser>(options)
 {
     protected override void OnModelCreating(ModelBuilder modelBuilder)

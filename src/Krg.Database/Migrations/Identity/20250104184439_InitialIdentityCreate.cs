@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Krg.Database.IdentityMigrations
+namespace Krg.Database.Migrations.Identity
 {
     /// <inheritdoc />
     public partial class InitialIdentityCreate : Migration
