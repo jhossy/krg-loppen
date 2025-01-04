@@ -1,0 +1,236 @@
+@using Krg.Domain
+@using Krg.Web.Extensions
+@using Krg.Website.Models
+@using Microsoft.Extensions.Options
+@inject IOptions<SiteSettings> _siteSettings;
+@model Krg.Website.Areas.Admin.Models.EventsViewModel
+
+@{
+    // bool IsActiveCssClass(string month, int index)
+    // {
+    //     if (string.IsNullOrEmpty(Context.Request.Query["tab"]))
+    //     {
+    //         return index == 0;
+    //     }
+    //     return string.Equals(Context.Request.Query["tab"], month, StringComparison.OrdinalIgnoreCase);
+    // }
+
+    var years = _siteSettings.Value.YearsToShow;
+}
+
+<div>
+    <h1>Event overview</h1>
+</div>
+<div class="row shadow-sm p-3 mb-5 bg-body rounded">
+    @using (Html.BeginForm("Create", "Events", FormMethod.Post, new { area = "Admin", @class = "row g-3" }))
+    {
+        <div class="col">
+            @Html.AntiForgeryToken()
+            <div class="mb-3 row">
+                @Html.Label("Date", "Date", new { @class = "col-sm-2 col-form-label" })
+                <div class="col-sm-10">
+                    @Html.TextBox("Date", Model.SelectedDate.ToString("yyyy-MM-dd"), new { @class = "form-control", type = "date", placeholder = @DateTime.Now.Year, data_val = "true", @data_val_required = "År skal angives", autocomplete = "on" })
+                </div>
+            </div>
+            <div class="mb-3 row">
+                @Html.Label("ContactName", "Name", new { @class = "col-sm-2 col-form-label" })
+                <div class="col-sm-10">
+                    @Html.TextBox("ContactName", $"{Constants.FallBackContactName}", new { @class = "form-control", type = "text", placeholder = "Name", data_val = "true", @data_val_required = "Navn skal angives", autocomplete = "on" })
+                </div>
+            </div>
+            <div class="mb-3 row">
+                @Html.Label("ContactPhoneNo", "Phone", new { @class = "col-sm-2 col-form-label" })
+                <div class="col-sm-10">
+                    @Html.TextBox("ContactPhoneNo", $"{Constants.FallBackContactPhoneNo}", new { @class = "form-control", type = "phone", placeholder = "Phone no", data_val = "true", @data_val_required = "Telefon skal angives", autocomplete = "on" })
+                </div>
+            </div>
+            <div class="mb-3 row">
+                @Html.Label("ContactEmail", "Email", new { @class = "col-sm-2 col-form-label" })
+                <div class="col-sm-10">
+                    @Html.TextBox("ContactEmail", $"{Constants.FallBackContactEmail}", new { @class = "form-control", type = "email", placeholder = "Email", data_val = "true", @data_val_required = "Email skal angives", autocomplete = "on" })
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <div>
+                    <input type="submit" class="btn btn-outline-secondary float-end" value="Create"/>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Nav tabs -->
+<div class="row p-2 shadow-sm p-3 bg-body rounded">
+    <div class="col">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            @* @for (int i = 0; i < Model.Events.Keys.Count; i++) *@
+            @* { *@
+            @*     <li class="nav-item" role="presentation"> *@
+            @*         <button class="nav-link @(IsActiveCssClass(Model.Events.ElementAt(i).Key, i) ? "active" : "")" id="@(Model.Events.ElementAt(i).Key)-tab" data-bs-toggle="tab" data-bs-target="#@(Model.Events.ElementAt(i).Key)" type="button" role="tab" aria-controls="@(Model.Events.ElementAt(i).Key)" aria-selected="true">@(Model.Events.ElementAt(i).Key)</button> *@
+            @*     </li> *@
+            @* } *@
+        </ul>
+    </div>
+    <div class="col col-sm-auto">
+        <select id="yearSelector" name="year" class="form-select" aria-label="Select year">
+            <option value="" selected>Select year</option>
+            @foreach (var elm in years)
+            {
+                <option value="@elm">@elm</option>
+            }
+        </select>
+    </div>
+</div>
+<div class="row shadow-sm p-3 mb-5 bg-body rounded">
+    <div class="col">
+        <!-- Tab panes -->
+        <div class="tab-content" id="tabContentRoot">
+            @* @for (int i = 0; i < Model.Events.Count; i++) *@
+            @* { *@
+            @* <div class="tab-pane @(IsActiveCssClass(Model.Events.ElementAt(i).Key, i) ? "active" : "")" id="@(Model.Events.ElementAt(i).Key)" role="tabpanel" aria-labelledby="@(Model.Events.ElementAt(i).Key)-tab" tabindex="0"> *@
+            @*     <div class="row"> *@
+            @*         @foreach (var dateElm in Model.Events.ElementAt(i).Value) *@
+            @*         { *@
+            @*         <div class="col-sm-3 p-2"> *@
+            @*             <div class="card"> *@
+            @*                 <div class="card-body"> *@
+            @*                     <h5 class="card-title">@dateElm.Date.ToDkDate()</h5> *@
+            @*                     <p class="card-text"> *@
+            @*                         <div class="row"> *@
+            @*                             <label for="staticName-@dateElm.Date.ToDkDate()" class="col-sm-2 col-form-label">Name</label> *@
+            @*                             <div class="col-sm-10"> *@
+            @*                                 <input type="text" readonly class="form-control-plaintext" id="staticName-@dateElm.Date.ToDkDate()" value="@dateElm.ContactName"> *@
+            @*                             </div> *@
+            @*                         </div> *@
+            @*                         <div class="row"> *@
+            @*                             <label for="staticPhone-@dateElm.Date.ToDkDate()" class="col-sm-2 col-form-label">Phone</label> *@
+            @*                             <div class="col-sm-10"> *@
+            @*                                 <input type="text" readonly class="form-control-plaintext" id="staticPhone-@dateElm.Date" value="@dateElm.ContactPhone"> *@
+            @*                             </div> *@
+            @*                         </div> *@
+            @*                         <div class="row"> *@
+            @*                             <label for="staticEmail-@dateElm.Date.ToDkDate()" class="col-sm-2 col-form-label">Email</label> *@
+            @*                             <div class="col-sm-10"> *@
+            @*                                 <input type="text" readonly class="form-control-plaintext" id="staticEmail-@dateElm.Date.ToDkDate()" value="@dateElm.ContactEmail"> *@
+            @*                             </div> *@
+            @*                         </div> *@
+            @*                     </p> *@
+            @*                     $1$ @Html.ActionLink("Edit", "Edit", "Events", new { id = dateElm.Id, tab = Model.Events.ElementAt(i).Key }, new { @class = "btn btn-outline-success" }) #1# *@
+            @*                     @Html.ActionLink("Edit", "Edit", "Events", new { id = dateElm.Id }, new { @class = "btn btn-outline-success" }) *@
+            @*                     @Html.ActionLink("Delete", "Delete", "Events", new { id = dateElm.Id }, new { @class = "btn btn-outline-danger", onclick="return confirm('Are you sure you want to delete this event?')"}) *@
+            @*                 </div> *@
+            @*             </div> *@
+            @*         </div> *@
+            @*         } *@
+            @*     </div> *@
+            @* </div> *@
+            @* } *@
+        </div>
+    </div>
+</div>
+
+<div class="row p-2">
+    <div class="col">
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function (){
+            callApi(new Date().getFullYear());
+        });
+        
+        $('#yearSelector').on('change', function() {
+            if (this.value === '')
+                return;
+            
+            callApi(this.value);            
+        });
+        
+        function callApi(year) {
+            $('.spinner-border').show();
+            
+            $.ajax({
+                type: 'GET',
+                url: '/Admin/EventsApi/GetEvents?year=' + year,
+                contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+                    $('.spinner-border').hide();                    
+                    let str = '';
+                    let i = 0;
+                    let keyArr = [];
+                    $.each(result, function (k, v){
+                        str += '<div class="tab-pane ' + (i === 0 ? "active" : "") + '" id="' + k + '" role="tabpanel" aria-labelledby="' + k + '-tab" tabindex="0">'
+                        str += ' <div class="row">'
+                        str += v.map(eventElm).join('');
+                        str += ' </div>'
+                        str += '</div>'
+
+                        keyArr.push({id: k, isActiveClass: (i === 0 ? 'active' : '')});
+                        i++;
+                    })
+
+                    let myTab = $('#myTab');
+                    myTab.empty();
+                    myTab.html(keyArr.map(tabElm).join(''));
+
+                    //console.log(result);
+
+                    let tabContentRoot = $('#tabContentRoot');
+                    tabContentRoot.empty();
+                    tabContentRoot.html(str);
+                }
+            });
+        }
+    
+    </script>
+
+    <script>
+        const tabElm = ({ id, isActiveClass }) => `
+            <li class="nav-item" role="presentation">
+                <button class="nav-link ${isActiveClass}" id="${id}-tab" data-bs-toggle="tab" data-bs-target="#${id}" type="button" role="tab" aria-controls="${id}" aria-selected="true">${id}</button>
+            </li>
+        `
+    </script>
+
+    <script>
+    const eventElm = ({ id, date, contactName, contactPhone, contactEmail }) => `
+        <div class="col-sm-3 p-2">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">${date}</h5>
+                    <p class="card-text">
+                        <div class="row">
+                            <label for="staticName-${date}" class="col-sm-2 col-form-label"><i class="bi bi-person-lines-fill h5"></i></label>
+                            <div class="col-sm-10">
+                                <input type="text" readonly class="form-control-plaintext" id="staticName-${date}" value="${contactName}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label for="staticPhone-${date}" class="col-sm-2 col-form-label"><i class="bi bi-telephone h5"></i></label>
+                            <div class="col-sm-10">
+                                <input type="text" readonly class="form-control-plaintext" id="staticPhone-${date}" value="${contactPhone}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label for="staticEmail-${date}" class="col-sm-2 col-form-label"><i class="bi bi-envelope h5"></i></label>
+                            <div class="col-sm-10">
+                                <input type="text" readonly class="form-control-plaintext" id="staticEmail-${date}" value="${contactEmail}">
+                            </div>
+                        </div>
+                    </p>
+                    <div class="float-end">
+                        <a class="btn btn-outline-success" href="/Admin/Events/Edit/${id}">Edit</a>
+                        <a class="btn btn-outline-danger" href="/Admin/Events/Delete/${id}" onclick="return confirm('Are you sure you want to delete this event?')">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>`
+    </script>
+}

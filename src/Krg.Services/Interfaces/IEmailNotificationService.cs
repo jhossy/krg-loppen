@@ -12,7 +12,7 @@ namespace Krg.Services.Interfaces
 
         void RemoveReminder(int id);
 
-        void CancelReminder(int umbracoNodeId);
+        void CancelReminder(int eventRegistrationId);
 
 		List<Notification> GetNonProcessedNotifications();
         List<EmailReminder> GetNonProcessedReminders();

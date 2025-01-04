@@ -1,13 +1,11 @@
 ﻿using FluentValidation.Results;
 using Krg.Domain.Models;
-using Krg.Services;
 using Krg.Services.Interfaces;
-using Krg.Web.Models;
 using Krg.Website.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
-namespace Krg.Web.Controllers
+namespace Krg.Website.Controllers
 {
     public class HomeController : Controller
 	{
@@ -40,7 +38,9 @@ namespace Krg.Web.Controllers
 
 			foreach (var year in yearsToShow)
 			{
-				List<EventDate> events = _eventDateService.GetEvents(year);
+				List<EventDate> events = _eventDateService.GetEvents(year)
+					.Where(x => x.Date.Date > (DateTime.Now.AddDays(-1)).Date)
+					.ToList();
 
 				List<Registration> dbRegistrations = _eventRegistrationService.GetNonDeletedRegistrations(year).ToList();
 
@@ -53,6 +53,11 @@ namespace Krg.Web.Controllers
 			};
 
 			return View(viewModel);
+		}
+
+		public IActionResult About()
+		{
+			return View();
 		}
 
 		[ValidateAntiForgeryToken]

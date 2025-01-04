@@ -1,11 +1,9 @@
 using Krg.Database;
 using Krg.Database.Extensions;
-using Krg.Database.Interfaces;
-using Krg.Services;
+using Krg.Domain.Models;
 using Krg.Services.Extensions;
-using Krg.Services.Interfaces;
 using Krg.Website.Extensions;
-using Krg.Website.Jobs;
+using Krg.Website.Models;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
 using Serilog;
@@ -20,7 +18,8 @@ try
 	var builder = WebApplication.CreateBuilder(args);
 
 	// Add services to the container.
-	builder.Services.AddControllersWithViews();
+	builder.Services.AddControllersWithViews()
+		.AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new CustomDateTimeConverter()));
 		
 	builder.Services.AddSerilog((context, configuration) =>
 	{
@@ -67,10 +66,15 @@ try
 	app.UseAuthorization();
 
 	app.MapControllerRoute(
+		name: "Admin",
+		pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+	);
+	
+	app.MapControllerRoute(
 		name: "default",
 		pattern: "{controller=Home}/{action=Index}/{id?}");
 
-	app.Run();
+    app.Run();
 
 	Log.Information("Stopped cleanly");
 	return 0;
