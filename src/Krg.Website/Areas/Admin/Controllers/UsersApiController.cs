@@ -7,7 +7,7 @@ namespace Krg.Website.Areas.Admin.Controllers;
 
 [Area("Admin")]
 [Authorize]
-public class ProfileApiController(SignInManager<IdentityUser> signInManager, ILogger<ProfileApiController> logger) : ControllerBase
+public class UsersApiController(SignInManager<IdentityUser> signInManager, ILogger<UsersApiController> logger) : ControllerBase
 {
     [HttpPost]
     public async Task<IActionResult> ResetPassword([FromBody]ResetPasswordDto resetPasswordDto)

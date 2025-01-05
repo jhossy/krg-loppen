@@ -1,50 +1,53 @@
 @using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SigninManager;
+@model Krg.Website.Areas.Admin.Models.CreateUserDto
 
 <div class="row">
     <div class="col">
         <h1>Users</h1>
         <hr/>
         <div>
-            @using (Html.BeginForm("CreateUser", "Profile", new { area = "Admin" }, FormMethod.Post))
+            @using (Html.BeginForm("CreateUser", "Users", new { area = "Admin" }, FormMethod.Post))
             {
                 @Html.AntiForgeryToken()
                 <div class="mb-3 row">
                     <label for="email" class="col-sm-2 col-form-label">Email</label>
                     <div class="col-sm-10">
-                        @Html.TextBox("Email", "", new {@class = "form-control-plaintext", data_val = "true", @data_val_required = "Email is required", autocomplete = "on"})
-                        @Html.ValidationMessageFor(x => x.Email)
+                        @Html.TextBox("Email", "", new {@class = "form-control", data_val = "true", placeholder = "Email", @data_val_required = "Email is required", autocomplete = "on"})
                     </div>
                 </div>
                 <div class="mb-3 row">
                     <label for="password" class="col-sm-2 col-form-label">Password</label>
                     <div class="col-sm-10">
-                        @Html.Password("CurrentPassword", "", new {@class="form-control", id = "CurrentPassword", placeholder = "Password", data_val = "true", @data_val_required = "Password is required", autocomplete = "off"})
-                        @Html.ValidationMessageFor(x => x.CurrentPassword)
+                        @Html.Password("Password", "", new {@class="form-control", id = "Password", placeholder = "Password", data_val = "true", @data_val_required = "Password is required", autocomplete = "off"})
                     </div>
                 </div>
                 <div class="mb-3 row">
-                    <label for="newPassword" class="col-sm-2 col-form-label">New password</label>
+                    <label for="repeatPassword" class="col-sm-2 col-form-label">Repeat password</label>
                     <div class="col-sm-10">
-                        @Html.Password("NewPassword", "", new {@class="form-control", id = "NewPassword", placeholder = "New password", data_val = "true", @data_val_required = "New password is required"})
-                        @Html.ValidationMessageFor(x => x.NewPassword)
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <label for="repeatNewPassword" class="col-sm-2 col-form-label">Repeat new password</label>
-                    <div class="col-sm-10">
-                        @Html.Password("RepeatNewPassword", "", new {@class="form-control", id = "RepeatNewPassword", placeholder = "Repeat the new password", data_val = "true", @data_val_required = "Repeat password is required"})
-                        @Html.ValidationMessageFor(x => x.RepeatNewPassword)
+                        @Html.Password("RepeatPassword", "", new {@class="form-control", id = "RepeatPassword", placeholder = "Repeat the password", data_val = "true", @data_val_required = "Repeat password is required"})
                     </div>
                 </div>
                 <div class="mb-3 row">
                     <div>
-                        <input type="submit" class="btn btn-outline-secondary float-end" value="Submit"/>
-                        <button id="btnResetPassword" class="btn btn-outline-secondary float-end" type="button" onclick="resetPassword()">Reset password</button>
+                        <input type="submit" class="btn btn-outline-secondary float-end" value="Create"/>
+                        @Html.ValidationSummary()
                     </div>
                 </div>
             }
         </div>
+    </div>
+    @if (ViewData["Message"] != null)
+    {
+        <div>
+            @ViewData["Message"]
+        </div>
+    }
+</div>
+<div class="row">
+    <div class="col">
+        Users here
+
+        <button id="btnResetPassword" class="btn btn-outline-secondary float-end" type="button" onclick="resetPassword()">Reset password</button>
     </div>
 </div>
 
