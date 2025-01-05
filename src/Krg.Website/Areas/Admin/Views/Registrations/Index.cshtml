@@ -1,39 +1,42 @@
-<div>
-    <div>
-        <h1>Registrations</h1>
-    </div>
-    @using (Html.BeginForm("ExportAsExcel", "Registrations", FormMethod.Post, new { area = "Admin", @class = "row g-3" }))
-    {
-        @Html.AntiForgeryToken()
-        <div class="col-auto">
-            @Html.Label("Year", "Year", new { @class = "visually-hidden"})
-            @Html.TextBox("year", "2024", new { @class = "form-control", placeholder = @DateTime.Now.Year, @data_val = "true", @data_val_required = "År skal angives", autocomplete = "on" })
+<div class="row">
+    <div class="col">
+        <div>
+            <h1>Registrations</h1>
         </div>
-        <div class="col-auto">
-            <input type="submit" class="btn btn-outline-secondary" value="Export"/>
-            <button id="btnFetchRegistrations" class="btn btn-outline-secondary" type="button" onclick="FetchRegistrations()">
-                Hent
-            </button>
-        </div>
-    }
-    <div class="row">
-        <div class="col-8">
-            <table class="table table-striped table-sm">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Dato</th>
-                    <th scope="col">Navn</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Afdeling</th>
-                    <th scope="col">Antal voksne</th>
-                    <th scope="col">Antal børn</th>
-                    <th scope="col">Medbringer trailer</th>
-                </tr>
-                </thead>
-                <tbody id="registrations-parent">
-                </tbody>
-            </table>
+        <hr />
+        @using (Html.BeginForm("ExportAsExcel", "Registrations", FormMethod.Post, new { area = "Admin", @class = "row g-3" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="col-auto">
+                @Html.Label("Year", "Year", new { @class = "visually-hidden"})
+                @Html.TextBox("year", "2024", new { @class = "form-control", placeholder = @DateTime.Now.Year, @data_val = "true", @data_val_required = "År skal angives", autocomplete = "on" })
+            </div>
+            <div class="col-auto">
+                <input type="submit" class="btn btn-outline-secondary" value="Export"/>
+                <button id="btnFetchRegistrations" class="btn btn-outline-secondary" type="button" onclick="FetchRegistrations()">
+                    Hent
+                </button>
+            </div>
+        }
+        <div class="row">
+            <div class="col-8">
+                <table class="table table-striped table-sm">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Dato</th>
+                        <th scope="col">Navn</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Afdeling</th>
+                        <th scope="col">Antal voksne</th>
+                        <th scope="col">Antal børn</th>
+                        <th scope="col">Medbringer trailer</th>
+                    </tr>
+                    </thead>
+                    <tbody id="registrations-parent">
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

@@ -17,24 +17,26 @@
 	
 <body class="bg-light">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-auto sticky-top text-bg-dark">
-                <div class="d-flex flex-sm-column flex-row flex-nowrap text-decoration-none align-items-start sticky-top">
-                    <a href="@Url.ActionLink("Index", "Home")" class="d-block py-3 px-2 text-white text-decoration-none" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">
-                        <i class="bi-gear fs-4 me-2"></i>
-                        <span class="fs-4">Admin</span>
+        <div class="row flex-nowrap">
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                    <a href="@Url.ActionLink("Index", "Home")" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">
+                        <span class="fs-5 d-none d-sm-inline">Menu</span>
                     </a>
-                    <ul class="nav nav-pills nav-flush flex-sm-column flex-row flex-nowrap mb-auto mx-auto text-center align-items-start">
-                        <li>
-                            <a href="@Url.ActionLink("Index", "Events")" class="nav-link py-3 px-2 text-white" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Stats">
-                                <i class="bi-calendar4-event fs-4 me-2"></i>
-                                <span class="fs-4">Events</span>
+                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start">
+                        <li class="nav-item">
+                            <a href="@Url.ActionLink("Index", "Events")" class="nav-link align-middle px-0 link-light" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Stats">
+                                <i class="bi-calendar4-event fs-4 me-2"></i><span class="ms-1 d-none d-sm-inline">Events</span>
                             </a>
                         </li>
-                        <li>
-                            <a href="@Url.ActionLink("Index", "Registrations")" class="nav-link py-3 px-2 text-white" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Stats">
-                                <i class="bi-clipboard-check fs-4 me-2"></i>
-                                <span class="fs-4">Registrations</span>
+                        <li class="nav-item">
+                            <a href="@Url.ActionLink("Index", "Registrations")" class="nav-link px-0 align-middle link-light" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Stats">
+                                <i class="bi-clipboard-check fs-4 me-2"></i><span class="ms-1 d-none d-sm-inline">Registrations</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.ActionLink("Index", "Users")" class="nav-link px-0 align-middle link-light" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Stats">
+                                <i class="bi bi-people fs-4 me-2"></i><span class="ms-1 d-none d-sm-inline">Users</span>
                             </a>
                         </li>
                     </ul>
@@ -53,7 +55,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm px-5 py-3 min-vh-100">
+            <div class="col py-3">
                 <!-- content -->
                 <div class="container">
                     @RenderBody()
