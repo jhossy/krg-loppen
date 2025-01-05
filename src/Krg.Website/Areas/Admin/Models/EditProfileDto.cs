@@ -5,14 +5,14 @@ namespace Krg.Website.Areas.Admin.Models;
 public class EditProfileDto
 {
     [Required]
-    public string Email { get; set; }
+    public required string Email { get; init; }
     
     [Required]
-    public string CurrentPassword { get; set; }
+    public required string CurrentPassword { get; init; }
     
     [Required]
-    public string NewPassword { get; set; }
+    public required string NewPassword { get; init; }
     
     [Required]
-    public string RepeatNewPassword { get; set; }
+    public required string RepeatNewPassword { get; init; }
 }
