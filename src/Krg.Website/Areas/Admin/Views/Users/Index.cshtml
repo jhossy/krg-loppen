@@ -22,9 +22,9 @@
             {
                 <tr>
                     <th scope="row">@user.Email</th>
-                    <th scope="row"><button class="btn btn-outline-secondary float-end" type="button" onclick="alert('Deactivate user - ')">Deactivate user</button></th>
-                    <th scope="row"><button class="btn btn-outline-secondary float-end" type="button" onclick="resetPassword('@user.Id')">Reset password</button></th>
-                    <th scope="row"><button class="btn btn-outline-secondary float-end" type="button" onclick="deleteUser('@user.Id')">Delete user</button></th>
+                    <th scope="row"><button class="btn btn-outline-secondary" type="button" onclick="alert('Deactivate user - ')">Deactivate user</button></th>
+                    <th scope="row"><button class="btn btn-outline-secondary" type="button" onclick="resetPassword('@user.Id')">Reset password</button></th>
+                    <th scope="row"><button class="btn btn-outline-secondary" type="button" onclick="deleteUser('@user.Id')">Delete user</button></th>
                 </tr>
             }
             </tbody>
@@ -68,9 +68,9 @@
                     .append(
                         '<tr>' +
                             '<th scope="row">'+ v.email + '</th>' +
-                            '<th scope="row"><button type="button" class="btn btn-outline-secondary float-end" onClick="alert()">Deactivate user</button></th></th>' +
-                            '<th scope="row"><button type="button" class="btn btn-outline-secondary float-end" onClick="resetPassword(\'' + v.id + '\')">Reset password</button></th></th>' +
-                            '<th scope="row"><button type="button" class="btn btn-outline-secondary float-end" onClick="deleteUser(\'' + v.id + '\')">Delete user</button></th></th>' + //TODO do not add for current user
+                            '<th scope="row"><button type="button" class="btn btn-outline-secondary" onClick="alert()">Deactivate user</button></th></th>' +
+                            '<th scope="row"><button type="button" class="btn btn-outline-secondary" onClick="resetPassword(\'' + v.id + '\')">Reset password</button></th></th>' +
+                            '<th scope="row"><button type="button" class="btn btn-outline-secondary" onClick="deleteUser(\'' + v.id + '\')">Delete user</button></th></th>' + //TODO do not add for current user
                         '</tr>')
             });
         }
