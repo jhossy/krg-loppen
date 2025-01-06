@@ -14,30 +14,33 @@ public class UsersApiController(SignInManager<IdentityUser> signInManager, ILogg
     {
         try
         {
-            logger.LogInformation($"ResetPassword for {resetPasswordDto.Email}");
+            logger.LogInformation($"ResetPassword for {resetPasswordDto.Id}");
 
-            var user = await signInManager.UserManager.FindByEmailAsync(resetPasswordDto.Email);
+            var user = await signInManager.UserManager.FindByIdAsync(resetPasswordDto.Id);
 
             if (user == null)
             {
-                logger.LogError($"User could not be found using email: {resetPasswordDto.Email}");
+                logger.LogError($"User could not be found using Id: {resetPasswordDto.Id}");
 
-                return new JsonResult("User does not exist with the provided email.");
+                return new JsonResult("User does not exist with the provided Id.");
             }
 
             var resetToken = await signInManager.UserManager.GeneratePasswordResetTokenAsync(user);
 
-            string newPassword = Guid.NewGuid().ToString();
+            string newPassword = "Test123!";
 
-            await signInManager.UserManager.ResetPasswordAsync(user, resetToken, newPassword);
+            var result = await signInManager.UserManager.ResetPasswordAsync(user, resetToken, newPassword);
 
-            return new JsonResult($"Password successfully reset to {newPassword}");
+            if (result.Succeeded)
+            {
+                return new JsonResult(new { message = $"Password successfully reset to {newPassword}" });
+            }
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, $"ResetPassword failed for {resetPasswordDto.Email}");
+            logger.LogError(ex, $"ResetPassword failed for {resetPasswordDto.Id}");
         }
-        return new JsonResult($"ResetPassword failed for {resetPasswordDto.Email}");
+        return new JsonResult(new { message = $"ResetPassword failed for {resetPasswordDto.Id}" });
     }
     
     [HttpPost]
@@ -53,17 +56,17 @@ public class UsersApiController(SignInManager<IdentityUser> signInManager, ILogg
             {
                 logger.LogError($"User could not be found using id: {deleteUserDto.Id}");
 
-                return new JsonResult(new { users = signInManager.UserManager.Users.ToList() });
+                return new JsonResult(new { users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() });
             }
 
             await signInManager.UserManager.DeleteAsync(user);
 
-            return new JsonResult(new { users = signInManager.UserManager.Users.ToList() });
+            return new JsonResult(new { users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() });
         }
         catch (Exception ex)
         {
             logger.LogError(ex, $"DeleteUser failed for {deleteUserDto.Id}");
         }
-        return new JsonResult(new { users = signInManager.UserManager.Users.ToList() });
+        return new JsonResult(new { users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() });
     }
 }

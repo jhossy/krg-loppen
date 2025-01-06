@@ -10,7 +10,7 @@ public class UsersController(SignInManager<IdentityUser> signInManager, ILogger<
     {
         var viewModel = new UsersViewModel
         {
-            Users = signInManager.UserManager.Users.ToList()
+            Users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList()
         };
         return View(viewModel);
     }
@@ -21,7 +21,7 @@ public class UsersController(SignInManager<IdentityUser> signInManager, ILogger<
     {
         logger.LogInformation($"Creating user with email: {createUserDto.Email}");
 
-        var usersViewModel = new UsersViewModel { Users = signInManager.UserManager.Users.ToList() };
+        var usersViewModel = new UsersViewModel { Users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() };
         
         var user = await signInManager.UserManager.FindByEmailAsync(createUserDto.Email);
         if (user != null)
@@ -56,10 +56,6 @@ public class UsersController(SignInManager<IdentityUser> signInManager, ILogger<
             return View("Index", usersViewModel);
         }
         
-        ViewData["Message"] = "User successfully created.";
-        
-        usersViewModel = new UsersViewModel { Users = signInManager.UserManager.Users.ToList() };
-        
-        return View("Index", usersViewModel);
+        return RedirectToAction("Index");
     }
 }

@@ -23,7 +23,7 @@
                 <tr>
                     <th scope="row">@user.Email</th>
                     <th scope="row"><button class="btn btn-outline-secondary float-end" type="button" onclick="alert('Deactivate user - ')">Deactivate user</button></th>
-                    <th scope="row"><button class="btn btn-outline-secondary float-end" type="button" onclick="resetPassword()">Reset password</button></th>
+                    <th scope="row"><button class="btn btn-outline-secondary float-end" type="button" onclick="resetPassword('@user.Id')">Reset password</button></th>
                     <th scope="row"><button class="btn btn-outline-secondary float-end" type="button" onclick="deleteUser('@user.Id')">Delete user</button></th>
                 </tr>
             }
@@ -69,22 +69,34 @@
                         '<tr>' +
                             '<th scope="row">'+ v.email + '</th>' +
                             '<th scope="row"><button type="button" class="btn btn-outline-secondary float-end" onClick="alert()">Deactivate user</button></th></th>' +
-                            '<th scope="row"><button type="button" class="btn btn-outline-secondary float-end" onClick="resetPassword()">Reset password</button></th></th>' +
-                            '<th scope="row"><button type="button" class="btn btn-outline-secondary float-end" onClick="deleteUser(' + v.id + ')">Delete user</button></th></th>' +
+                            '<th scope="row"><button type="button" class="btn btn-outline-secondary float-end" onClick="resetPassword(\'' + v.id + '\')">Reset password</button></th></th>' +
+                            '<th scope="row"><button type="button" class="btn btn-outline-secondary float-end" onClick="deleteUser(\'' + v.id + '\')">Delete user</button></th></th>' +
                         '</tr>')
             });
         }
         
-        function resetPassword() {
+        function resetPassword(id) {
             var data = {
-                email: $('#Email').val()
+                Id: id
             }
 
-            console.log('resetPassword called for ' + data.email);
+            console.log('resetPassword called for ' + data.id);
 
-            callApi('/Admin/UsersApi/ResetPassword', data);
+            if (confirm('Are you sure?')) {
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/Admin/UsersApi/ResetPassword',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(data),
+                    success: function (result) {
+                        console.log(result);
+                        alert(result.message);                        
+                    },
+                });
+            }
         }
-        
+                
         function callApi(url, data) {
             $.ajax({
                 type: 'POST',
