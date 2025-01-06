@@ -70,7 +70,7 @@
                             '<th scope="row">'+ v.email + '</th>' +
                             '<th scope="row"><button type="button" class="btn btn-outline-secondary float-end" onClick="alert()">Deactivate user</button></th></th>' +
                             '<th scope="row"><button type="button" class="btn btn-outline-secondary float-end" onClick="resetPassword(\'' + v.id + '\')">Reset password</button></th></th>' +
-                            '<th scope="row"><button type="button" class="btn btn-outline-secondary float-end" onClick="deleteUser(\'' + v.id + '\')">Delete user</button></th></th>' +
+                            '<th scope="row"><button type="button" class="btn btn-outline-secondary float-end" onClick="deleteUser(\'' + v.id + '\')">Delete user</button></th></th>' + //TODO do not add for current user
                         '</tr>')
             });
         }

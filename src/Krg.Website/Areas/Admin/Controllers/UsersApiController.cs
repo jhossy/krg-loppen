@@ -1,4 +1,5 @@
 using Krg.Website.Areas.Admin.Models;
+using Krg.Website.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +28,7 @@ public class UsersApiController(SignInManager<IdentityUser> signInManager, ILogg
 
             var resetToken = await signInManager.UserManager.GeneratePasswordResetTokenAsync(user);
 
-            string newPassword = "Test123!";
+            string newPassword = PasswordGenerator.GenerateRandomPassword();
 
             var result = await signInManager.UserManager.ResetPasswordAsync(user, resetToken, newPassword);
 
@@ -55,6 +56,14 @@ public class UsersApiController(SignInManager<IdentityUser> signInManager, ILogg
             if (user == null)
             {
                 logger.LogError($"User could not be found using id: {deleteUserDto.Id}");
+
+                return new JsonResult(new { users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() });
+            }
+
+            var currentUser = await signInManager.UserManager.GetUserAsync(User);
+            if (currentUser != null && user.Id == currentUser.Id)
+            {
+                logger.LogError("Cannot delete currently logged in user");
 
                 return new JsonResult(new { users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() });
             }
