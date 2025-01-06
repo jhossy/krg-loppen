@@ -8,7 +8,11 @@ public class UsersController(SignInManager<IdentityUser> signInManager, ILogger<
 {
     public IActionResult Index()
     {
-        return View();
+        var viewModel = new UsersViewModel
+        {
+            Users = signInManager.UserManager.Users.ToList()
+        };
+        return View(viewModel);
     }
 
     [HttpPost]
@@ -16,6 +20,8 @@ public class UsersController(SignInManager<IdentityUser> signInManager, ILogger<
     public async Task<IActionResult> CreateUser(CreateUserDto createUserDto)
     {
         logger.LogInformation($"Creating user with email: {createUserDto.Email}");
+
+        var usersViewModel = new UsersViewModel { Users = signInManager.UserManager.Users.ToList() };
         
         var user = await signInManager.UserManager.FindByEmailAsync(createUserDto.Email);
         if (user != null)
@@ -24,16 +30,16 @@ public class UsersController(SignInManager<IdentityUser> signInManager, ILogger<
             
             ModelState.AddModelError("Email", $"User with email: {createUserDto.Email} already exists.");
             
-            return View("Index");
+            return View("Index", usersViewModel);
         }
         
         if (!string.Equals(createUserDto.Password, createUserDto.RepeatPassword))
         {
             logger.LogError("Password and repeat password does not match");
             
-            ModelState.AddModelError("RepeatPassword", "'Password' and 'repeat' password does not match");
+            ModelState.AddModelError("RepeatPassword", "'Password' and 'repeat password' does not match");
             
-            return View("Index");
+            return View("Index", usersViewModel);
         }
         
         user = new IdentityUser(createUserDto.Email) {Email = createUserDto.Email};
@@ -47,11 +53,13 @@ public class UsersController(SignInManager<IdentityUser> signInManager, ILogger<
             {
                 ModelState.AddModelError("Summary", error.Description);
             }
-            return View("Index");
+            return View("Index", usersViewModel);
         }
         
         ViewData["Message"] = "User successfully created.";
         
-        return View("Index");
+        usersViewModel = new UsersViewModel { Users = signInManager.UserManager.Users.ToList() };
+        
+        return View("Index", usersViewModel);
     }
 }

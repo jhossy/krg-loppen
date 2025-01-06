@@ -39,4 +39,31 @@ public class UsersApiController(SignInManager<IdentityUser> signInManager, ILogg
         }
         return new JsonResult($"ResetPassword failed for {resetPasswordDto.Email}");
     }
+    
+    [HttpPost]
+    public async Task<IActionResult> DeleteUser([FromBody]DeleteUserDto deleteUserDto)
+    {
+        try
+        {
+            logger.LogInformation($"DeleteUser for {deleteUserDto.Id}");
+
+            var user = await signInManager.UserManager.FindByIdAsync(deleteUserDto.Id);
+
+            if (user == null)
+            {
+                logger.LogError($"User could not be found using id: {deleteUserDto.Id}");
+
+                return new JsonResult(new { users = signInManager.UserManager.Users.ToList() });
+            }
+
+            await signInManager.UserManager.DeleteAsync(user);
+
+            return new JsonResult(new { users = signInManager.UserManager.Users.ToList() });
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, $"DeleteUser failed for {deleteUserDto.Id}");
+        }
+        return new JsonResult(new { users = signInManager.UserManager.Users.ToList() });
+    }
 }

@@ -1,61 +1,80 @@
-@using Microsoft.AspNetCore.Identity
-@model Krg.Website.Areas.Admin.Models.CreateUserDto
-
+@using Krg.Website.Areas.Admin.Models
+@model UsersViewModel
 <div class="row">
-    <div class="col">
-        <h1>Users</h1>
-        <hr/>
-        <div>
-            @using (Html.BeginForm("CreateUser", "Users", new { area = "Admin" }, FormMethod.Post))
-            {
-                @Html.AntiForgeryToken()
-                <div class="mb-3 row">
-                    <label for="email" class="col-sm-2 col-form-label">Email</label>
-                    <div class="col-sm-10">
-                        @Html.TextBox("Email", "", new {@class = "form-control", data_val = "true", placeholder = "Email", @data_val_required = "Email is required", autocomplete = "on"})
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <label for="password" class="col-sm-2 col-form-label">Password</label>
-                    <div class="col-sm-10">
-                        @Html.Password("Password", "", new {@class="form-control", id = "Password", placeholder = "Password", data_val = "true", @data_val_required = "Password is required", autocomplete = "off"})
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <label for="repeatPassword" class="col-sm-2 col-form-label">Repeat password</label>
-                    <div class="col-sm-10">
-                        @Html.Password("RepeatPassword", "", new {@class="form-control", id = "RepeatPassword", placeholder = "Repeat the password", data_val = "true", @data_val_required = "Repeat password is required"})
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <div>
-                        <input type="submit" class="btn btn-outline-secondary float-end" value="Create"/>
-                        @Html.ValidationSummary()
-                    </div>
-                </div>
-            }
-        </div>
-    </div>
-    @if (ViewData["Message"] != null)
-    {
-        <div>
-            @ViewData["Message"]
-        </div>
-    }
+    @{ Html.RenderPartial("CreateUserPartial", new CreateUserDto {Email = string.Empty, Password = string.Empty, RepeatPassword = string.Empty}); }
 </div>
+
 <div class="row">
     <div class="col">
-        List of users here
-
-        <button id="btnDeactivateUser" class="btn btn-outline-secondary float-end" type="button" onclick="alert('Deactivate user')">Deactivate user</button>
-        <button id="brntDeleteUser" class="btn btn-outline-secondary float-end" type="button" onclick="alert('Delete user')">Delete user</button>
-        <button id="btnResetPassword" class="btn btn-outline-secondary float-end" type="button" onclick="resetPassword()">Reset password</button>
+        <h2>Overview</h2>
+        <hr/>
+        <table class="table table-striped table-sm">
+            <thead>
+            <tr>
+                <th scope="col">Email</th>
+                <th scope="col">De-activate</th>
+                <th scope="col">Reset password</th>
+                <th scope="col">Delete</th>
+            </tr>
+            </thead>
+            <tbody id="users-parent">
+            @foreach (var user in Model.Users)
+            {
+                <tr>
+                    <th scope="row">@user.Email</th>
+                    <th scope="row"><button class="btn btn-outline-secondary float-end" type="button" onclick="alert('Deactivate user - ')">Deactivate user</button></th>
+                    <th scope="row"><button class="btn btn-outline-secondary float-end" type="button" onclick="resetPassword()">Reset password</button></th>
+                    <th scope="row"><button class="btn btn-outline-secondary float-end" type="button" onclick="deleteUser('@user.Id')">Delete user</button></th>
+                </tr>
+            }
+            </tbody>
+        </table>
     </div>
 </div>
 
 @section Scripts
 {
     <script>
+        function deleteUser(id) {
+            var data = {
+                id: id
+            }
+
+            if (confirm('Are you sure?')) {
+
+                console.log('deleteUser called for ' + id);
+                
+                $.ajax({
+                    type: 'POST',
+                    url: '/Admin/UsersApi/DeleteUser',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(data),
+                    success: function (result) {
+                        console.log(result);
+
+                        $('#users-parent').empty();
+
+                        if (result.hasOwnProperty('users')) {                       
+                            updateUsersList(result.users);
+                        }
+                    }
+                });                
+            }
+        }
+
+        function updateUsersList(data) {
+            $.each(data, function (k, v) {
+                $('#users-parent')
+                    .append(
+                        '<tr>' +
+                            '<th scope="row">'+ v.email + '</th>' +
+                            '<th scope="row"><button type="button" class="btn btn-outline-secondary float-end" onClick="alert()">Deactivate user</button></th></th>' +
+                            '<th scope="row"><button type="button" class="btn btn-outline-secondary float-end" onClick="resetPassword()">Reset password</button></th></th>' +
+                            '<th scope="row"><button type="button" class="btn btn-outline-secondary float-end" onClick="deleteUser(' + v.id + ')">Delete user</button></th></th>' +
+                        '</tr>')
+            });
+        }
+        
         function resetPassword() {
             var data = {
                 email: $('#Email').val()
@@ -63,17 +82,19 @@
 
             console.log('resetPassword called for ' + data.email);
 
+            callApi('/Admin/UsersApi/ResetPassword', data);
+        }
+        
+        function callApi(url, data) {
             $.ajax({
                 type: 'POST',
-                url: '/Admin/UsersApi/ResetPassword',
+                url: url,
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify(data),
                 success: function (result) {
                     console.log(result);
                 }
             });
-        }
-
-
+        }    
     </script>
 }
