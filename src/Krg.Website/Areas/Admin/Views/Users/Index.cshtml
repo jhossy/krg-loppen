@@ -19,45 +19,55 @@
     </div>
 </div>
 
-<div class="row shadow-sm p-3 mb-5 bg-body rounded">
+<div class="row shadow-sm p-3 mb-3 bg-body rounded">
     <div class="col">
         <h2>Overview</h2>
         <hr/>
-        <table class="table table-striped table-sm">
-            <thead>
-            <tr>
-                <th scope="col">Email</th>
-                <th scope="col">De-activate</th>
-                <th scope="col">Reset password</th>
-                <th scope="col">Delete</th>
-            </tr>
-            </thead>
-            <tbody id="users-parent">
-            @foreach (var user in Model.Users)
-            {
-                <tr>
-                    <th scope="row">@user.Email</th>
-                    <th scope="row">
-                        @if (user.LockoutEnabled && user.LockoutEnd != null)
-                        {
-                            <button class="btn btn-outline-secondary" type="button" onclick="toggleUser('@user.Id', true)">Activate</button>
-                        }
-                        else
-                        {
-                            <button class="btn btn-outline-secondary" type="button" onclick="toggleUser('@user.Id', false)">Deactivate</button>
-                        }
-                    </th>
-                    <th scope="row"><button class="btn btn-outline-secondary" type="button" onclick="resetPassword('@user.Id')">Reset password</button></th>
-                    <th scope="row">
-                        @if (currentUserId != user.Id)
-                        {
-                            <button class="btn btn-outline-secondary" type="button" onclick="deleteUser('@user.Id')">Delete</button>    
-                        }
-                    </th>
-                </tr>
-            }
-            </tbody>
-        </table>
+        <div class="row" id="users-parent">
+                @foreach (var user in Model.Users)
+                {
+                    <div class="col-sm-3 p-2">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">@user.Email</h5>
+                                <p class="card-text">
+                                    <div class="row">
+                                        @if (user.LockoutEnabled && user.LockoutEnd != null)
+                                        {
+                                            <label for="staticName-@user.Id" class="col-sm-2 col-form-label"><i class="bi bi-lock h5"></i></label>
+                                            <div class="col-sm-10 p-1">
+                                                <button class="btn btn-sm btn-outline-secondary" type="button" onclick="toggleUser('@user.Id', true)">Enable</button>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <label for="staticName-@user.Id" class="col-sm-2 col-form-label"><i class="bi bi-lock h5"></i></label>
+                                            <div class="col-sm-10 p-1">
+                                                <button class="btn btn-sm btn-outline-secondary" type="button" onclick="toggleUser('@user.Id', false)">Disable</button>
+                                            </div>
+                                        }
+                                    </div>
+                                    <div class="row">
+                                        <label for="staticPhone-@user.Id" class="col-sm-2 col-form-label"><i class="bi bi-key h5"></i></label>
+                                        <div class="col-sm-10 p-1">
+                                            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="resetPassword('@user.Id')">Reset password</button>
+                                        </div>
+                                    </div>
+                                    @if (currentUserId != user.Id)
+                                    {
+                                    <div class="row">
+                                        <label for="staticEmail-@user.Id" class="col-sm-2 col-form-label"><i class="bi bi-trash3 h5"></i></label>
+                                        <div class="col-sm-10 p-1">
+                                            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="deleteUser('@user.Id')">Delete</button>
+                                        </div>
+                                    </div>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                }
+        </div>
     </div>
 </div>
 
@@ -107,29 +117,66 @@
                 });
             }
         }
-
+        
         function updateUsersList(data) {
             let currentUserId = '@SigninManager.UserManager.GetUserId(User)';
             $.each(data, function (k, v) {
                 let userId = v.id;
                 let isLockedOut = v.lockoutEnabled === true && v.lockoutEnd !== '' && v.lockoutEnd !== null;
+                let lockedElm = '';
+                 
+                if(isLockedOut)
+                {
+                    lockedElm = '<label for="staticName-' + userId + '" class="col-sm-2 col-form-label"><i class="bi bi-lock h5"></i></label>' +
+                            '<div class="col-sm-10 p-1">' +
+                                '<button class="btn btn-sm btn-outline-secondary" type="button" onclick="toggleUser(\'' + userId + '\', true)">Enable</button>' +
+                            '</div>'
+                }
+                else
+                {
+                    lockedElm = 
+                        '<label for="staticName-' + userId + '" class="col-sm-2 col-form-label"><i class="bi bi-lock h5"></i></label>' +
+                        '<div class="col-sm-10 p-1">' +
+                            '<button class="btn btn-sm btn-outline-secondary" type="button" onclick="toggleUser(\'' + userId + '\', false)">Disable</button>' +
+                        '</div>'
+                }
+                
+                let deleteElm = '';
+
+                if (currentUserId !== userId)
+                {
+                    deleteElm = 
+                        '<label for="staticEmail-' + userId + '" class="col-sm-2 col-form-label"><i class="bi bi-trash3 h5"></i></label>' +
+                        '<div class="col-sm-10 p-1">' +
+                            '<button class="btn btn-sm btn-outline-secondary" type="button" onclick="deleteUser(\'' + userId + '\')">Delete</button>' +
+                        '</div>'
+                }
+                
+                
                 $('#users-parent')
                     .append(
-                        '<tr>' +
-                        '<th scope="row">'+ v.email + '</th>' +
-                        '<th scope="row">' +
-                        (isLockedOut ?
-                                '<button class="btn btn-outline-secondary" type="button" onclick="toggleUser(\'' + userId + '\', true)">Activate</button>' :
-                                '<button type="button" class="btn btn-outline-secondary" onClick="toggleUser(\'' + userId + '\', false)">Deactivate</button>'
-                        ) +
-                        '</th>' +
-                        '<th scope="row"><button type="button" class="btn btn-outline-secondary" onClick="resetPassword(\'' + userId + '\')">Reset password</button></th>' +
-                        '<th scope="row">' +
-                        (currentUserId !== userId ?
-                            '<button type="button" class="btn btn-outline-secondary" onClick="deleteUser(\'' + userId + '\')">Delete</button>' :
-                            '') +
-                        '</th>' +
-                        '</tr>')
+                        '<div class="col-sm-3 p-2">' +
+                            '<div class="card">' +
+                                '<div class="card-body">' +
+                                    '<h5 class="card-title">' + v.email + '</h5>' +
+                                    '<p class="card-text">' + 
+                                    '<div class="row">' +
+                                        lockedElm + 
+                                    '</div>' +
+                                    '<div class="row">' +
+                                        '<label for="staticPhone-' + userId + '" class="col-sm-2 col-form-label"><i class="bi bi-key h5"></i></label>' +
+                                        '<div class="col-sm-10 p-1">' + 
+                                            '<button class="btn btn-sm btn-outline-secondary" type="button" onclick="resetPassword(\'' + userId + '\')">Reset password</button>' +
+                                        '</div>' +
+                                    '</div>' +
+                                    '<div class="row">' +
+                                        deleteElm +
+                                    '</div>' +
+                                    '</p>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>'
+                    )
             });
         }
                 
@@ -147,6 +194,5 @@
                 }
             });
         }    
-    
     </script>
 }
