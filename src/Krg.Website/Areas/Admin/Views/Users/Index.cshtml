@@ -27,12 +27,21 @@
             {
                 <tr>
                     <th scope="row">@user.Email</th>
-                    <th scope="row"><button class="btn btn-outline-secondary" type="button" onclick="alert('Deactivate user - ')">Deactivate</button></th>
+                    <th scope="row">
+                        @if (user.LockoutEnabled && user.LockoutEnd != null)
+                        {
+                            <button class="btn btn-outline-secondary" type="button" onclick="activateUser('@user.Id')">Activate</button>
+                        }
+                        else
+                        {
+                            <button class="btn btn-outline-secondary" type="button" onclick="deactivateUser('@user.Id')">Deactivate</button>
+                        }
+                    </th>
                     <th scope="row"><button class="btn btn-outline-secondary" type="button" onclick="resetPassword('@user.Id')">Reset password</button></th>
                     <th scope="row">
                         @if (currentUserId != user.Id)
                         {
-                            <button class="btn btn-outline-secondary" type="button" onclick="deleteUser('@user.Id')">Delete user</button>    
+                            <button class="btn btn-outline-secondary" type="button" onclick="deleteUser('@user.Id')">Delete</button>    
                         }
                     </th>
                 </tr>
@@ -44,7 +53,61 @@
 
 @section Scripts
 {
-    <script>
+    <script>        
+        function activateUser(id) {
+            let data = {
+                id: id
+            }
+
+            if (confirm('Are you sure?')) {
+
+                console.log('activateUser called for ' + id);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/Admin/UsersApi/Activate',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(data),
+                    success: function (result) {
+                        console.log(result);
+
+                        $('#users-parent').empty();
+
+                        if (result.hasOwnProperty('users')) {
+                            updateUsersList(result.users);
+                        }
+                    }
+                });
+            }
+        }
+                
+        function deactivateUser(id) {
+            let data = {
+                id: id
+            }
+
+            if (confirm('Are you sure?')) {
+
+                console.log('deactivateUser called for ' + id);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/Admin/UsersApi/Deactivate',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(data),
+                    success: function (result) {
+                        console.log(result);
+
+                        $('#users-parent').empty();
+
+                        if (result.hasOwnProperty('users')) {
+                            updateUsersList(result.users);
+                        }
+                    }
+                });
+            }
+        }
+        
         function deleteUser(id) {
             let data = {
                 id: id
@@ -73,17 +136,24 @@
         }
 
         function updateUsersList(data) {
-            let currentUserId = '@SigninManager.UserManager.GetUserId(User)';
-            $.each(data, function (k, v) {                
+            let currentUserId = '@SigninManager.UserManager.GetUserId(User)';            
+            $.each(data, function (k, v) {
+                let userId = v.id;
+                let isLockedOut = v.lockoutEnabled === true && v.lockoutEnd !== '' && v.lockoutEnd !== null;
                 $('#users-parent')
                     .append(
                         '<tr>' +
                             '<th scope="row">'+ v.email + '</th>' +
-                            '<th scope="row"><button type="button" class="btn btn-outline-secondary" onClick="alert()">Deactivate user</button></th>' +
-                            '<th scope="row"><button type="button" class="btn btn-outline-secondary" onClick="resetPassword(\'' + v.id + '\')">Reset password</button></th>' +
                             '<th scope="row">' +
-                                    (currentUserId !== v.id ?
-                                    '<button type="button" class="btn btn-outline-secondary" onClick="deleteUser(\'' + v.id + '\')">Delete user</button>' :
+                                (isLockedOut ? 
+                                '<button class="btn btn-outline-secondary" type="button" onclick="activateUser(\'' + userId + '\')">Activate</button>' : 
+                                '<button type="button" class="btn btn-outline-secondary" onClick="deactivateUser(\'' + userId + '\')">Deactivate</button>'
+                                ) +
+                            '</th>' +
+                            '<th scope="row"><button type="button" class="btn btn-outline-secondary" onClick="resetPassword(\'' + userId + '\')">Reset password</button></th>' +
+                            '<th scope="row">' +
+                                    (currentUserId !== userId ?
+                                    '<button type="button" class="btn btn-outline-secondary" onClick="deleteUser(\'' + userId + '\')">Delete</button>' :
                                     '') +
                             '</th>' + //TODO do not add for current user
                         '</tr>')
@@ -121,5 +191,6 @@
                 }
             });
         }    
+    
     </script>
 }
