@@ -90,6 +90,7 @@
 {
     <script>
         $(document).ready(function (){
+            console.log(new Date());
             callApi(new Date().getFullYear());
         });
         
@@ -126,8 +127,6 @@
                     let myTab = $('#myTab');
                     myTab.empty();
                     myTab.html(keyArr.map(tabElm).join(''));
-
-                    //console.log(result);
 
                     let tabContentRoot = $('#tabContentRoot');
                     tabContentRoot.empty();
