@@ -2,6 +2,9 @@
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SigninManager;
 @model UsersViewModel
+@{
+    var currentUserId = SigninManager.UserManager.GetUserId(User);
+}
 <div class="row">
     @{ Html.RenderPartial("CreateUserPartial", new CreateUserDto {Email = string.Empty, Password = string.Empty, RepeatPassword = string.Empty}); }
 </div>
@@ -27,7 +30,7 @@
                     <th scope="row"><button class="btn btn-outline-secondary" type="button" onclick="alert('Deactivate user - ')">Deactivate</button></th>
                     <th scope="row"><button class="btn btn-outline-secondary" type="button" onclick="resetPassword('@user.Id')">Reset password</button></th>
                     <th scope="row">
-                        @if (SigninManager.UserManager.GetUserId(User) != user.Id)
+                        @if (currentUserId != user.Id)
                         {
                             <button class="btn btn-outline-secondary" type="button" onclick="deleteUser('@user.Id')">Delete user</button>    
                         }
@@ -43,7 +46,7 @@
 {
     <script>
         function deleteUser(id) {
-            var data = {
+            let data = {
                 id: id
             }
 
@@ -70,24 +73,27 @@
         }
 
         function updateUsersList(data) {
-            $.each(data, function (k, v) {
+            let currentUserId = '@SigninManager.UserManager.GetUserId(User)';
+            $.each(data, function (k, v) {                
                 $('#users-parent')
                     .append(
                         '<tr>' +
                             '<th scope="row">'+ v.email + '</th>' +
-                            '<th scope="row"><button type="button" class="btn btn-outline-secondary" onClick="alert()">Deactivate user</button></th></th>' +
-                            '<th scope="row"><button type="button" class="btn btn-outline-secondary" onClick="resetPassword(\'' + v.id + '\')">Reset password</button></th></th>' +
-                            '<th scope="row"><button type="button" class="btn btn-outline-secondary" onClick="deleteUser(\'' + v.id + '\')">Delete user</button></th></th>' + //TODO do not add for current user
+                            '<th scope="row"><button type="button" class="btn btn-outline-secondary" onClick="alert()">Deactivate user</button></th>' +
+                            '<th scope="row"><button type="button" class="btn btn-outline-secondary" onClick="resetPassword(\'' + v.id + '\')">Reset password</button></th>' +
+                            '<th scope="row">' +
+                                    (currentUserId !== v.id ?
+                                    '<button type="button" class="btn btn-outline-secondary" onClick="deleteUser(\'' + v.id + '\')">Delete user</button>' :
+                                    '') +
+                            '</th>' + //TODO do not add for current user
                         '</tr>')
             });
         }
         
         function resetPassword(id) {
-            var data = {
+            let data = {
                 Id: id
             }
-
-            console.log('resetPassword called for ' + data.id);
 
             if (confirm('Are you sure?')) {
 
