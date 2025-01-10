@@ -40,7 +40,7 @@ public class UsersApiController(SignInManager<IdentityUser> signInManager, ILogg
 
             if (result.Succeeded)
             {
-                return new JsonResult(new { message = $"Password successfully reset to {newPassword}" });
+                return new JsonResult(new { message = $"Password successfully reset to {newPassword} for {user.Email}"});
             }
         }
         catch (Exception ex)
@@ -154,9 +154,4 @@ public class UsersApiController(SignInManager<IdentityUser> signInManager, ILogg
         }
         return new JsonResult(new { users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() });
     }
-}
-
-public class UserDto
-{
-    public string Id { get; set; }
 }

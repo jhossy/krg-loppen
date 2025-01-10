@@ -101,64 +101,19 @@
         
         function updateUsersList(data) {
             let currentUserId = '@SigninManager.UserManager.GetUserId(User)';
+            let str = '';
+            
             $.each(data, function (k, v) {
                 let userId = v.id;
+                
                 let isLockedOut = v.lockoutEnabled === true && v.lockoutEnd !== '' && v.lockoutEnd !== null;
-                let lockedElm = '';
-                 
-                if(isLockedOut)
-                {
-                    lockedElm = '<label for="staticName-' + userId + '" class="col-sm-2 col-form-label"><i class="bi bi-lock h5"></i></label>' +
-                            '<div class="col-sm-10 p-1">' +
-                                '<button class="btn btn-sm btn-outline-secondary" type="button" onclick="toggleUser(\'' + userId + '\', true)">Enable</button>' +
-                            '</div>'
-                }
-                else
-                {
-                    lockedElm = 
-                        '<label for="staticName-' + userId + '" class="col-sm-2 col-form-label"><i class="bi bi-lock h5"></i></label>' +
-                        '<div class="col-sm-10 p-1">' +
-                            '<button class="btn btn-sm btn-outline-secondary" type="button" onclick="toggleUser(\'' + userId + '\', false)">Disable</button>' +
-                        '</div>'
-                }
                 
-                let deleteElm = '';
-
-                if (currentUserId !== userId)
-                {
-                    deleteElm = 
-                        '<label for="staticEmail-' + userId + '" class="col-sm-2 col-form-label"><i class="bi bi-trash3 h5"></i></label>' +
-                        '<div class="col-sm-10 p-1">' +
-                            '<button class="btn btn-sm btn-outline-secondary" type="button" onclick="deleteUser(\'' + userId + '\')">Delete</button>' +
-                        '</div>'
-                }
-                
-                
-                $('#users-parent')
-                    .append(
-                        '<div class="col-sm-3 p-2">' +
-                            '<div class="card">' +
-                                '<div class="card-body">' +
-                                    '<h5 class="card-title">' + v.email + '</h5>' +
-                                    '<p class="card-text">' + 
-                                    '<div class="row">' +
-                                        lockedElm + 
-                                    '</div>' +
-                                    '<div class="row">' +
-                                        '<label for="staticPhone-' + userId + '" class="col-sm-2 col-form-label"><i class="bi bi-key h5"></i></label>' +
-                                        '<div class="col-sm-10 p-1">' + 
-                                            '<button class="btn btn-sm btn-outline-secondary" type="button" onclick="resetPassword(\'' + userId + '\')">Reset password</button>' +
-                                        '</div>' +
-                                    '</div>' +
-                                    '<div class="row">' +
-                                        deleteElm +
-                                    '</div>' +
-                                    '</p>' +
-                                '</div>' +
-                            '</div>' +
-                        '</div>'
-                    )
+                str += eventElm({email: v.email, userId: v.id, isLocked: isLockedOut, isCurrentUser: currentUserId === userId});              
             });
+
+            $('#users-parent')
+                .empty()
+                .html(str);
         }
                 
         function callApi(url, data) {
@@ -180,4 +135,36 @@
             });
         }    
     </script>
+    <script>
+    const eventElm = ({ email, userId, isLocked, isCurrentUser }) => `
+        <div class="col-sm-3 p-2">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">${email}</h5>
+                    <p class="card-text">
+                        <div class="row">
+                            <label for="staticId-${userId}" class="col-sm-2 col-form-label"><i class="bi bi-lock h5"></i></label>
+                            <div class="col-sm-10 p-1">
+                                <button class="btn btn-sm btn-outline-secondary" type="button" onclick="toggleUser('${userId}', ${isLocked})">${isLocked ? 'Enable' : 'Disable'}</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label for="staticIsLocked-${userId}" class="col-sm-2 col-form-label"><i class="bi bi-key h5"></i></label>
+                            <div class="col-sm-10 p-1">
+                                <button class="btn btn-sm btn-outline-secondary" type="button" onclick="resetPassword('${userId}')">Reset password</button>
+                            </div>
+                        </div>
+                        ${!isCurrentUser ? 
+                        '<div class="row">' +
+                            '<label for="staticDelete-${userId}" class="col-sm-2 col-form-label"><i class="bi bi bi-trash3 h5"></i></label>' +
+                            '<div class="col-sm-10 p-1">' +
+                                '<button class="btn btn-sm btn-outline-secondary" type="button" onclick="deleteUser(\'' + userId + '\')">Delete</button>' +          
+                            '</div>' +
+                        '</div>' : ''
+                        }
+                    </p>
+                </div>
+            </div>
+        </div>`
+</script>
 }
