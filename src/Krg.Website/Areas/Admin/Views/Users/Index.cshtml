@@ -5,8 +5,18 @@
 @{
     var currentUserId = SigninManager.UserManager.GetUserId(User);
 }
-<div class="row">
+<div class="row shadow-sm p-3 mb-3 bg-body rounded">
     @{ Html.RenderPartial("CreateUserPartial", new CreateUserDto {Email = string.Empty, Password = string.Empty, RepeatPassword = string.Empty}); }
+</div>
+
+<div id="alertContainer" class="row d-none">
+    <div class="alert alert-primary d-flex align-items-center" role="alert">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
+            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+        </svg>
+        <div id="alertMsg">
+        </div>
+    </div>
 </div>
 
 <div class="row shadow-sm p-3 mb-5 bg-body rounded">
@@ -30,11 +40,11 @@
                     <th scope="row">
                         @if (user.LockoutEnabled && user.LockoutEnd != null)
                         {
-                            <button class="btn btn-outline-secondary" type="button" onclick="activateUser('@user.Id')">Activate</button>
+                            <button class="btn btn-outline-secondary" type="button" onclick="toggleUser('@user.Id', true)">Activate</button>
                         }
                         else
                         {
-                            <button class="btn btn-outline-secondary" type="button" onclick="deactivateUser('@user.Id')">Deactivate</button>
+                            <button class="btn btn-outline-secondary" type="button" onclick="toggleUser('@user.Id', false)">Deactivate</button>
                         }
                     </th>
                     <th scope="row"><button class="btn btn-outline-secondary" type="button" onclick="resetPassword('@user.Id')">Reset password</button></th>
@@ -54,59 +64,19 @@
 @section Scripts
 {
     <script>        
-        function activateUser(id) {
+        function toggleUser(id, activate) {
             let data = {
                 id: id
             }
 
             if (confirm('Are you sure?')) {
-
-                console.log('activateUser called for ' + id);
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/Admin/UsersApi/Activate',
-                    contentType: 'application/json; charset=utf-8',
-                    data: JSON.stringify(data),
-                    success: function (result) {
-                        console.log(result);
-
-                        $('#users-parent').empty();
-
-                        if (result.hasOwnProperty('users')) {
-                            updateUsersList(result.users);
-                        }
-                    }
-                });
+                if (activate) {
+                    callApi('/Admin/UsersApi/Activate', data);
+                } else {
+                    callApi('/Admin/UsersApi/Deactivate', data);
+                }
             }
-        }
-                
-        function deactivateUser(id) {
-            let data = {
-                id: id
-            }
-
-            if (confirm('Are you sure?')) {
-
-                console.log('deactivateUser called for ' + id);
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/Admin/UsersApi/Deactivate',
-                    contentType: 'application/json; charset=utf-8',
-                    data: JSON.stringify(data),
-                    success: function (result) {
-                        console.log(result);
-
-                        $('#users-parent').empty();
-
-                        if (result.hasOwnProperty('users')) {
-                            updateUsersList(result.users);
-                        }
-                    }
-                });
-            }
-        }
+        }       
         
         function deleteUser(id) {
             let data = {
@@ -114,59 +84,16 @@
             }
 
             if (confirm('Are you sure?')) {
-
-                console.log('deleteUser called for ' + id);
-                
-                $.ajax({
-                    type: 'POST',
-                    url: '/Admin/UsersApi/DeleteUser',
-                    contentType: 'application/json; charset=utf-8',
-                    data: JSON.stringify(data),
-                    success: function (result) {
-                        console.log(result);
-
-                        $('#users-parent').empty();
-
-                        if (result.hasOwnProperty('users')) {                       
-                            updateUsersList(result.users);
-                        }
-                    }
-                });                
+                callApi('/Admin/UsersApi/DeleteUser', data);
             }
         }
 
-        function updateUsersList(data) {
-            let currentUserId = '@SigninManager.UserManager.GetUserId(User)';            
-            $.each(data, function (k, v) {
-                let userId = v.id;
-                let isLockedOut = v.lockoutEnabled === true && v.lockoutEnd !== '' && v.lockoutEnd !== null;
-                $('#users-parent')
-                    .append(
-                        '<tr>' +
-                            '<th scope="row">'+ v.email + '</th>' +
-                            '<th scope="row">' +
-                                (isLockedOut ? 
-                                '<button class="btn btn-outline-secondary" type="button" onclick="activateUser(\'' + userId + '\')">Activate</button>' : 
-                                '<button type="button" class="btn btn-outline-secondary" onClick="deactivateUser(\'' + userId + '\')">Deactivate</button>'
-                                ) +
-                            '</th>' +
-                            '<th scope="row"><button type="button" class="btn btn-outline-secondary" onClick="resetPassword(\'' + userId + '\')">Reset password</button></th>' +
-                            '<th scope="row">' +
-                                    (currentUserId !== userId ?
-                                    '<button type="button" class="btn btn-outline-secondary" onClick="deleteUser(\'' + userId + '\')">Delete</button>' :
-                                    '') +
-                            '</th>' + //TODO do not add for current user
-                        '</tr>')
-            });
-        }
-        
         function resetPassword(id) {
             let data = {
                 Id: id
             }
 
             if (confirm('Are you sure?')) {
-
                 $.ajax({
                     type: 'POST',
                     url: '/Admin/UsersApi/ResetPassword',
@@ -174,10 +101,36 @@
                     data: JSON.stringify(data),
                     success: function (result) {
                         console.log(result);
-                        alert(result.message);                        
+                        $('#alertMsg').html(result.message);
+                        $('#alertContainer').removeClass('d-none');
                     },
                 });
             }
+        }
+
+        function updateUsersList(data) {
+            let currentUserId = '@SigninManager.UserManager.GetUserId(User)';
+            $.each(data, function (k, v) {
+                let userId = v.id;
+                let isLockedOut = v.lockoutEnabled === true && v.lockoutEnd !== '' && v.lockoutEnd !== null;
+                $('#users-parent')
+                    .append(
+                        '<tr>' +
+                        '<th scope="row">'+ v.email + '</th>' +
+                        '<th scope="row">' +
+                        (isLockedOut ?
+                                '<button class="btn btn-outline-secondary" type="button" onclick="toggleUser(\'' + userId + '\', true)">Activate</button>' :
+                                '<button type="button" class="btn btn-outline-secondary" onClick="toggleUser(\'' + userId + '\', false)">Deactivate</button>'
+                        ) +
+                        '</th>' +
+                        '<th scope="row"><button type="button" class="btn btn-outline-secondary" onClick="resetPassword(\'' + userId + '\')">Reset password</button></th>' +
+                        '<th scope="row">' +
+                        (currentUserId !== userId ?
+                            '<button type="button" class="btn btn-outline-secondary" onClick="deleteUser(\'' + userId + '\')">Delete</button>' :
+                            '') +
+                        '</th>' +
+                        '</tr>')
+            });
         }
                 
         function callApi(url, data) {
@@ -187,7 +140,10 @@
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify(data),
                 success: function (result) {
-                    console.log(result);
+                    $('#users-parent').empty();
+                    if (result.hasOwnProperty('users')) {
+                        updateUsersList(result.users);
+                    }
                 }
             });
         }    
