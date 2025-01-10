@@ -1,4 +1,6 @@
 @using Krg.Website.Areas.Admin.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SigninManager;
 @model UsersViewModel
 <div class="row">
     @{ Html.RenderPartial("CreateUserPartial", new CreateUserDto {Email = string.Empty, Password = string.Empty, RepeatPassword = string.Empty}); }
@@ -22,9 +24,14 @@
             {
                 <tr>
                     <th scope="row">@user.Email</th>
-                    <th scope="row"><button class="btn btn-outline-secondary" type="button" onclick="alert('Deactivate user - ')">Deactivate user</button></th>
+                    <th scope="row"><button class="btn btn-outline-secondary" type="button" onclick="alert('Deactivate user - ')">Deactivate</button></th>
                     <th scope="row"><button class="btn btn-outline-secondary" type="button" onclick="resetPassword('@user.Id')">Reset password</button></th>
-                    <th scope="row"><button class="btn btn-outline-secondary" type="button" onclick="deleteUser('@user.Id')">Delete user</button></th>
+                    <th scope="row">
+                        @if (SigninManager.UserManager.GetUserId(User) != user.Id)
+                        {
+                            <button class="btn btn-outline-secondary" type="button" onclick="deleteUser('@user.Id')">Delete user</button>    
+                        }
+                    </th>
                 </tr>
             }
             </tbody>
