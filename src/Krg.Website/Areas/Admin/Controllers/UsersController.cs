@@ -8,11 +8,7 @@ public class UsersController(SignInManager<IdentityUser> signInManager, ILogger<
 {
     public IActionResult Index()
     {
-        var viewModel = new UsersViewModel
-        {
-            Users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList()
-        };
-        return View(viewModel);
+        return View();
     }
 
     [HttpPost]
@@ -21,8 +17,6 @@ public class UsersController(SignInManager<IdentityUser> signInManager, ILogger<
     {
         logger.LogInformation($"Creating user with email: {createUserDto.Email}");
 
-        var usersViewModel = new UsersViewModel { Users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() };
-        
         var user = await signInManager.UserManager.FindByEmailAsync(createUserDto.Email);
         if (user != null)
         {
@@ -30,7 +24,7 @@ public class UsersController(SignInManager<IdentityUser> signInManager, ILogger<
             
             ModelState.AddModelError("Email", $"User with email: {createUserDto.Email} already exists.");
             
-            return View("Index", usersViewModel);
+            return View("Index");
         }
         
         if (!string.Equals(createUserDto.Password, createUserDto.RepeatPassword))
@@ -39,7 +33,7 @@ public class UsersController(SignInManager<IdentityUser> signInManager, ILogger<
             
             ModelState.AddModelError("RepeatPassword", "'Password' and 'repeat password' does not match");
             
-            return View("Index", usersViewModel);
+            return View("Index");
         }
         
         user = new IdentityUser(createUserDto.Email) {Email = createUserDto.Email};
@@ -53,7 +47,7 @@ public class UsersController(SignInManager<IdentityUser> signInManager, ILogger<
             {
                 ModelState.AddModelError("Summary", error.Description);
             }
-            return View("Index", usersViewModel);
+            return View("Index");
         }
         
         return RedirectToAction("Index");

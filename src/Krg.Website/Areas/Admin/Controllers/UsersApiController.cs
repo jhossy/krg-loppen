@@ -10,6 +10,12 @@ namespace Krg.Website.Areas.Admin.Controllers;
 [Authorize]
 public class UsersApiController(SignInManager<IdentityUser> signInManager, ILogger<UsersApiController> logger) : ControllerBase
 {
+    [HttpGet]
+    public IActionResult GetAll()
+    {
+        return new JsonResult(new { users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() });
+    }
+    
     [HttpPost]
     public async Task<IActionResult> ResetPassword([FromBody]ResetPasswordDto resetPasswordDto)
     {

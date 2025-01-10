@@ -1,10 +1,7 @@
 @using Krg.Website.Areas.Admin.Models
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SigninManager;
-@model UsersViewModel
-@{
-    var currentUserId = SigninManager.UserManager.GetUserId(User);
-}
+
 <div class="row shadow-sm p-3 mb-3 bg-body rounded">
     @{ Html.RenderPartial("CreateUserPartial", new CreateUserDto {Email = string.Empty, Password = string.Empty, RepeatPassword = string.Empty}); }
 </div>
@@ -24,56 +21,27 @@
         <h2>Overview</h2>
         <hr/>
         <div class="row" id="users-parent">
-                @foreach (var user in Model.Users)
-                {
-                    <div class="col-sm-3 p-2">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">@user.Email</h5>
-                                <p class="card-text">
-                                    <div class="row">
-                                        @if (user.LockoutEnabled && user.LockoutEnd != null)
-                                        {
-                                            <label for="staticName-@user.Id" class="col-sm-2 col-form-label"><i class="bi bi-lock h5"></i></label>
-                                            <div class="col-sm-10 p-1">
-                                                <button class="btn btn-sm btn-outline-secondary" type="button" onclick="toggleUser('@user.Id', true)">Enable</button>
-                                            </div>
-                                        }
-                                        else
-                                        {
-                                            <label for="staticName-@user.Id" class="col-sm-2 col-form-label"><i class="bi bi-lock h5"></i></label>
-                                            <div class="col-sm-10 p-1">
-                                                <button class="btn btn-sm btn-outline-secondary" type="button" onclick="toggleUser('@user.Id', false)">Disable</button>
-                                            </div>
-                                        }
-                                    </div>
-                                    <div class="row">
-                                        <label for="staticPhone-@user.Id" class="col-sm-2 col-form-label"><i class="bi bi-key h5"></i></label>
-                                        <div class="col-sm-10 p-1">
-                                            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="resetPassword('@user.Id')">Reset password</button>
-                                        </div>
-                                    </div>
-                                    @if (currentUserId != user.Id)
-                                    {
-                                    <div class="row">
-                                        <label for="staticEmail-@user.Id" class="col-sm-2 col-form-label"><i class="bi bi-trash3 h5"></i></label>
-                                        <div class="col-sm-10 p-1">
-                                            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="deleteUser('@user.Id')">Delete</button>
-                                        </div>
-                                    </div>
-                                    }
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                }
         </div>
     </div>
 </div>
 
 @section Scripts
 {
-    <script>        
+    <script>
+        $(document).ready(function (){
+            $.ajax({
+                type: 'GET',
+                url: '/Admin/UsersApi/GetAll',
+                contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+                    $('#users-parent').empty();
+                    if (result.hasOwnProperty('users')) {
+                        updateUsersList(result.users);
+                    }
+                }
+            });
+        });
+        
         function toggleUser(id, activate) {
             let data = {
                 id: id
