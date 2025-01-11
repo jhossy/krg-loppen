@@ -6,7 +6,7 @@ name: Build and deploy ASP.Net Core app to Azure Web App - krg
 on:
   push:
     branches:
-      - master
+      - f/v2*
   workflow_dispatch:
 
 jobs:
