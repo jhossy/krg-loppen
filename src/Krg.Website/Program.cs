@@ -58,6 +58,18 @@ try
 		context.Database.Migrate();		
 // DbInitializer.Initialize(context);
 	}
+	
+	using (var scope = app.Services.CreateScope())
+	{
+		var services = scope.ServiceProvider;
+
+		var context = services.GetRequiredService<IdentityContext>();
+
+		
+		//context.Database.EnsureCreated();
+		context.Database.Migrate();		
+// DbInitializer.Initialize(context);
+	}
 
 	app.UseHttpsRedirection();
 	app.UseStaticFiles();
