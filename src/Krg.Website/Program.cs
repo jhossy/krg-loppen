@@ -2,6 +2,7 @@ using Krg.Database;
 using Krg.Database.Extensions;
 using Krg.Services.Extensions;
 using Krg.Website.Extensions;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -52,8 +53,10 @@ try
 
 		var context = services.GetRequiredService<KrgContext>();
 
-		context.Database.EnsureCreated();
-		// DbInitializer.Initialize(context);
+		
+		//context.Database.EnsureCreated();
+		context.Database.Migrate();		
+// DbInitializer.Initialize(context);
 	}
 
 	app.UseHttpsRedirection();
