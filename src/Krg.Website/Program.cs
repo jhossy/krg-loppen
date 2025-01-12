@@ -52,11 +52,10 @@ try
 		var services = scope.ServiceProvider;
 
 		var context = services.GetRequiredService<KrgContext>();
-
 		
 		//context.Database.EnsureCreated();
 		context.Database.Migrate();		
-// DbInitializer.Initialize(context);
+		// DbInitializer.Initialize(context);
 	}
 	
 	using (var scope = app.Services.CreateScope())
@@ -64,11 +63,8 @@ try
 		var services = scope.ServiceProvider;
 
 		var context = services.GetRequiredService<IdentityContext>();
-
 		
-		//context.Database.EnsureCreated();
-		context.Database.Migrate();		
-// DbInitializer.Initialize(context);
+		context.Database.Migrate();
 	}
 
 	app.UseHttpsRedirection();
@@ -93,9 +89,12 @@ try
 		name: "default",
 		pattern: "{controller=Home}/{action=Index}/{id?}");
 
-	app.MapIdentityApi<Microsoft.AspNetCore.Identity.IdentityUser>();
-	
-    app.Run();
+	if (app.Environment.IsDevelopment())
+	{
+		app.MapIdentityApi<Microsoft.AspNetCore.Identity.IdentityUser>();
+	}
+
+	app.Run();
 
 	Log.Information("Stopped cleanly");
 	return 0;

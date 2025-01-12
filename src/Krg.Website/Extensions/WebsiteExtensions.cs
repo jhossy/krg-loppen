@@ -30,7 +30,7 @@ namespace Krg.Website.Extensions
 					// options.SignIn.RequireConfirmedAccount = true;
 				})
 			 	.AddEntityFrameworkStores<IdentityContext>()
-			    .AddApiEndpoints(); //TODO remove
+			    .AddApiEndpoints();
 			
 			return services;
 		}
