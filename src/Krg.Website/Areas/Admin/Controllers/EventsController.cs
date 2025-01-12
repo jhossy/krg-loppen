@@ -38,7 +38,7 @@ public class EventsController(IEventDateService eventDateService, ILogger<Events
                 ContactEmail = createEventDto.ContactEmail
             });
             
-            return RedirectToAction(nameof(Index), new {tab = dateTimeParsed.ToDkMonth()});
+            return RedirectToAction(nameof(Index));
         }
         return BadRequest("Error parsing date");
     }
@@ -63,7 +63,7 @@ public class EventsController(IEventDateService eventDateService, ILogger<Events
                 
                 logger.LogInformation("Updating event - new values: {@editEventDto}", editEventDto);
 
-                return RedirectToAction(nameof(Index), new {tab = dateTimeParsed.ToDkMonth()});
+                return RedirectToAction(nameof(Index));
             }
         }
 
