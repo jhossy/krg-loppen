@@ -1,11 +1,8 @@
 using Krg.Database;
 using Krg.Database.Extensions;
-using Krg.Domain.Models;
 using Krg.Services.Extensions;
 using Krg.Website.Extensions;
-using Krg.Website.Models;
 using Microsoft.EntityFrameworkCore;
-using Quartz;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -18,9 +15,9 @@ try
 	var builder = WebApplication.CreateBuilder(args);
 
 	// Add services to the container.
-	builder.Services.AddControllersWithViews()
-		.AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new CustomDateTimeConverter()));
-		
+	builder.Services.AddEndpointsApiExplorer();
+	builder.Services.AddSwaggerGen();
+
 	builder.Services.AddSerilog((context, configuration) =>
 	{
 		Environment.SetEnvironmentVariable("BASEDIR", AppContext.BaseDirectory);
@@ -30,10 +27,7 @@ try
 			.Enrich.FromLogContext();
 	});
 
-	builder.Services.AddDbContext<KrgContext>(options =>
-		options.UseSqlServer(builder.Configuration.GetConnectionString("KrgContext")));
-
-	builder.Services.AddDatabaseExtensions();
+	builder.Services.AddDatabaseExtensions(builder.Configuration);
 	builder.Services.AddServiceExtensions(builder.Configuration);
 	builder.Services.AddWebsiteExtensions(builder.Configuration);
 	builder.Services.AddScheduledJobs();
@@ -47,6 +41,11 @@ try
 		// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 		app.UseHsts();
 	}
+	else
+	{
+		app.UseSwagger();
+		app.UseSwaggerUI();
+	}
 
 	using (var scope = app.Services.CreateScope())
 	{
@@ -54,15 +53,35 @@ try
 
 		var context = services.GetRequiredService<KrgContext>();
 
-		context.Database.EnsureCreated();
-		// DbInitializer.Initialize(context);
+		
+		//context.Database.EnsureCreated();
+		context.Database.Migrate();		
+// DbInitializer.Initialize(context);
+	}
+	
+	using (var scope = app.Services.CreateScope())
+	{
+		var services = scope.ServiceProvider;
+
+		var context = services.GetRequiredService<IdentityContext>();
+
+		
+		//context.Database.EnsureCreated();
+		context.Database.Migrate();		
+// DbInitializer.Initialize(context);
 	}
 
 	app.UseHttpsRedirection();
 	app.UseStaticFiles();
 
+	app.UseCookiePolicy(new CookiePolicyOptions
+	{
+		MinimumSameSitePolicy = SameSiteMode.Strict, Secure = CookieSecurePolicy.Always
+	});
+
 	app.UseRouting();
 
+	app.UseAuthentication();
 	app.UseAuthorization();
 
 	app.MapControllerRoute(
@@ -74,6 +93,8 @@ try
 		name: "default",
 		pattern: "{controller=Home}/{action=Index}/{id?}");
 
+	app.MapIdentityApi<Microsoft.AspNetCore.Identity.IdentityUser>();
+	
     app.Run();
 
 	Log.Information("Stopped cleanly");

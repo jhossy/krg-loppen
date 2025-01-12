@@ -2,16 +2,14 @@ using Krg.Domain;
 using Krg.Services.Interfaces;
 using Krg.Web.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Krg.Website.Areas.Admin.Controllers;
 
-[Area("Admin")]
 public class RegistrationsController(
     IEventRegistrationService eventRegistrationService,
     IEmailNotificationService emailNotificationService,
     IExcelService excelService)
-    : Controller
+    : BaseAdminController
 {
     // GET
     public IActionResult Index()

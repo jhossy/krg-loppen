@@ -8,10 +8,10 @@
 
 		public DateTime Date { get; set; }
 
-        public string ContactName { get; set; }
+        public required string ContactName { get; set; }
 
-        public string ContactEmail { get; set; }
+        public required string ContactEmail { get; set; }
 
-        public string ContactPhone { get; set; }
+        public required string ContactPhone { get; set; }
     }
 }

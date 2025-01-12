@@ -1,5 +1,7 @@
-﻿using Krg.Website.Jobs;
+﻿using Krg.Database;
+using Krg.Website.Jobs;
 using Krg.Website.Models;
+using Microsoft.AspNetCore.Identity;
 using Quartz;
 
 namespace Krg.Website.Extensions
@@ -8,8 +10,28 @@ namespace Krg.Website.Extensions
 	{
 		public static IServiceCollection AddWebsiteExtensions(this IServiceCollection services, IConfiguration configuration)
 		{
-			services.Configure<SiteSettings>(configuration.GetSection(nameof(SiteSettings)));
+            services.AddControllersWithViews()
+				.AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new CustomDateTimeConverter()));
 
+            services.Configure<SiteSettings>(configuration.GetSection(nameof(SiteSettings)));
+
+			services.AddAuthorization();
+			services.AddAuthentication()
+				.AddCookie(IdentityConstants.ApplicationScheme, options =>
+				{
+					options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+					options.SlidingExpiration = true;
+					options.AccessDeniedPath = "/Login";
+					options.LoginPath = "/Login";
+				});
+				
+			services.AddIdentityCore<IdentityUser>(options =>
+				{
+					// options.SignIn.RequireConfirmedAccount = true;
+				})
+			 	.AddEntityFrameworkStores<IdentityContext>()
+			    .AddApiEndpoints(); //TODO remove
+			
 			return services;
 		}
 
