@@ -17,7 +17,7 @@ public class UsersApiController(SignInManager<IdentityUser> signInManager, ILogg
     }
     
     [HttpPost]
-    public async Task<IActionResult> ResetPassword([FromBody]ResetPasswordDto resetPasswordDto)
+    public async Task<IActionResult> ResetPassword([FromBody]UserDto resetPasswordDto)
     {
         try
         {
@@ -29,7 +29,7 @@ public class UsersApiController(SignInManager<IdentityUser> signInManager, ILogg
             {
                 logger.LogError($"User could not be found using Id: {resetPasswordDto.Id}");
 
-                return new JsonResult("User does not exist with the provided Id.");
+                return new JsonResult(new { message ="User does not exist with the provided Id."});
             }
 
             var resetToken = await signInManager.UserManager.GeneratePasswordResetTokenAsync(user);
@@ -51,7 +51,7 @@ public class UsersApiController(SignInManager<IdentityUser> signInManager, ILogg
     }
     
     [HttpPost]
-    public async Task<IActionResult> DeleteUser([FromBody]DeleteUserDto deleteUserDto)
+    public async Task<UserListReponse> DeleteUser([FromBody]UserDto deleteUserDto)
     {
         try
         {
@@ -63,7 +63,7 @@ public class UsersApiController(SignInManager<IdentityUser> signInManager, ILogg
             {
                 logger.LogError($"User could not be found using id: {deleteUserDto.Id}");
 
-                return new JsonResult(new { users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() });
+                return new UserListReponse { Users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() };
             }
 
             var currentUser = await signInManager.UserManager.GetUserAsync(User);
@@ -71,21 +71,21 @@ public class UsersApiController(SignInManager<IdentityUser> signInManager, ILogg
             {
                 logger.LogError("Cannot delete currently logged in user");
 
-                return new JsonResult(new { users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() });
+                return new UserListReponse { Users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() };
             }
 
             await signInManager.UserManager.DeleteAsync(user);
 
-            return new JsonResult(new { users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() });
+            return new UserListReponse { Users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() };
         }
         catch (Exception ex)
         {
             logger.LogError(ex, $"DeleteUser failed for {deleteUserDto.Id}");
         }
-        return new JsonResult(new { users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() });
+        return new UserListReponse { Users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() };
     }
 
-    public async Task<IActionResult> Deactivate([FromBody] UserDto userDto)
+    public async Task<UserListReponse> Deactivate([FromBody] UserDto userDto)
     {
         try
         {
@@ -97,7 +97,7 @@ public class UsersApiController(SignInManager<IdentityUser> signInManager, ILogg
             {
                 logger.LogError($"User could not be found using id: {userDto.Id}");
 
-                return new JsonResult(new { users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() });
+                return new UserListReponse { Users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() };
             }
 
             var currentUser = await signInManager.UserManager.GetUserAsync(User);
@@ -105,22 +105,22 @@ public class UsersApiController(SignInManager<IdentityUser> signInManager, ILogg
             {
                 logger.LogError("Cannot deactivate currently logged in user");
 
-                return new JsonResult(new { users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() });
+                return new UserListReponse { Users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() };
             }
 
             await signInManager.UserManager.SetLockoutEnabledAsync(user, true);
             await signInManager.UserManager.SetLockoutEndDateAsync(user, DateTimeOffset.MaxValue);
             
-            return new JsonResult(new { users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() });
+            return new UserListReponse { Users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() };
         }
         catch (Exception ex)
         {
             logger.LogError(ex, $"Deactivate failed for {userDto.Id}");
         }
-        return new JsonResult(new { users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() });
+        return new UserListReponse { Users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() };
     }
     
-    public async Task<IActionResult> Activate([FromBody] UserDto userDto)
+    public async Task<UserListReponse> Activate([FromBody] UserDto userDto)
     {
         try
         {
@@ -132,7 +132,7 @@ public class UsersApiController(SignInManager<IdentityUser> signInManager, ILogg
             {
                 logger.LogError($"User could not be found using id: {userDto.Id}");
 
-                return new JsonResult(new { users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() });
+                return new UserListReponse { Users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() };
             }
 
             var currentUser = await signInManager.UserManager.GetUserAsync(User);
@@ -140,18 +140,18 @@ public class UsersApiController(SignInManager<IdentityUser> signInManager, ILogg
             {
                 logger.LogError("Cannot activate currently logged in user");
 
-                return new JsonResult(new { users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() });
+                return new UserListReponse { Users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() };
             }
 
             await signInManager.UserManager.SetLockoutEnabledAsync(user, false);
             await signInManager.UserManager.SetLockoutEndDateAsync(user, DateTimeOffset.UtcNow.AddMinutes(-1));
             
-            return new JsonResult(new { users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() });
+            return new UserListReponse { Users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() };
         }
         catch (Exception ex)
         {
             logger.LogError(ex, $"Activate failed for {userDto.Id}");
         }
-        return new JsonResult(new { users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() });
+        return new UserListReponse { Users = signInManager.UserManager.Users.OrderBy(x => x.Email).ToList() };
     }
 }

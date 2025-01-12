@@ -9,12 +9,11 @@ namespace Krg.Website.Areas.Admin.Controllers;
 public class EventsController(IEventDateService eventDateService, ILogger<EventsController> logger) : BaseAdminController
 {
     [HttpGet]
-    public IActionResult Index(string tab = default(string))
+    public IActionResult Index()
     {
         return View(new EventsViewModel
         {
-            SelectedDate = DateTime.Now,
-            Tab = tab
+            SelectedDate = DateTime.Now
         });
     }
     
