@@ -90,19 +90,20 @@
 {
     <script>
         $(document).ready(function (){
-            callApi(new Date().getFullYear());
+            let currentDate = new Date();
+            callApi(currentDate.getFullYear(), currentDate.getMonth());
         });
         
         $('#yearSelector').on('change', function() {
             if (this.value === '')
                 return;
             
-            callApi(this.value);            
+            callApi(this.value, 0);            
         });
         
-        function callApi(year) {
+        function callApi(year, month) {
             $('.spinner-border').show();
-            
+            console.log('year=' + year + ' - month=' + month);
             $.ajax({
                 type: 'GET',
                 url: '/Admin/EventsApi/GetEvents?year=' + year,
@@ -113,13 +114,13 @@
                     let i = 0;
                     let keyArr = [];
                     $.each(result, function (k, v){
-                        str += '<div class="tab-pane ' + (i === 0 ? "active" : "") + '" id="' + k + '" role="tabpanel" aria-labelledby="' + k + '-tab" tabindex="0">'
+                        str += '<div class="tab-pane ' + (i === month ? "active" : "") + '" id="' + k + '" role="tabpanel" aria-labelledby="' + k + '-tab" tabindex="0">'
                         str += ' <div class="row">'
                         str += v.map(eventElm).join('');
                         str += ' </div>'
                         str += '</div>'
 
-                        keyArr.push({id: k, isActiveClass: (i === 0 ? 'active' : '')});
+                        keyArr.push({id: k, isActiveClass: (i === month ? 'active' : '')});
                         i++;
                     })
 
