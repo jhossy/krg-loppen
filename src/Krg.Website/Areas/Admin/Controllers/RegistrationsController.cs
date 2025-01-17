@@ -5,6 +5,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Krg.Website.Areas.Admin.Controllers;
 
+public class GroupedRegistration
+{
+    public string Department { get; set; }
+
+    public Dictionary<string, List<BackofficeRegistrationDto>> Registrations { get; set; }
+}
+
 public class RegistrationsController(
     IEventRegistrationService eventRegistrationService,
     IEmailNotificationService emailNotificationService,
@@ -18,17 +25,59 @@ public class RegistrationsController(
     }
     
     [HttpPost]
+    public List<GroupedRegistration> GetGroupedRegistrations([FromBody]GetRequestDto getRequest)
+    {
+        int parsedYear = getRequest.Year == 0 ? DateTime.Now.Year : getRequest.Year;
+
+        var regs = eventRegistrationService
+            .GetNonDeletedRegistrations(parsedYear)
+            .OrderBy(x => x.Department)
+            .ThenBy(reg => reg.Name)
+            .Select(reg => new BackofficeRegistrationDto(reg))
+            .ToList();
+
+        return regs.GroupBy(reg => new { reg.Department })
+            .Select(group =>
+                new GroupedRegistration
+                {
+                    Department = group.Key.Department,
+                    Registrations = group.GroupBy(g => g.Name).ToDictionary(g => g.Key, g => g.ToList())
+                })
+            .ToList();
+    }
+    
+    [HttpPost]
     public List<BackofficeRegistrationDto> GetRegistrations([FromBody]GetRequestDto getRequest)
     {
         int parsedYear = getRequest.Year == 0 ? DateTime.Now.Year : getRequest.Year;
 
-        return eventRegistrationService
+        var regs = eventRegistrationService
             .GetNonDeletedRegistrations(parsedYear)
-            .OrderBy(reg => reg.EventDate)
-            .ThenBy(reg => reg.UpdateTimeUtc)
+            .OrderBy(x => x.Department)
+            .ThenBy(reg => reg.Name)
             .Select(reg => new BackofficeRegistrationDto(reg))
             .ToList();
+
+        var tmp = regs.GroupBy(reg => new{ reg.Department, reg.Name })
+            .Select(group => new { Department = group.Key.Department, Name = group.Key.Name, Events = group});
+
+        var tmp2 = GetGroupedRegistrations(getRequest);
+        
+        return regs;
     }
+    
+    // [HttpPost]
+    // public List<BackofficeRegistrationDto> GetRegistrations([FromBody]GetRequestDto getRequest)
+    // {
+    //     int parsedYear = getRequest.Year == 0 ? DateTime.Now.Year : getRequest.Year;
+    //
+    //     return eventRegistrationService
+    //         .GetNonDeletedRegistrations(parsedYear)
+    //         .OrderBy(reg => reg.EventDate)
+    //         .ThenBy(reg => reg.UpdateTimeUtc)
+    //         .Select(reg => new BackofficeRegistrationDto(reg))
+    //         .ToList();
+    // }
 
     private List<BackofficeRegistrationDto> GetAllRegistrations(int year)
     {

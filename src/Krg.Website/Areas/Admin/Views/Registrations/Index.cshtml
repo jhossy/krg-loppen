@@ -59,7 +59,7 @@
             $('#btnFetchRegistrations').append('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>\n' +
                 '                <span class="visually-hidden">Loading...</span>');
 
-            callApi('/Admin/Registrations/GetRegistrations', data, function () {
+            callApi('/Admin/Registrations/GetGroupedRegistrations', data, function () {
                 $('#btnFetchRegistrations').prop('disabled', false)
                     .removeClass('btn-disabled');
 
@@ -102,21 +102,30 @@
         }
 
         function updateRegistrationsList(data) {
+            console.log(data);
+            
             $.each(data, function (k, v) {
-                $('#registrations-parent')
-                    .append(
-                        '<tr>' +
-                        '<th scope="row"><button type="button" class="btn btn-outline-danger" onClick="deleteRegistration(' + v.id + ')">Slet</button></th>' +
-                        '<th scope="row">'+ v.eventDate + '</th>' +
-                        '<th scope="row">'+ v.name + '</th>' +
-                        '<th scope="row">'+ v.email + '</th>' +
-                        '<th scope="row">'+ v.department + '</th>' +
-                        '<th scope="row">'+ v.noOfAdults + '</th>' +
-                        '<th scope="row">'+ v.noOfChildren + '</th>' +
-                        '<th scope="row">'+ v.bringsTrailer + '</th>' +
-                        '</tr>')
+                console.log(v.department)
+
+                $.each(v.registrations, function (k, v) {
+                    console.log(k + '-' + v.map(x => x.eventDate))
+                });
             });
         }
 
     </script>
 }
+
+@* $('#registrations-parent') *@
+@* .append( *@
+@* '<tr>' + *@
+@*     //'<th scope="row"><button type="button" class="btn btn-outline-danger" onClick="deleteRegistration(' + v.id + ')">Slet</button></th>' + *@
+@*     '<th scope="row">'+ v.department + '</th>' + *@
+@*     '<th scope="row">'+ v.eventDate + '</th>' + *@
+@*     '<th scope="row">'+ v.name + '</th>' + *@
+@*     '<th scope="row">'+ v.email + '</th>' + *@
+@*     '<th scope="row">'+ v.department + '</th>' + *@
+@*     '<th scope="row">'+ v.noOfAdults + '</th>' + *@
+@*     '<th scope="row">'+ v.noOfChildren + '</th>' + *@
+@*     '<th scope="row">'+ v.bringsTrailer + '</th>' + *@
+@*     '</tr>') *@
