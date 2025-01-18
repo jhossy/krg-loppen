@@ -20,6 +20,16 @@
                         </button>
                     </div>
                 }
+
+                @using (Html.BeginForm("ExportAsGroupedExcel", "Registrations", FormMethod.Post, new { area = "Admin", @class = "row g-3" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="col">
+                        @Html.Label("Year", "Year", new { @class = "visually-hidden" })
+                        @Html.TextBox("year", DateTime.Now.Year, new { @class = "form-control", placeholder = DateTime.Now.Year, @data_val = "true", @data_val_required = "År skal angives", autocomplete = "on" })
+                    </div>
+                    <input type="submit" class="btn btn-outline-secondary" value="Export grouped"/>
+                }
             </div>
         </div>
         <div class="row">
@@ -47,7 +57,7 @@
 
 @section Scripts
 {
-    <script>
+    <script>        
         function FetchRegistrations() {
             var data = {
                 year: $("#year").val()
@@ -59,7 +69,7 @@
             $('#btnFetchRegistrations').append('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>\n' +
                 '                <span class="visually-hidden">Loading...</span>');
 
-            callApi('/Admin/Registrations/GetGroupedRegistrations', data, function () {
+            callApi('/Admin/Registrations/GetRegistrations', data, function () {
                 $('#btnFetchRegistrations').prop('disabled', false)
                     .removeClass('btn-disabled');
 
@@ -105,27 +115,31 @@
             console.log(data);
             
             $.each(data, function (k, v) {
-                console.log(v.department)
-
-                $.each(v.registrations, function (k, v) {
-                    console.log(k + '-' + v.map(x => x.eventDate))
-                });
+                $('#registrations-parent')
+                    .append(
+                        '<tr>' +
+                            '<th scope="row"><button type="button" class="btn btn-outline-danger" onClick="deleteRegistration(' + v.id + ')">Slet</button></th>' +
+                            '<th scope="row">'+ v.department + '</th>' +
+                            '<th scope="row">'+ v.eventDate + '</th>' +
+                            '<th scope="row">'+ v.name + '</th>' +
+                            '<th scope="row">'+ v.email + '</th>' +
+                            '<th scope="row">'+ v.department + '</th>' +
+                            '<th scope="row">'+ v.noOfAdults + '</th>' +
+                            '<th scope="row">'+ v.noOfChildren + '</th>' +
+                            '<th scope="row">'+ v.bringsTrailer + '</th>' +
+                        '</tr>')
             });
-        }
-
+        }    
     </script>
 }
 
-@* $('#registrations-parent') *@
-@* .append( *@
-@* '<tr>' + *@
-@*     //'<th scope="row"><button type="button" class="btn btn-outline-danger" onClick="deleteRegistration(' + v.id + ')">Slet</button></th>' + *@
-@*     '<th scope="row">'+ v.department + '</th>' + *@
-@*     '<th scope="row">'+ v.eventDate + '</th>' + *@
-@*     '<th scope="row">'+ v.name + '</th>' + *@
-@*     '<th scope="row">'+ v.email + '</th>' + *@
-@*     '<th scope="row">'+ v.department + '</th>' + *@
-@*     '<th scope="row">'+ v.noOfAdults + '</th>' + *@
-@*     '<th scope="row">'+ v.noOfChildren + '</th>' + *@
-@*     '<th scope="row">'+ v.bringsTrailer + '</th>' + *@
-@*     '</tr>') *@
+
+
+
+@* console.log(v.department) *@
+@* *@
+@* $.each(v.registrations, function (k, v) { *@
+@* console.log(k + '-' + v.map(x => x.eventDate)) *@
+@* }); *@
+
+

@@ -1,9 +1,9 @@
-﻿using Krg.Domain;
+﻿using System.Globalization;
 using Krg.Services.Interfaces;
+using Krg.Services.Models;
 using OfficeOpenXml;
-using System.Globalization;
 
-namespace Krg.Web.Controllers
+namespace Krg.Services
 {
     public class ExcelService : IExcelService
 	{
@@ -40,6 +40,58 @@ namespace Krg.Web.Controllers
 					worksheet.Cells["H" + i].Value = registration.BringsTrailer;
 					worksheet.Cells["I" + i].Value = registration.IsCancelled;
 
+					i++;
+				}
+				var excelData = package.GetAsByteArray();
+
+				return excelData;
+			}
+		}
+
+		public byte[] CreateGroupedExcel(int year, List<BackofficeRegistrationDto> registrations)
+		{
+			using (var package = new ExcelPackage(new FileInfo($"Export_Grouped_{ToDkDateFormat(DateTime.Now)}.xlsx")))
+			{				
+				var worksheet = package.Workbook.Worksheets.Add(year.ToString());
+
+				//Add the headers
+				worksheet.Cells[1, 1].Value = "Afdeling";
+				worksheet.Cells[1, 2].Value = "Navn";
+				worksheet.Cells[1, 3].Value = "Dato#1";
+				worksheet.Cells[1, 4].Value = "Dato#2";
+				worksheet.Cells[1, 5].Value = "Dato#3";
+				worksheet.Cells[1, 6].Value = "Dato#4";
+				worksheet.Cells[1, 7].Value = "Dato#5";
+				// worksheet.Cells[1, 4].Value = "Email";
+				// worksheet.Cells[1, 5].Value = "Afdeling";
+				// worksheet.Cells[1, 6].Value = "Antal voksne";
+				// worksheet.Cells[1, 7].Value = "Antal børn";
+				// worksheet.Cells[1, 8].Value = "Medbringer trailer";
+				// worksheet.Cells[1, 9].Value = "Annulleret";
+
+				//Add some items...
+				int i = 2;
+				foreach (var registration in registrations.GroupBy(x => x.Department))
+				{
+					worksheet.Cells["A" + i].Value = registration.Key; //department
+
+					int j = 2;
+					foreach (var reg in registrations.GroupBy(x => x.Name))
+					{
+						worksheet.Cells["B" + j].Value = reg.Key; //name
+						
+						string[] cols = new string[] {"C", "D", "E", "F", "G", "H", "I", "J", "K"};
+						int k = 0;
+						foreach (var regPerson in reg)
+						{
+							string col = cols[k];
+							worksheet.Cells[col + j].Value = regPerson.EventDate;
+							k++;	
+						}
+
+						j++;
+					}
+					
 					i++;
 				}
 				var excelData = package.GetAsByteArray();

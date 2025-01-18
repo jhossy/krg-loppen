@@ -1,5 +1,6 @@
 ﻿using Krg.Domain;
 using Krg.Services.Interfaces;
+using Krg.Services.Models;
 using Krg.Web.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Umbraco.Cms.Web.BackOffice.Controllers;
