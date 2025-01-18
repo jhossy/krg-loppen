@@ -70,29 +70,26 @@ namespace Krg.Services
 				// worksheet.Cells[1, 9].Value = "Annulleret";
 
 				//Add some items...
-				int i = 2;
-				foreach (var registration in registrations.GroupBy(x => x.Department))
+				int lineCounter = 2;
+				foreach (var depGroup in registrations.GroupBy(x => x.Department.Trim(), StringComparer.InvariantCultureIgnoreCase))
 				{
-					worksheet.Cells["A" + i].Value = registration.Key; //department
-
-					int j = 2;
-					foreach (var reg in registrations.GroupBy(x => x.Name))
+					worksheet.Cells["A" + lineCounter].Value = depGroup.Key; //department
+					
+					foreach (var nameGroup in depGroup.GroupBy(g => g.Name.Trim(), StringComparer.InvariantCultureIgnoreCase))
 					{
-						worksheet.Cells["B" + j].Value = reg.Key; //name
+						worksheet.Cells["B" + lineCounter].Value = nameGroup.Key; //name
 						
 						string[] cols = new string[] {"C", "D", "E", "F", "G", "H", "I", "J", "K"};
 						int k = 0;
-						foreach (var regPerson in reg)
+						foreach (var regPerson in nameGroup)
 						{
 							string col = cols[k];
-							worksheet.Cells[col + j].Value = regPerson.EventDate;
+							worksheet.Cells[col + lineCounter].Value = regPerson.EventDate;
 							k++;	
 						}
-
-						j++;
+						
+						lineCounter++;
 					}
-					
-					i++;
 				}
 				var excelData = package.GetAsByteArray();
 
