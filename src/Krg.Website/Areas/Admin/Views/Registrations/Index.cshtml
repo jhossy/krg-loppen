@@ -10,25 +10,22 @@
                 {
                     @Html.AntiForgeryToken()
                     <div class="col">
-                        @Html.Label("Year", "Year", new { @class = "visually-hidden" })
-                        @Html.TextBox("year", DateTime.Now.Year, new { @class = "form-control", placeholder = DateTime.Now.Year, @data_val = "true", @data_val_required = "År skal angives", autocomplete = "on" })
+                        @Html.Label("StartDate", "StartDate", new { @class = "visually-hidden" })
+                        @Html.TextBox("StartDate", DateOnly.FromDateTime(DateTime.UtcNow).ToString("yyyy-MM-dd"), new { @class = "form-control", type = "date", placeholder = DateOnly.FromDateTime(DateTime.UtcNow), @data_val = "true", @data_val_required = "Startdato skal angives", autocomplete = "on" })
+                        @Html.ValidationMessage("StartDate")
                     </div>
                     <div class="col">
-                        <input type="submit" class="btn btn-outline-secondary" value="Export"/>
+                        @Html.Label("EndDate", "EndDate", new { @class = "visually-hidden" })
+                        @Html.TextBox("EndDate", DateOnly.FromDateTime(DateTime.UtcNow.AddMonths(6)).ToString("yyyy-MM-dd"), new { @class = "form-control", type = "date", placeholder = DateTime.Now.AddMonths(6), @data_val = "true", @data_val_required = "Slutdato skal angives", autocomplete = "on" })
+                        @Html.ValidationMessage("EndDate")
+                    </div>
+                    <div class="col">
+                        <input type="submit" name="submitExport" class="btn btn-outline-secondary" value="Export"/>
+                        <input type="submit" name="submitExport" class="btn btn-outline-secondary" value="ExportGrouped"/>
                         <button id="btnFetchRegistrations" class="btn btn-outline-secondary" type="button" onclick="FetchRegistrations()">
                             Hent
                         </button>
                     </div>
-                }
-
-                @using (Html.BeginForm("ExportAsGroupedExcel", "Registrations", FormMethod.Post, new { area = "Admin", @class = "row g-3" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <div class="col">
-                        @Html.Label("Year", "Year", new { @class = "visually-hidden" })
-                        @Html.TextBox("year", DateTime.Now.Year, new { @class = "form-control", placeholder = DateTime.Now.Year, @data_val = "true", @data_val_required = "År skal angives", autocomplete = "on" })
-                    </div>
-                    <input type="submit" class="btn btn-outline-secondary" value="Export grouped"/>
                 }
             </div>
         </div>
@@ -59,9 +56,20 @@
 {
     <script>        
         function FetchRegistrations() {
-            var data = {
-                year: $("#year").val()
+            var startDate = $("#StartDate").val();
+            var endDate = $("#EndDate").val();
+            
+            if (startDate === '' || endDate === '')
+            {
+                return;
             }
+        
+            var data = {
+                startDate: startDate,
+                endDate: endDate
+            }
+            
+            console.log($("#StartDate").val());
 
             $('#btnFetchRegistrations').prop('disabled', true)
                 .addClass('btn-disabled');
@@ -82,7 +90,8 @@
             if (confirm('Are you sure you want to delete?')) {
                 var data = {
                     id: id,
-                    year: $("#year").val()
+                    startDate: $("#StartDate").val(),
+                    endDate: $("#EndDate").val()
                 }
 
                 console.log(data);
@@ -119,7 +128,6 @@
                     .append(
                         '<tr>' +
                             '<th scope="row"><button type="button" class="btn btn-outline-danger" onClick="deleteRegistration(' + v.id + ')">Slet</button></th>' +
-                            '<th scope="row">'+ v.department + '</th>' +
                             '<th scope="row">'+ v.eventDate + '</th>' +
                             '<th scope="row">'+ v.name + '</th>' +
                             '<th scope="row">'+ v.email + '</th>' +
@@ -132,14 +140,5 @@
         }    
     </script>
 }
-
-
-
-
-@* console.log(v.department) *@
-@* *@
-@* $.each(v.registrations, function (k, v) { *@
-@* console.log(k + '-' + v.map(x => x.eventDate)) *@
-@* }); *@
 
 

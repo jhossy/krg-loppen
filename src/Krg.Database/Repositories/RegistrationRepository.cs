@@ -45,20 +45,20 @@ namespace Krg.Database.Repositories
 
             return registration;
         }
-
-        public List<EventRegistration> GetAllRegistrations(int year)
+        
+        public List<EventRegistration> GetAllRegistrations(DateRange dateRange)
         {
             var registrations = _context.EventRegistrations
-                .Where(x => x.EventDate.Year == year)
+                .Where(x => DateOnly.FromDateTime(x.EventDate) >= dateRange.StartDate && DateOnly.FromDateTime(x.EventDate) <= dateRange.EndDate)
                 .ToList();
 
             return registrations;
         }
 
-        public List<EventRegistration> GetNonDeletedRegistrations(int year)
+        public List<EventRegistration> GetNonDeletedRegistrations(DateRange dateRange)
         {
             var registrations = _context.EventRegistrations
-                .Where(x => x.EventDate.Year == year && x.IsCancelled == false)
+                .Where(x => DateOnly.FromDateTime(x.EventDate) >= dateRange.StartDate && DateOnly.FromDateTime(x.EventDate) <= dateRange.EndDate && x.IsCancelled == false)
                 .ToList();
 
             return registrations;

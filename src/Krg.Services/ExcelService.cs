@@ -62,12 +62,6 @@ namespace Krg.Services
 				worksheet.Cells[1, 5].Value = "Dato#3";
 				worksheet.Cells[1, 6].Value = "Dato#4";
 				worksheet.Cells[1, 7].Value = "Dato#5";
-				// worksheet.Cells[1, 4].Value = "Email";
-				// worksheet.Cells[1, 5].Value = "Afdeling";
-				// worksheet.Cells[1, 6].Value = "Antal voksne";
-				// worksheet.Cells[1, 7].Value = "Antal børn";
-				// worksheet.Cells[1, 8].Value = "Medbringer trailer";
-				// worksheet.Cells[1, 9].Value = "Annulleret";
 
 				//Add some items...
 				int lineCounter = 2;
