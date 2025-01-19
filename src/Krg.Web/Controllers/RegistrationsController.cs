@@ -1,4 +1,5 @@
-﻿using Krg.Domain;
+﻿using Krg.Database.Models;
+using Krg.Domain;
 using Krg.Services.Interfaces;
 using Krg.Services.Models;
 using Krg.Web.Extensions;
@@ -27,8 +28,11 @@ namespace Krg.Web.Controllers
 		{
 			int parsedYear = year == 0 ? DateTime.Now.Year : year;
 
+			DateRange dateRange = new DateRange(DateOnly.FromDateTime(new DateTime(parsedYear, 1, 1)),
+				DateOnly.FromDateTime(new DateTime(parsedYear, 12, 31)));
+
 			return _eventRegistrationService
-				.GetNonDeletedRegistrations(parsedYear)
+				.GetNonDeletedRegistrations(dateRange)
 				.OrderBy(reg => reg.EventDate)
 				.ThenBy(reg => reg.UpdateTimeUtc)
 				.Select(reg => new BackofficeRegistrationDto(reg))
@@ -38,9 +42,12 @@ namespace Krg.Web.Controllers
 		internal List<BackofficeRegistrationDto> GetAllRegistrations(int year)
 		{
 			int parsedYear = year == 0 ? DateTime.Now.Year : year;
-
+			
+			DateRange dateRange = new DateRange(DateOnly.FromDateTime(new DateTime(parsedYear, 1, 1)),
+				DateOnly.FromDateTime(new DateTime(parsedYear, 12, 31)));
+			
 			return _eventRegistrationService
-				.GetAllRegistrations(parsedYear)
+				.GetAllRegistrations(dateRange)
                 .OrderBy(reg => reg.EventDate)
                 .ThenBy(reg => reg.UpdateTimeUtc)
                 .Select(reg => new BackofficeRegistrationDto(reg))
