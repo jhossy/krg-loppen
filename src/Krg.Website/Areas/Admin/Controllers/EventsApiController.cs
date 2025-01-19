@@ -18,8 +18,6 @@ public class EventsApiController(IEventDateService eventDateService, IOptions<Si
     [HttpGet]
     public IActionResult GetEvents(int year = 0)
     {
-        // Thread.Sleep(1000);
-        
         if (year != DateTime.Now.Year && !_siteSettings.YearsToShow.Contains(year))
         {
             year = DateTime.Now.Year;

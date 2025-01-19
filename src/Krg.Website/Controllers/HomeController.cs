@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Results;
+using Krg.Database.Models;
 using Krg.Domain.Models;
 using Krg.Services.Interfaces;
 using Krg.Website.Models;
@@ -42,7 +43,9 @@ namespace Krg.Website.Controllers
 					.Where(x => x.Date.Date > (DateTime.Now.AddDays(-1)).Date)
 					.ToList();
 
-				List<Registration> dbRegistrations = _eventRegistrationService.GetNonDeletedRegistrations(year).ToList();
+				DateRange dateRange = new DateRange(DateOnly.FromDateTime(new DateTime(year, 1, 1)), DateOnly.FromDateTime(new DateTime(year, 12, 31)));
+				
+				List<Registration> dbRegistrations = _eventRegistrationService.GetNonDeletedRegistrations(dateRange).ToList();
 
 				results.AddRange(BuildListOfRegistrations(dbRegistrations, events));
 			}

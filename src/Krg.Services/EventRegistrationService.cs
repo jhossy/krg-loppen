@@ -44,14 +44,12 @@ namespace Krg.Services
 			return registrationAdded;
 		}
 
-
-
-		public List<Registration> GetAllRegistrations(int year)
+		public List<Registration> GetAllRegistrations(DateRange dateRange)
 		{
 			try
 			{
 				return _unitOfWork.RegistrationRepository
-					.GetAllRegistrations(year)
+					.GetAllRegistrations(dateRange)
 					.Select(reg => new Registration(reg))
 					.ToList();
 			}
@@ -77,12 +75,12 @@ namespace Krg.Services
 			return null;
 		}
 
-		public List<Registration> GetNonDeletedRegistrations(int year)
+		public List<Registration> GetNonDeletedRegistrations(DateRange dateRange)
 		{
 			try
 			{
 				return _unitOfWork.RegistrationRepository
-					.GetNonDeletedRegistrations(year)
+					.GetNonDeletedRegistrations(dateRange)
 					.Select(reg => new Registration(reg))
 					.ToList();
 			}

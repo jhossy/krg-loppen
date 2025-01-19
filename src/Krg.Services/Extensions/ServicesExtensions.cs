@@ -1,5 +1,4 @@
 ﻿using Krg.Services.Interfaces;
-using Krg.Web.Controllers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

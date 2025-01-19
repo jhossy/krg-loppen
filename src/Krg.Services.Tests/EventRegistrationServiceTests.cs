@@ -62,11 +62,11 @@ namespace Krg.Services.Tests
 										.With(p => p.IsCancelled, false)
 										.CreateMany();
 
-			_mockRegistrationRepository.Setup(repository => repository.GetNonDeletedRegistrations(It.IsAny<int>()))
+			_mockRegistrationRepository.Setup(repository => repository.GetNonDeletedRegistrations(It.IsAny<DateRange>()))
 				.Returns(() => registrations.ToList());
 
 			//Act
-			var result = _sut.GetNonDeletedRegistrations(_fixture.Create<int>());
+			var result = _sut.GetNonDeletedRegistrations(new DateRange(DateOnly.FromDateTime(DateTime.UtcNow), DateOnly.FromDateTime(DateTime.UtcNow).AddDays(1)));
 
 			//Assert
 			Assert.IsTrue(result.All(p => !p.IsCancelled));
@@ -79,11 +79,11 @@ namespace Krg.Services.Tests
 			var registrations = _fixture.Build<EventRegistration>()
 										.CreateMany();
 
-			_mockRegistrationRepository.Setup(repository => repository.GetAllRegistrations(It.IsAny<int>()))
+			_mockRegistrationRepository.Setup(repository => repository.GetAllRegistrations(It.IsAny<DateRange>()))
 				.Returns(() => registrations.ToList());
 
 			//Act
-			var result = _sut.GetAllRegistrations(_fixture.Create<int>());
+			var result = _sut.GetAllRegistrations(new DateRange(DateOnly.FromDateTime(DateTime.Now), DateOnly.FromDateTime(DateTime.Now.AddDays(1))));
 
 			//Assert
 			Assert.IsTrue(result.Count == registrations.Count());

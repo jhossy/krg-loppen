@@ -11,8 +11,8 @@ namespace Krg.Services.Interfaces
 
 		void RemoveRegistration(int eventId);
 
-        List<Registration> GetAllRegistrations(int year);
+        List<Registration> GetAllRegistrations(DateRange dateRange);
 
-        List<Registration> GetNonDeletedRegistrations(int year);
+        List<Registration> GetNonDeletedRegistrations(DateRange dateRange);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Krg.Domain.Models;
 using Krg.Web.Extensions;
 
-namespace Krg.Domain
+namespace Krg.Services.Models
 {
     public class BackofficeRegistrationDto
     {
