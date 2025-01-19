@@ -103,7 +103,7 @@
         
         function callApi(year, month) {
             $('.spinner-border').show();
-            console.log('year=' + year + ' - month=' + month);
+            
             $.ajax({
                 type: 'GET',
                 url: '/Admin/EventsApi/GetEvents?year=' + year,

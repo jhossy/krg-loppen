@@ -69,8 +69,6 @@
                 endDate: endDate
             }
             
-            console.log($("#StartDate").val());
-
             $('#btnFetchRegistrations').prop('disabled', true)
                 .addClass('btn-disabled');
 
@@ -94,8 +92,6 @@
                     endDate: $("#EndDate").val()
                 }
 
-                console.log(data);
-
                 callApi('/Admin/Registrations/Delete', data);
             }
         }
@@ -115,14 +111,11 @@
                 },
                 error: function () {
                     alert('Failed to receive the Data');
-                    console.log('Failed ');
                 }
             });
         }
 
         function updateRegistrationsList(data) {
-            console.log(data);
-            
             $.each(data, function (k, v) {
                 $('#registrations-parent')
                     .append(
