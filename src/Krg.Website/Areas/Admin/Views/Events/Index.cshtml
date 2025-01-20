@@ -10,7 +10,7 @@
 
 <div class="row shadow-sm p-3 mb-3 bg-body rounded">
     <div class="col">
-        <h1>Event overview</h1>
+        <h1>@Translations.Events.EventOverview</h1>
         <hr />
         <div class="row">
             @using (Html.BeginForm("Create", "Events", FormMethod.Post, new { area = "Admin", @class = "row g-3" }))
@@ -18,32 +18,32 @@
                 <div class="col">
                     @Html.AntiForgeryToken()
                     <div class="mb-3 row">
-                        @Html.Label("Date", "Date", new { @class = "col-sm-2 col-form-label" })
+                        @Html.Label("Date", Translations.Events.DateLabel, new { @class = "col-sm-2 col-form-label" })
                         <div class="col-sm-10">
-                            @Html.TextBox("Date", Model.SelectedDate.ToString("yyyy-MM-dd"), new { @class = "form-control", type = "date", placeholder = @DateTime.Now.Year, data_val = "true", @data_val_required = "År skal angives", autocomplete = "on" })
+                            @Html.TextBox("Date", Model.SelectedDate.ToString("yyyy-MM-dd"), new { @class = "form-control", type = "date", placeholder = @DateTime.Now.Year, data_val = "true", @data_val_required = "Dato skal angives", autocomplete = "on" })
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        @Html.Label("ContactName", "Name", new { @class = "col-sm-2 col-form-label" })
+                        @Html.Label("ContactName", Translations.Events.NameLabel, new { @class = "col-sm-2 col-form-label" })
                         <div class="col-sm-10">
                             @Html.TextBox("ContactName", $"{Constants.FallBackContactName}", new { @class = "form-control", type = "text", placeholder = "Name", data_val = "true", @data_val_required = "Navn skal angives", autocomplete = "on" })
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        @Html.Label("ContactPhoneNo", "Phone", new { @class = "col-sm-2 col-form-label" })
+                        @Html.Label("ContactPhoneNo", Translations.Events.PhoneLabel, new { @class = "col-sm-2 col-form-label" })
                         <div class="col-sm-10">
                             @Html.TextBox("ContactPhoneNo", $"{Constants.FallBackContactPhoneNo}", new { @class = "form-control", type = "phone", placeholder = "Phone no", data_val = "true", @data_val_required = "Telefon skal angives", autocomplete = "on" })
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        @Html.Label("ContactEmail", "Email", new { @class = "col-sm-2 col-form-label" })
+                        @Html.Label("ContactEmail", Translations.Events.EmailLabel, new { @class = "col-sm-2 col-form-label" })
                         <div class="col-sm-10">
                             @Html.TextBox("ContactEmail", $"{Constants.FallBackContactEmail}", new { @class = "form-control", type = "email", placeholder = "Email", data_val = "true", @data_val_required = "Email skal angives", autocomplete = "on" })
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <div>
-                            <input type="submit" class="btn btn-outline-secondary float-end" value="Create"/>
+                            <input type="submit" class="btn btn-outline-secondary float-end" value="@Translations.Events.CreateButtonText"/>
                         </div>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
     </div>
     <div class="col col-sm-auto">
         <select id="yearSelector" name="year" class="form-select" aria-label="Select year">
-            <option value="" selected>Select year</option>
+            <option value="" selected>@Translations.Events.SelectYear</option>
             @foreach (var elm in years)
             {
                 <option value="@elm">@elm</option>
@@ -172,8 +172,8 @@
                         </div>
                     </p>
                     <div class="float-end">
-                        <a class="btn btn-outline-success" href="/Admin/Events/Edit/${id}">Edit</a>
-                        <a class="btn btn-outline-danger" href="/Admin/Events/Delete/${id}" onclick="return confirm('Are you sure you want to delete this event?')">Delete</a>
+                        <a class="btn btn-outline-success" href="/Admin/Events/Edit/${id}">@Translations.Events.EditButtonText</a>
+                        <a class="btn btn-outline-danger" href="/Admin/Events/Delete/${id}" onclick="return confirm('@Translations.Events.AreYouSure')">@Translations.Events.DeleteButtonText</a>
                     </div>
                 </div>
             </div>
