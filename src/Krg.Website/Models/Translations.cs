@@ -29,4 +29,49 @@ public struct Translations
         
         public const string AreYouSure = "Er du sikker på at du vil slette?";
     }
+
+    public struct Profile 
+    {
+        public const string ProfileHeader = "Bruger profil";
+
+        public const string PlaceholderCurrentPassword = "Nuværende password";
+
+        public const string PlaceholderNewPassword = "Nyt password";
+
+        public const string PlaceholderRepeatPassword = "Gentag password";
+
+        public const string ButtonUpdateText = "Opdater";
+    }
+
+    public struct Registrations 
+    {
+        public const string RegistrationsHeader = "Tilmeldinger";
+
+        public const string ButtonExportText = "Eksporter";
+
+        public const string ButtonExportGroupedText = "Grupperet eksport";
+
+        public const string ButtonFetchRegistrationsText = "Hent";
+
+        public const string ButtonDeleteRegistrationsText = "Slet";
+
+        public const string AreYouSure = "Er du sikker på at du vil slette?";
+    }
+
+    public struct User
+    {
+        public const string CreateUserHeader = "Opret system bruger";
+
+        public const string PlaceholderRepeatPassword = "Gentag nyt password";
+
+        public const string OverviewHeader = "Oversigt";
+
+        public const string AreYouSure = "Er du sikker?";
+
+        public const string ButtonDeleteText = "Slet";
+
+        public const string ButtonResetPasswordText = "Nulstil password";
+
+        public const string ButtonCreateUserText = "Opret";
+    }
 }
