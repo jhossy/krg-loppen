@@ -29,7 +29,7 @@ public class UsersApiController(SignInManager<IdentityUser> signInManager, ILogg
             {
                 logger.LogError($"User could not be found using Id: {resetPasswordDto.Id}");
 
-                return new JsonResult(new { message ="User does not exist with the provided Id."});
+                return new JsonResult(new { message = Translations.User.UserWithIdNotFound});
             }
 
             var resetToken = await signInManager.UserManager.GeneratePasswordResetTokenAsync(user);
@@ -40,14 +40,16 @@ public class UsersApiController(SignInManager<IdentityUser> signInManager, ILogg
 
             if (result.Succeeded)
             {
-                return new JsonResult(new { message = $"Password successfully reset to {newPassword} for {user.Email}"});
+                return new JsonResult(new { message = Translations.User.ResetPasswordSuccess
+                    .Replace("{newPassword}", newPassword)
+                    .Replace("{email}", user.Email)});
             }
         }
         catch (Exception ex)
         {
             logger.LogError(ex, $"ResetPassword failed for {resetPasswordDto.Id}");
         }
-        return new JsonResult(new { message = $"ResetPassword failed for {resetPasswordDto.Id}" });
+        return new JsonResult(new { message = Translations.User.ResetPasswordFailed.Replace("{id}", resetPasswordDto.Id) });
     }
     
     [HttpPost]

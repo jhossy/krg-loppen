@@ -34,13 +34,21 @@ public struct Translations
     {
         public const string ProfileHeader = "Bruger profil";
 
-        public const string PlaceholderCurrentPassword = "Nuværende password";
+        public const string PlaceholderCurrentPassword = "Nuværende adgangskode";
 
-        public const string PlaceholderNewPassword = "Nyt password";
+        public const string PlaceholderNewPassword = "Ny adgangskode";
 
-        public const string PlaceholderRepeatPassword = "Gentag password";
+        public const string PlaceholderRepeatPassword = "Gentag adgangskode";
 
         public const string ButtonUpdateText = "Opdater";
+
+        public const string UserDoesNotExist = "Ingen bruger findes med den indtastede email";
+
+        public const string InvalidPassword = "Ugyldig adgangskode - indtast brugerens nuværende adgangskode";
+
+        public const string NewAndRepeatPasswordMismatch = "'Nuværende' og 'ny' adgangskode er ikke ens";
+
+        public const string PasswordUpdated = "Adgangskoden er opdateret!";
     }
 
     public struct Registrations 
@@ -56,13 +64,15 @@ public struct Translations
         public const string ButtonDeleteRegistrationsText = "Slet";
 
         public const string AreYouSure = "Er du sikker på at du vil slette?";
+
+        public const string EndDateValidationMessage = "'Slutdato' skal være efter 'startdato'";
     }
 
     public struct User
     {
         public const string CreateUserHeader = "Opret system bruger";
 
-        public const string PlaceholderRepeatPassword = "Gentag nyt password";
+        public const string PlaceholderRepeatPassword = "Gentag ny adgangskode";
 
         public const string OverviewHeader = "Oversigt";
 
@@ -70,8 +80,18 @@ public struct Translations
 
         public const string ButtonDeleteText = "Slet";
 
-        public const string ButtonResetPasswordText = "Nulstil password";
+        public const string ButtonResetPasswordText = "Nulstil adgangskode";
 
         public const string ButtonCreateUserText = "Opret";
+
+        public const string UserAlreadyExists = "En bruger med {email} findes allerede i systemet";
+
+        public const string PasswordRepeatPasswordMismatch = "'Adgangskode' og 'gentag adgangskode' er ikke ens";
+
+        public const string UserWithIdNotFound = "Brugeren kan ikke findes - prøv igen";
+
+        public const string ResetPasswordSuccess = "Adgangskoden blev ændret til: {newPassword} for brugeren med email: {email}";
+
+        public const string ResetPasswordFailed = "Adgangskoden kunne ikke nulstilles for brugeren med id: {id}";
     }
 }
