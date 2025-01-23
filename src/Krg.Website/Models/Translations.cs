@@ -1,6 +1,15 @@
 namespace Krg.Website.Models;
 public struct Translations
 {
+    public struct Menu
+    {
+        public const string EventDates = "Datoer";
+
+        public const string Registrations = "Tilmeldinger";
+
+        public const string Users = "System brugere";
+    }
+    
     public struct Events
     {
         public const string EventDetailsHeader = "Detaljer";
