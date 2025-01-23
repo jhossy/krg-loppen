@@ -72,6 +72,8 @@ public struct Translations
     {
         public const string CreateUserHeader = "Opret system bruger";
 
+        public const string PlaceholderPassword = "Adgangskode";
+
         public const string PlaceholderRepeatPassword = "Gentag ny adgangskode";
 
         public const string OverviewHeader = "Oversigt";
