@@ -3,15 +3,22 @@ public struct Translations
 {
     public struct Menu
     {
-        public const string EventDates = "Datoer";
-
-        public const string Registrations = "Tilmeldinger";
-
-        public const string Users = "System brugere";
+        public const string HomeLabel = "Forside";
         
-        public const string Profile = "Profil";
+        public const string EventDatesLabel = "Datoer";
+
+        public const string RegistrationsLabel = "Tilmeldinger";
+
+        public const string UsersLabel = "System brugere";
         
-        public const string SignOut = "Log af";
+        public const string ProfileLabel = "Profil";
+        
+        public const string SignOutLabel = "Log af";
+    }
+    
+    public struct Home
+    {
+        public const string Welcome = "Velkommen, {user}";
     }
     
     public struct Events
