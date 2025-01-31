@@ -1,4 +1,5 @@
 using Krg.Website.Areas.Admin.Models;
+using Krg.Website.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,7 +28,7 @@ public class ProfileController(SignInManager<IdentityUser> signInManager, ILogge
         {
             logger.LogError($"User could not be found using email: {editProfileDto.Email}");
             
-            ModelState.AddModelError("Email", "User does not exist with the provided email.");
+            ModelState.AddModelError("Email", Translations.Profile.UserDoesNotExist);
             
             return View("Index");
         }
@@ -36,7 +37,7 @@ public class ProfileController(SignInManager<IdentityUser> signInManager, ILogge
         {
             logger.LogError($"Invalid password specified for: {editProfileDto.Email}");
             
-            ModelState.AddModelError("CurrentPassword", "Invalid password specified.");
+            ModelState.AddModelError("CurrentPassword", Translations.Profile.InvalidPassword);
             
             return View("Index");
         }
@@ -45,14 +46,14 @@ public class ProfileController(SignInManager<IdentityUser> signInManager, ILogge
         {
             logger.LogError("New and repeat password does not match");
             
-            ModelState.AddModelError("RepeatNewPassword", "'New' and 'repeat' password does not match");
+            ModelState.AddModelError("RepeatNewPassword", Translations.Profile.NewAndRepeatPasswordMismatch);
             
             return View("Index");
         }
         
         await signInManager.UserManager.ChangePasswordAsync(user, editProfileDto.CurrentPassword, editProfileDto.NewPassword);
             
-        ViewData["Message"] = "Password successfully changed.";
+        ViewData["Message"] = Translations.Profile.PasswordUpdated;
         
         return View("Index");
     }

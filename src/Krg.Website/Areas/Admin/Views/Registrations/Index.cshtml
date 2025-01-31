@@ -1,7 +1,9 @@
+@using Krg.Website.Models
+
 <div class="row shadow-sm p-3 mb-3 bg-body rounded">
     <div class="col">
         <div>
-            <h1>Registrations</h1>
+            <h1>@Translations.Registrations.RegistrationsHeader</h1>
         </div>
         <hr />
         <div class="row">
@@ -20,10 +22,10 @@
                         @Html.ValidationMessage("EndDate")
                     </div>
                     <div class="col">
-                        <input type="submit" name="submitExport" class="btn btn-outline-secondary" value="Export"/>
-                        <input type="submit" name="submitExport" class="btn btn-outline-secondary" value="ExportGrouped"/>
+                        <input type="submit" name="submitExport" class="btn btn-outline-secondary" value="@Translations.Registrations.ButtonExportText"/>
+                        <input type="submit" name="submitExport" class="btn btn-outline-secondary" value="@Translations.Registrations.ButtonExportGroupedText"/>
                         <button id="btnFetchRegistrations" class="btn btn-outline-secondary" type="button" onclick="FetchRegistrations()">
-                            Hent
+                            @Translations.Registrations.ButtonFetchRegistrationsText
                         </button>
                     </div>
                 }
@@ -85,7 +87,7 @@
         }
 
         function deleteRegistration(id) {
-            if (confirm('Are you sure you want to delete?')) {
+            if (confirm('@Translations.Registrations.AreYouSure')) {
                 var data = {
                     id: id,
                     startDate: $("#StartDate").val(),
@@ -104,6 +106,7 @@
                 data: JSON.stringify(data),
                 success: function (result) {
                     $('#registrations-parent').empty();
+
                     updateRegistrationsList(result);
 
                     if (typeof callback == "function")
@@ -120,7 +123,7 @@
                 $('#registrations-parent')
                     .append(
                         '<tr>' +
-                            '<th scope="row"><button type="button" class="btn btn-outline-danger" onClick="deleteRegistration(' + v.id + ')">Slet</button></th>' +
+                            '<th scope="row"><button type="button" class="btn btn-outline-danger" onClick="deleteRegistration(' + v.id + ')">@Translations.Registrations.ButtonDeleteRegistrationsText</button></th>' +
                             '<th scope="row">'+ v.eventDate + '</th>' +
                             '<th scope="row">'+ v.name + '</th>' +
                             '<th scope="row">'+ v.email + '</th>' +
