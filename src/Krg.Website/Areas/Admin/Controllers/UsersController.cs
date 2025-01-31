@@ -1,4 +1,5 @@
 using Krg.Website.Areas.Admin.Models;
+using Krg.Website.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,7 +23,7 @@ public class UsersController(SignInManager<IdentityUser> signInManager, ILogger<
         {
             logger.LogError($"User with email: {createUserDto.Email} already exists.");
             
-            ModelState.AddModelError("Email", $"User with email: {createUserDto.Email} already exists.");
+            ModelState.AddModelError("Email", Translations.User.UserAlreadyExists.Replace("{email}", createUserDto.Email));
             
             return View("Index");
         }
@@ -31,7 +32,7 @@ public class UsersController(SignInManager<IdentityUser> signInManager, ILogger<
         {
             logger.LogError("Password and repeat password does not match");
             
-            ModelState.AddModelError("RepeatPassword", "'Password' and 'repeat password' does not match");
+            ModelState.AddModelError("RepeatPassword", Translations.User.PasswordRepeatPasswordMismatch);
             
             return View("Index");
         }

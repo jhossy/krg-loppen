@@ -1,7 +1,8 @@
+@using Krg.Website.Models
 @model Krg.Website.Areas.Admin.Models.CreateUserDto
 
 <div class="col">
-    <h2>Create user</h2>
+    <h2>@Translations.User.CreateUserHeader</h2>
     <hr/>
     <div>
         @using (Html.BeginForm("CreateUser", "Users", new { area = "Admin" }, FormMethod.Post))
@@ -17,18 +18,18 @@
             <div class="mb-3 row">
                 <label for="password" class="col-sm-2 col-form-label">Password</label>
                 <div class="col-sm-10">
-                    @Html.Password("Password", "", new {@class="form-control", id = "Password", placeholder = "Password", data_val = "true", @data_val_required = "Password is required", autocomplete = "off"})
+                    @Html.Password("Password", "", new {@class="form-control", id = "Password", placeholder = Translations.User.PlaceholderPassword, data_val = "true", @data_val_required = "Password is required", autocomplete = "off"})
                 </div>
             </div>
             <div class="mb-3 row">
-                <label for="repeatPassword" class="col-sm-2 col-form-label">Repeat password</label>
+                <label for="repeatPassword" class="col-sm-2 col-form-label">@Translations.User.PlaceholderRepeatPassword</label>
                 <div class="col-sm-10">
-                    @Html.Password("RepeatPassword", "", new {@class="form-control", id = "RepeatPassword", placeholder = "Repeat the password", data_val = "true", @data_val_required = "Repeat password is required"})
+                    @Html.Password("RepeatPassword", "", new {@class="form-control", id = "RepeatPassword", placeholder = $"{Translations.User.PlaceholderRepeatPassword}", data_val = "true", @data_val_required = "Repeat password is required"})
                 </div>
             </div>
             <div class="mb-3 row">
                 <div>
-                    <input type="submit" class="btn btn-outline-secondary float-end" value="Create"/>
+                    <input type="submit" class="btn btn-outline-secondary float-end" value="@Translations.User.ButtonCreateUserText"/>
                     @Html.ValidationSummary()
                 </div>
             </div>

@@ -2,6 +2,8 @@ using Krg.Database.Models;
 using Krg.Services.Interfaces;
 using Krg.Services.Models;
 using Krg.Web.Extensions;
+using Krg.Website.Areas.Admin.Models;
+using Krg.Website.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Krg.Website.Areas.Admin.Controllers;
@@ -46,7 +48,7 @@ public class RegistrationsController(
     {
         if (endDate < startDate)
         {
-            ModelState.AddModelError("endDate", "endDate must be greater than startDate");
+            ModelState.AddModelError("endDate", Translations.Registrations.EndDateValidationMessage);
             
             return View("Index");
         }
@@ -102,19 +104,4 @@ public class RegistrationsController(
 
         return Ok(GetRegistrations(new GetRequestDto{StartDate = deleteRequestDto.StartDate, EndDate = deleteRequestDto.EndDate}));
     }
-}
-
-public class GetRequestDto
-{
-    public DateOnly StartDate { get; set; }
-    public DateOnly EndDate { get; set; }
-}
-
-public class DeleteRequestDto
-{
-    public int Id { get; set; }
-    
-    public DateOnly StartDate { get; set; }
-    
-    public DateOnly EndDate { get; set; }
 }
