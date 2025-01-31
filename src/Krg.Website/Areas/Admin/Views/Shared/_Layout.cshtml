@@ -47,11 +47,11 @@
                             <span class="d-none d-sm-inline mx-1">@SignInManager.UserManager.GetUserName(User)</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                            <li><a class="dropdown-item" href="@Url.ActionLink("Index", "Profile")">Profile</a></li>
+                            <li><a class="dropdown-item" href="@Url.ActionLink("Index", "Profile")">@Translations.Menu.Profile</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="@Url.ActionLink("Logout", "Login", new {area = ""})">Sign out</a></li>
+                            <li><a class="dropdown-item" href="@Url.ActionLink("Logout", "Login", new {area = ""})">@Translations.Menu.SignOut</a></li>
                         </ul>
                     </div>
                 </div>

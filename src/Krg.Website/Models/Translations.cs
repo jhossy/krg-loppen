@@ -8,6 +8,10 @@ public struct Translations
         public const string Registrations = "Tilmeldinger";
 
         public const string Users = "System brugere";
+        
+        public const string Profile = "Profil";
+        
+        public const string SignOut = "Log af";
     }
     
     public struct Events
@@ -43,6 +47,8 @@ public struct Translations
     {
         public const string ProfileHeader = "Bruger profil";
 
+        public const string PlaceholderPassword = "Adgangskode";
+        
         public const string PlaceholderCurrentPassword = "Nuværende adgangskode";
 
         public const string PlaceholderNewPassword = "Ny adgangskode";
