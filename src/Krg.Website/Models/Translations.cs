@@ -117,5 +117,9 @@ public struct Translations
         public const string ResetPasswordSuccess = "Adgangskoden blev ændret til: {newPassword} for brugeren med email: {email}";
 
         public const string ResetPasswordFailed = "Adgangskoden kunne ikke nulstilles for brugeren med id: {id}";
+        
+        public const string Activate = "Aktiver";
+        
+        public const string Deactivate = "De-aktiver";
     }
 }
