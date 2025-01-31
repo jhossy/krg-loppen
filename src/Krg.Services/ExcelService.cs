@@ -75,7 +75,7 @@ namespace Krg.Services
 						
 						string[] cols = new string[] {"C", "D", "E", "F", "G", "H", "I", "J", "K"};
 						int k = 0;
-						foreach (var regPerson in nameGroup)
+						foreach (var regPerson in nameGroup.OrderBy(x => DateTime.Parse(x.EventDate)))
 						{
 							string col = cols[k];
 							worksheet.Cells[col + lineCounter].Value = regPerson.EventDate;
