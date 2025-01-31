@@ -140,7 +140,7 @@
     <script>
         const tabElm = ({ id, isActiveClass }) => `
             <li class="nav-item" role="presentation">
-                <button class="nav-link ${isActiveClass}" id="${id}-tab" data-bs-toggle="tab" data-bs-target="#${id}" type="button" role="tab" aria-controls="${id}" aria-selected="true">${id}</button>
+                <button class="nav-link text-body ${isActiveClass}" id="${id}-tab" data-bs-toggle="tab" data-bs-target="#${id}" type="button" role="tab" aria-controls="${id}" aria-selected="true">${id}</button>
             </li>
         `
     </script>
@@ -171,9 +171,9 @@
                             </div>
                         </div>
                     </p>
-                    <div class="float-end">
-                        <a class="btn btn-outline-success" href="/Admin/Events/Edit/${id}">@Translations.Events.EditButtonText</a>
+                    <div class="float-end">                        
                         <a class="btn btn-outline-danger" href="/Admin/Events/Delete/${id}" onclick="return confirm('@Translations.Events.AreYouSure')">@Translations.Events.DeleteButtonText</a>
+                        <a class="btn btn-outline-secondary" href="/Admin/Events/Edit/${id}">@Translations.Events.EditButtonText</a>
                     </div>
                 </div>
             </div>
