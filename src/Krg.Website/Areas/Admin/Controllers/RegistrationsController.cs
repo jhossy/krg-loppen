@@ -58,13 +58,6 @@ public class RegistrationsController(
 
     private IActionResult ExportExcel(DateOnly startDate, DateOnly endDate)
     {
-        if (endDate < startDate)
-        {
-            ModelState.AddModelError("endDate", Translations.Registrations.EndDateValidationMessage);
-            
-            return View("Index");
-        }
-        
         var dateRange = new DateRange(startDate, endDate);
         
         List<BackofficeRegistrationDto> registrations = GetAllRegistrations(dateRange);
@@ -80,18 +73,12 @@ public class RegistrationsController(
 
     private IActionResult ExportAsGroupedExcel(DateOnly startDate, DateOnly endDate)
     {
-        if (endDate < startDate)
-        {
-            ModelState.AddModelError("endDate", Translations.Registrations.EndDateValidationMessage);
-            
-            return View("Index");
-        }
-        
         var dateRange = new DateRange(startDate, endDate);
         
-        List<BackofficeRegistrationDto> registrations = GetAllRegistrations(dateRange);
+        List<BackofficeRegistrationDto> registrations = GetRegistrations(new GetRequestDto { StartDate = startDate, EndDate = endDate });
         
-        var grouped = registrations.OrderBy(x => x.Department)
+        var grouped = registrations
+                                                        .OrderBy(x => x.Department)
                                                         .ThenBy(x => x.Name)
                                                         .ToList();
 

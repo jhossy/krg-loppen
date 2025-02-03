@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -42,6 +43,7 @@ public class LoginController(SignInManager<IdentityUser> signInManager) : Contro
 
 public class LoginDto
 {
+    [EmailAddress]
     public string Email { get; set; }
 
     public string Password { get; set; }

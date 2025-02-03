@@ -22,22 +22,22 @@
             <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
                 <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
                     <a href="@Url.ActionLink("Index", "Home")" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">
-                        <span class="fs-5 d-none d-sm-inline">Menu</span>
+                        <i class="bi bi-house fs-4 me-2"></i><span class="fs-5 d-none d-sm-inline">@Translations.Menu.HomeLabel</span>
                     </a>
                     <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start">
                         <li class="nav-item">
-                            <a href="@Url.ActionLink("Index", "Events")" class="nav-link align-middle px-0 link-light" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Stats">
-                                <i class="bi-calendar4-event fs-4 me-2"></i><span class="ms-1 d-none d-sm-inline">@Translations.Menu.EventDates</span>
+                            <a href="@Url.ActionLink("Index", "Events")" class="nav-link align-middle px-0 link-light" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Events">
+                                <i class="bi-calendar4-event fs-4 me-2"></i><span class="ms-1 d-none d-sm-inline">@Translations.Menu.EventDatesLabel</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="@Url.ActionLink("Index", "Registrations")" class="nav-link px-0 align-middle link-light" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Stats">
-                                <i class="bi-clipboard-check fs-4 me-2"></i><span class="ms-1 d-none d-sm-inline">@Translations.Menu.Registrations</span>
+                            <a href="@Url.ActionLink("Index", "Registrations")" class="nav-link px-0 align-middle link-light" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Registrations">
+                                <i class="bi-clipboard-check fs-4 me-2"></i><span class="ms-1 d-none d-sm-inline">@Translations.Menu.RegistrationsLabel</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="@Url.ActionLink("Index", "Users")" class="nav-link px-0 align-middle link-light" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Stats">
-                                <i class="bi bi-people fs-4 me-2"></i><span class="ms-1 d-none d-sm-inline">@Translations.Menu.Users</span>
+                            <a href="@Url.ActionLink("Index", "Users")" class="nav-link px-0 align-middle link-light" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Users">
+                                <i class="bi bi-people fs-4 me-2"></i><span class="ms-1 d-none d-sm-inline">@Translations.Menu.UsersLabel</span>
                             </a>
                         </li>
                     </ul>
@@ -47,11 +47,11 @@
                             <span class="d-none d-sm-inline mx-1">@SignInManager.UserManager.GetUserName(User)</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                            <li><a class="dropdown-item" href="@Url.ActionLink("Index", "Profile")">Profile</a></li>
+                            <li><a class="dropdown-item" href="@Url.ActionLink("Index", "Profile")">@Translations.Menu.ProfileLabel</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="@Url.ActionLink("Logout", "Login", new {area = ""})">Sign out</a></li>
+                            <li><a class="dropdown-item" href="@Url.ActionLink("Logout", "Login", new {area = ""})">@Translations.Menu.SignOutLabel</a></li>
                         </ul>
                     </div>
                 </div>

@@ -3,11 +3,22 @@ public struct Translations
 {
     public struct Menu
     {
-        public const string EventDates = "Datoer";
+        public const string HomeLabel = "Forside";
+        
+        public const string EventDatesLabel = "Datoer";
 
-        public const string Registrations = "Tilmeldinger";
+        public const string RegistrationsLabel = "Tilmeldinger";
 
-        public const string Users = "System brugere";
+        public const string UsersLabel = "System brugere";
+        
+        public const string ProfileLabel = "Profil";
+        
+        public const string SignOutLabel = "Log af";
+    }
+    
+    public struct Home
+    {
+        public const string Welcome = "Velkommen, {user}";
     }
     
     public struct Events
@@ -43,6 +54,8 @@ public struct Translations
     {
         public const string ProfileHeader = "Bruger profil";
 
+        public const string PlaceholderPassword = "Adgangskode";
+        
         public const string PlaceholderCurrentPassword = "Nuværende adgangskode";
 
         public const string PlaceholderNewPassword = "Ny adgangskode";
@@ -104,5 +117,9 @@ public struct Translations
         public const string ResetPasswordSuccess = "Adgangskoden blev ændret til: {newPassword} for brugeren med email: {email}";
 
         public const string ResetPasswordFailed = "Adgangskoden kunne ikke nulstilles for brugeren med id: {id}";
+        
+        public const string Activate = "Aktiver";
+        
+        public const string Deactivate = "De-aktiver";
     }
 }

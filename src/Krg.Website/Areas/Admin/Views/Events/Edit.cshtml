@@ -30,12 +30,10 @@
                     @Html.TextBox("ContactEmail", $"{Model.ContactEmail}", new { @class = "form-control", type = "email", placeholder = "Email", data_val = "true", @data_val_required = "Email skal angives", autocomplete = "on" })
                 </div>
             </div>
-            <div class="mb-3 row">
-                <div>
-                    @Html.Hidden("Id", Model.Id)
-                    <input type="submit" class="btn btn-outline-secondary float-end" value="@Translations.Events.SaveButtonText"/>
-                    @Html.ActionLink(Translations.Events.CancelButtonText, "Index", "Events", null, new { @class = "btn btn-outline-success float-end" })
-                </div>
+            <div class="float-end">
+                @Html.Hidden("Id", Model.Id)
+                @Html.ActionLink(Translations.Events.CancelButtonText, "Index", "Events", null, new { @class = "btn btn-outline-secondary" })
+                <input type="submit" class="btn btn-outline-secondary" value="@Translations.Events.SaveButtonText"/>
             </div>
         </div>
     }
