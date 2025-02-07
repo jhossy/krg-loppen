@@ -53,7 +53,7 @@ public class RegistrationsController(
             return View("Index");
         }
         
-        return submitExport == "Export" ? ExportExcel(startDate, endDate) : ExportAsGroupedExcel(startDate, endDate);
+        return submitExport == Translations.Registrations.ButtonExportText ? ExportExcel(startDate, endDate) : ExportAsGroupedExcel(startDate, endDate);
     }
 
     private IActionResult ExportExcel(DateOnly startDate, DateOnly endDate)
