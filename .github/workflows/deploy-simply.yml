@@ -2,6 +2,7 @@ on:
   push:
     branches:
       - master
+      - f/v2
   workflow_dispatch:
 
 name: 🚀 Deploy website on push
@@ -31,7 +32,7 @@ jobs:
         run: dotnet build ./src/Krg.sln --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish ./src/Krg.Web/Krg.Web.csproj --configuration Release --output './publish' --runtime win-x86 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=false
+        run: dotnet publish ./src/Krg.Website/Krg.Website.csproj --configuration Release --output './publish' --runtime win-x86 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=false
 
       - name: Test with .NET
         run: dotnet test ./src/Krg.sln --configuration Release --no-build --verbosity normal --filter TestCategory!=IntegrationTests

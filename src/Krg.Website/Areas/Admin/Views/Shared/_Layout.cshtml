@@ -1,0 +1,79 @@
+﻿@using Krg.Website.Models
+@using Microsoft.AspNetCore.Identity
+@{
+	Layout = null;
+    @inject SignInManager<IdentityUser> SignInManager;
+}
+
+<html lang="da">
+	<head>
+		<title>Admin</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Administration">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+		<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    </head>
+	
+<body class="bg-light">
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                    <a href="@Url.ActionLink("Index", "Home")" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">
+                        <i class="bi bi-house fs-4 me-2"></i><span class="fs-5 d-none d-sm-inline">@Translations.Menu.HomeLabel</span>
+                    </a>
+                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start">
+                        <li class="nav-item">
+                            <a href="@Url.ActionLink("Index", "Events")" class="nav-link align-middle px-0 link-light" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Events">
+                                <i class="bi-calendar4-event fs-4 me-2"></i><span class="ms-1 d-none d-sm-inline">@Translations.Menu.EventDatesLabel</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.ActionLink("Index", "Registrations")" class="nav-link px-0 align-middle link-light" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Registrations">
+                                <i class="bi-clipboard-check fs-4 me-2"></i><span class="ms-1 d-none d-sm-inline">@Translations.Menu.RegistrationsLabel</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.ActionLink("Index", "Users")" class="nav-link px-0 align-middle link-light" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Users">
+                                <i class="bi bi-people fs-4 me-2"></i><span class="ms-1 d-none d-sm-inline">@Translations.Menu.UsersLabel</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="dropdown pb-4">
+                        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle"></i>
+                            <span class="d-none d-sm-inline mx-1">@SignInManager.UserManager.GetUserName(User)</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+                            <li><a class="dropdown-item" href="@Url.ActionLink("Index", "Profile")">@Translations.Menu.ProfileLabel</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="@Url.ActionLink("Logout", "Login", new {area = ""})">@Translations.Menu.SignOutLabel</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col py-3">
+                <!-- content -->
+                <div class="container">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @RenderSection("Scripts", required: false)
+    <script src="https://www.unpkg.com/aspnet-client-validation/dist/aspnet-validation.min.js" crossorigin="anonymous"></script>
+    <script>
+		    const v = new aspnetValidation.ValidationService()
+		    v.bootstrap()
+	    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/6c8b7dd163.js" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 using AutoFixture;
-using Krg.Database;
+using Krg.Database.Interfaces;
 using Krg.Database.Models;
 using Krg.Domain.Models;
 using Krg.Services.Interfaces;
@@ -8,11 +8,12 @@ using Moq;
 
 namespace Krg.Services.Tests
 {
-	[TestClass]
+    [TestClass]
 	public class EventRegistrationServiceTests
 	{
 		private readonly IFixture _fixture = new Fixture();
 		private Mock<IRegistrationRepository> _mockRegistrationRepository = new Mock<IRegistrationRepository>();
+		private Mock<IUnitOfWork> _mockUnitOfWork = new Mock<IUnitOfWork>();
 		private Mock<ILogger<EventRegistrationService>> _logger = new Mock<ILogger<EventRegistrationService>>();
 		private IEventRegistrationService _sut = null!;
 
@@ -21,6 +22,11 @@ namespace Krg.Services.Tests
 		{
 			_fixture.Inject(_mockRegistrationRepository.Object);
 			_fixture.Inject(_logger.Object);
+
+			_mockUnitOfWork.Setup(service => service.RegistrationRepository)
+				.Returns(_mockRegistrationRepository.Object);
+			_fixture.Inject(_mockUnitOfWork.Object);
+
 			_sut = _fixture.Create<EventRegistrationService>();
 		}
 
@@ -30,7 +36,7 @@ namespace Krg.Services.Tests
 			//Arrange
 
 			//Act
-			_sut.AddRegistration(_fixture.Create<int>(), null);
+			_sut.AddRegistration(null);
 
 			//Assert
 			_mockRegistrationRepository.Verify(mock => mock.AddRegistration(It.IsAny<EventRegistration>()), Times.Never());
@@ -42,7 +48,7 @@ namespace Krg.Services.Tests
 			//Arrange
 
 			//Act
-			_sut.AddRegistration(_fixture.Create<int>(), _fixture.Create<AddRegistrationRequest>());
+			_sut.AddRegistration(_fixture.Create<AddRegistrationRequest>());
 
 			//Assert
 			_mockRegistrationRepository.Verify(mock => mock.AddRegistration(It.IsAny<EventRegistration>()), Times.Once());
@@ -56,11 +62,11 @@ namespace Krg.Services.Tests
 										.With(p => p.IsCancelled, false)
 										.CreateMany();
 
-			_mockRegistrationRepository.Setup(repository => repository.GetNonDeletedRegistrations(It.IsAny<int>()))
+			_mockRegistrationRepository.Setup(repository => repository.GetNonDeletedRegistrations(It.IsAny<DateRange>()))
 				.Returns(() => registrations.ToList());
 
 			//Act
-			var result = _sut.GetNonDeletedRegistrations(_fixture.Create<int>());
+			var result = _sut.GetNonDeletedRegistrations(new DateRange(DateOnly.FromDateTime(DateTime.UtcNow), DateOnly.FromDateTime(DateTime.UtcNow).AddDays(1)));
 
 			//Assert
 			Assert.IsTrue(result.All(p => !p.IsCancelled));
@@ -73,11 +79,11 @@ namespace Krg.Services.Tests
 			var registrations = _fixture.Build<EventRegistration>()
 										.CreateMany();
 
-			_mockRegistrationRepository.Setup(repository => repository.GetAllRegistrations(It.IsAny<int>()))
+			_mockRegistrationRepository.Setup(repository => repository.GetAllRegistrations(It.IsAny<DateRange>()))
 				.Returns(() => registrations.ToList());
 
 			//Act
-			var result = _sut.GetAllRegistrations(_fixture.Create<int>());
+			var result = _sut.GetAllRegistrations(new DateRange(DateOnly.FromDateTime(DateTime.Now), DateOnly.FromDateTime(DateTime.Now.AddDays(1))));
 
 			//Assert
 			Assert.IsTrue(result.Count == registrations.Count());

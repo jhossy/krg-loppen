@@ -1,4 +1,5 @@
-﻿using Krg.Domain.Models;
+﻿using Krg.Database.Models;
+using Krg.Domain.Models;
 using Krg.Services;
 using Krg.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +9,7 @@ using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Core.Web;
 using Umbraco.Cms.Web.Common;
 using Umbraco.Cms.Web.Common.Controllers;
-using Umbraco.Cms.Web.Common.PublishedModels;
+using Event = Umbraco.Cms.Web.Common.PublishedModels.Event;
 
 namespace Krg.Web.Controllers
 {
@@ -55,8 +56,11 @@ namespace Krg.Web.Controllers
 					.Where(x => x.Date.Date > (DateTime.Now.AddDays(-1)).Date && x.Date.Year == exportYear)
 					.OrderBy(x => x.Date.Date)
 					.ToList();
+				
+				DateRange dateRange = new DateRange(DateOnly.FromDateTime(new DateTime(exportYear, 1, 1)),
+					DateOnly.FromDateTime(new DateTime(exportYear, 12, 31)));
 
-				List<Registration> dbRegistrations = _eventRegistrationService.GetNonDeletedRegistrations(exportYear).ToList();
+				List<Registration> dbRegistrations = _eventRegistrationService.GetNonDeletedRegistrations(dateRange).ToList();
 
 				results.AddRange(BuildListOfRegistrations(dbRegistrations, eventsForExportYear));
 			}

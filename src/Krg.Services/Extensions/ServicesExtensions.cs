@@ -1,6 +1,4 @@
-﻿using Krg.Database;
-using Krg.Services.Interfaces;
-using Krg.Web.Controllers;
+﻿using Krg.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -13,12 +11,10 @@ namespace Krg.Services.Extensions
 	{
 		public static IServiceCollection AddServiceExtensions(this IServiceCollection services, IConfiguration configuration)
 		{
-			services.AddTransient<IEventRegistrationService, EventRegistrationService>();
-			services.AddTransient<IRegistrationRepository, RegistrationRepository>();
+			services.AddTransient<IEventRegistrationService, EventRegistrationService>();			
 			services.AddTransient<IExcelService, ExcelService>();
 			services.AddTransient<IEmailNotificationService, EmailNotificationService>();
-			services.AddTransient<IEmailNotificationRepository, EmailNotificationRepository>();
-			services.AddTransient<IEmailReminderNotificationRepository, EmailReminderNotificationRepository>();
+			services.AddTransient<IEventDateService, EventDateService>();
 
 			services.AddTransient<IEmailservice>(provider =>
 			{
@@ -45,7 +41,7 @@ namespace Krg.Services.Extensions
 				{
 					smtpClient = new SmtpClient(settings.Host, settings.Port);
 					smtpClient.Credentials = new NetworkCredential(settings.UserName, settings.Password);
-				}				
+				}
 
 				return new EmailService(logger, smtpClient);
 			});

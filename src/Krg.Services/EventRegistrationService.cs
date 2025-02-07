@@ -1,4 +1,4 @@
-﻿using Krg.Database;
+﻿using Krg.Database.Interfaces;
 using Krg.Database.Models;
 using Krg.Domain.Models;
 using Krg.Services.Interfaces;
@@ -8,22 +8,22 @@ namespace Krg.Services
 {
     public class EventRegistrationService : IEventRegistrationService
 	{
-		private readonly IRegistrationRepository _registrationRepository;
+		private readonly IUnitOfWork _unitOfWork;
 		private readonly ILogger<IEventRegistrationService> _logger;
 
 		public EventRegistrationService(
-			IRegistrationRepository registrationRepository,
+			IUnitOfWork unitOfWork,
 			ILogger<EventRegistrationService> logger)
 		{
-			_registrationRepository = registrationRepository;
+			_unitOfWork = unitOfWork;
 			_logger = logger;
 		}
 
-		public int AddRegistration(int umbracoNodeId, AddRegistrationRequest addRegistrationRequest)
+		public int AddRegistration(AddRegistrationRequest addRegistrationRequest)
 		{
 			if (addRegistrationRequest == null) return 0;
 
-			return _registrationRepository.AddRegistration(
+			var registrationAdded = _unitOfWork.RegistrationRepository.AddRegistration(
 				new EventRegistration
 				{
 					BringsTrailer = addRegistrationRequest.BringsTrailer,
@@ -35,19 +35,21 @@ namespace Krg.Services
 					NoOfChildren = addRegistrationRequest.NoOfChildren,
 					PhoneNo = addRegistrationRequest.PhoneNo,
 					ShowName = addRegistrationRequest.ShowName,
-					UmbracoEventNodeId = umbracoNodeId,
+					UmbracoEventNodeId = 0, //todo remove
 					UpdateTimeUtc = DateTime.UtcNow
 				});
+
+			_unitOfWork.Commit();
+
+			return registrationAdded;
 		}
 
-
-
-		public List<Registration> GetAllRegistrations(int year)
+		public List<Registration> GetAllRegistrations(DateRange dateRange)
 		{
 			try
 			{
-				return _registrationRepository
-					.GetAllRegistrations(year)
+				return _unitOfWork.RegistrationRepository
+					.GetAllRegistrations(dateRange)
 					.Select(reg => new Registration(reg))
 					.ToList();
 			}
@@ -63,7 +65,7 @@ namespace Krg.Services
 		{
 			try
 			{
-				return _registrationRepository.GetById(id);
+				return _unitOfWork.RegistrationRepository.GetById(id);				
 			}
 			catch (Exception ex)
 			{
@@ -73,12 +75,12 @@ namespace Krg.Services
 			return null;
 		}
 
-		public List<Registration> GetNonDeletedRegistrations(int year)
+		public List<Registration> GetNonDeletedRegistrations(DateRange dateRange)
 		{
 			try
 			{
-				return _registrationRepository
-					.GetNonDeletedRegistrations(year)
+				return _unitOfWork.RegistrationRepository
+					.GetNonDeletedRegistrations(dateRange)
 					.Select(reg => new Registration(reg))
 					.ToList();
 			}
@@ -93,7 +95,9 @@ namespace Krg.Services
 		{
 			try
 			{
-				_registrationRepository.RemoveRegistration(eventId);
+				_unitOfWork.RegistrationRepository.RemoveRegistration(eventId);
+
+				_unitOfWork.Commit();
 			}
 			catch (Exception ex) 
 			{

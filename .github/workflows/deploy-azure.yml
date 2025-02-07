@@ -6,8 +6,12 @@ name: Build and deploy ASP.Net Core app to Azure Web App - krg
 on:
   push:
     branches:
-      - master
+      - f/v2*
   workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -26,10 +30,10 @@ jobs:
         run: dotnet build ./src/Krg.sln --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish ./src/Krg.Web/Krg.Web.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish ./src/Krg.Website/Krg.Website.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
@@ -45,7 +49,7 @@ jobs:
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: .net-app
       

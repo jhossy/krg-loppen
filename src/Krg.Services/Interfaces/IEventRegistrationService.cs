@@ -5,14 +5,14 @@ namespace Krg.Services.Interfaces
 {
     public interface IEventRegistrationService
     {
-		int AddRegistration(int umbracoNodeId, AddRegistrationRequest addRegistrationRequest);
+		int AddRegistration(AddRegistrationRequest addRegistrationRequest);
 
         EventRegistration GetById(int id);
 
 		void RemoveRegistration(int eventId);
 
-        List<Registration> GetAllRegistrations(int year);
+        List<Registration> GetAllRegistrations(DateRange dateRange);
 
-        List<Registration> GetNonDeletedRegistrations(int year);
+        List<Registration> GetNonDeletedRegistrations(DateRange dateRange);
     }
 }

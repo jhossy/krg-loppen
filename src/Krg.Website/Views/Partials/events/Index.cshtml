@@ -1,0 +1,204 @@
+﻿@using System.Globalization
+@using Krg.Web.Extensions
+@using Krg.Domain.Enums;
+@model Krg.Website.Models.HomeViewModel
+
+@{
+	int i = 0;
+}
+
+@foreach (var eventItemGroup in Model.Events.GroupBy(x => x.EventContent.Date.Month))
+{
+	var monthYear = eventItemGroup.FirstOrDefault();
+	if (monthYear is not null)
+	{
+		<div class="row py-3">
+			<div class="col">
+				<div class="h2">
+					@monthYear.EventContent.Date.ToDkMonth() - @monthYear.EventContent.Date.Year
+				</div>
+			</div>
+		</div>
+	}
+
+	<div class="row row-cols-1 row-cols-md-1 g-3">
+		@{
+			int j = 0;			
+		}
+		@foreach (var eventItem in eventItemGroup)
+		{
+			<div class="col border" style="max-width:960px">
+				<div class="row g-0">					
+					<div class="col-md-2">
+						<time datetime="@eventItem.EventContent.Date" class="icon">
+							<em>@eventItem.EventContent.Date.ToString("ddd", new CultureInfo("da-DK"))</em>
+							<strong>@eventItem.EventContent.Date.ToString("MMM", new CultureInfo("da-DK"))</strong>
+							<span>@eventItem.EventContent.Date.Day</span>
+						</time>
+						<div class="d-flex justify-content-center">
+							<i class="fa-sharp fa-solid fa-clock d-flex align-items-center"></i>
+							&nbsp;kl.&nbsp;<time>09.00</time>
+						</div>
+					</div>
+					<div class="col-md-10">
+						<p>
+							<div class="container p-3 border bg-light">
+								<div class="row py-2">
+									<div class="col-8 col-md-10">
+										<div class="d-flex align-items-center @(string.IsNullOrEmpty(eventItem.ContactName)? "visually-hidden" : string.Empty)">											
+											<i class="fa-sharp fa-solid fa-circle-info"></i>
+											<span class="px-2">@eventItem.ContactName</span>
+										</div>
+										<div class="collapse" id="collapseInfo-@i-@j">
+											<div class="d-flex align-items-center @(string.IsNullOrEmpty(eventItem.ContactEmail)? "visually-hidden" : string.Empty)">
+												<i class="fa-sharp fa-solid fa-envelope"></i>
+												<span class="px-2">@eventItem.ContactEmail</span>
+											</div>
+											<div class="d-flex align-items-center @(string.IsNullOrEmpty(eventItem.ContactPhone)? "visually-hidden" : string.Empty)">
+												<i class="fa-sharp fa-solid fa-phone"></i>
+												<span class="px-2">@eventItem.ContactPhone</span>
+											</div>
+										</div>												
+									</div>
+									<div class="col-4 col-md-2 text-end @(string.IsNullOrEmpty(eventItem.ContactPhone) && string.IsNullOrEmpty(eventItem.ContactEmail)? "visually-hidden" : string.Empty)">
+										<a class="link-secondary link-underline-light" data-bs-toggle="collapse" href="#collapseInfo-@i-@j" role="button" aria-expanded="false" aria-controls="collapseInfo-@i-@j">
+											Kontaktinfo
+										</a>
+									</div>
+								</div>
+								<div class="row py-2">
+									<div class="col-8 col-md-10 d-flex align-items-center">
+										<i class="fa-sharp fa-solid fa-user-group"></i>
+										<span class="px-2">@eventItem.TotalNoOfParticipants</span>
+									</div>
+									<div class="col-4 col-md-2 text-end">
+										<a class="link-secondary link-underline-light" data-bs-toggle="collapse" href="#collapseRegistrations-@i-@j" role="button" aria-expanded="false" aria-controls="collapseRegistrations-@i-@j">Deltagere</a>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<div class="collapse" id="collapseRegistrations-@i-@j">
+											<div class="card card-body">
+												<table class="table table-sm table-striped table-hover">
+													<thead>
+														<tr>
+															<th scope="col"><i class="fa-sharp fa-solid fa-id-badge" rel="tooltip" title="Spejder"></i></th>
+															<th scope="col"><i class="fa-sharp fa-solid fa-sitemap" rel="tooltip" title="Gren"></i></th>
+															<th scope="col"><i class="fa-sharp fa-solid fa-person" rel="tooltip" title="Voksne"></i></th>															
+															<th scope="col"><i class="fa-sharp fa-solid fa-children" rel="tooltip" title="Børn"></i></th>
+															<th scope="col"><i class="fa-sharp fa-solid fa-trailer" rel="tooltip" title="Trailer"></i></th>
+														</tr>
+													</thead>
+													<tbody>
+														@foreach (var registration in eventItem.Registrations)
+														{
+															<tr>
+																<th scope="row">@(registration.ShowName ? registration.Name : ("<Skjult navn>"))</th>
+																<th scope="row">@registration.Department</th>
+																<th scope="row">@registration.NoOfAdults</th>
+																<th scope="row">@registration.NoOfChildren</th>
+																<th scope="row">@(registration.BringsTrailer ? "Ja" : "Nej")</th>
+															</tr>
+														}
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row py-2">
+									<div class="col-8 col-md-10"></div>
+									<div class="col-4 col-md-2 text-end">
+										@if (eventItem.IsFullyBooked)
+										{
+											<span class="badge bg-danger">Fuldtegnet</span>
+										}
+										else
+										{
+											<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal-@i-@j">
+												Tilmeld
+											</button>
+										}
+									</div>
+								</div>
+							</div>									
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal -->
+				<div class="modal fade" id="exampleModal-@i-@j" tabindex="-1" aria-labelledby="exampleModalLabel-@i-@j" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h1 class="modal-title fs-5" id="exampleModalLabel-@i-@j">Tilmelding - @eventItem.EventContent.Date.ToDkDate()</h1>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Luk"></button>
+						</div>
+						<div class="modal-body">
+							@using (Html.BeginForm("HandleSubmit", "Home", FormMethod.Post, new { @id = $"form-{@i}-{@j}" }))
+							{
+								@Html.AntiForgeryToken()
+								<div class="mb-3">
+									@Html.Label("Name", "Spejders navn", new { @class = "visually-hidden" })
+									@Html.TextBox("Name", "", new { @class = "form-control", placeholder = "Spejders navn", @data_val = "true", @data_val_required = Krg.Domain.Constants.NameRequiredMessage, autocomplete = "on"})
+								</div>
+								<div class="mb-3">
+									@Html.Label("Department", "Gren", new { @class = "visually-hidden" })
+									@Html.DropDownList("Department", new SelectList(Enum.GetValues(typeof(Department))), "Vælg gren", new { @class = "form-select form-select mb-3", @data_val = "true", @data_val_required = Krg.Domain.Constants.DepartmentRequiredMessage })
+								</div>								
+								<div class="mb-3">
+									@Html.Label("NoOfAdults", "Antal voksne", new { @class = "visually-hidden" })
+									@Html.DropDownList("NoOfAdults", new SelectList(Enumerable.Range(1, 3)), "Antal voksne", new { @class = "form-select form-select mb-3", @data_val = "true", @data_val_required = Krg.Domain.Constants.NoOfAdultsRequiredMessage })
+								</div>
+								<div class="mb-3">
+									@Html.Label("NoOfChildren", "Antal børn", new { @class = "visually-hidden" })
+									@Html.DropDownList("NoOfChildren", new SelectList(Enumerable.Range(0, 5)), "Antal børn", new { @class = "form-select form-select mb-3", @data_val = "true", @data_val_required = Krg.Domain.Constants.NoOfChildrenRequiredMessage })
+								</div>								
+								<div class="mb-3">
+									@Html.Label("PhoneNo", "Telefon", new { @class = "visually-hidden" })
+									@Html.TextBox("PhoneNo", "", new { @class = "form-control", type = "tel", placeholder = "Telefon", @data_val = "true", @data_val_required = Krg.Domain.Constants.PhoneNoRequiredMessage, autocomplete = "on" })
+								</div>
+								<div class="mb-3">
+									@Html.Label("Email", "Email", new { @class = "visually-hidden" })
+									@Html.TextBox("Email", "", new { @class = "form-control", type = "email", placeholder = "Email", @data_val = "true", @data_val_required = Krg.Domain.Constants.EmailRequiredMessage, @data_val_email = Krg.Domain.Constants.EmailInvalidFormat, autocomplete = "on" })
+								</div>
+								<div class="mb-3">
+									<div class="form-check form-switch">
+										@Html.CheckBox("BringsTrailer", false, new { @class = "form-check-input", id = "BringsTrailer" })
+										@Html.Label("BringsTrailer", "Medbringer trailer?", new { @class = "form-check-label" })
+									</div>
+								</div>
+								<div class="mb-3">
+									<div class="form-check form-switch">
+										@Html.CheckBox("ShowName", true, new { @class = "form-check-input", id = "ShowName" })
+										@Html.Label("ShowName", "Vis navn?", new { @class = "form-check-label" })
+									</div>
+								</div>
+								@Html.ValidationSummary()
+								@Html.Hidden("EventDate", eventItem.EventContent.Date)
+								@Html.Hidden("ContactName", string.IsNullOrEmpty(eventItem.EventContent.ContactName) ? Krg.Domain.Constants.FallBackContactName : eventItem.EventContent.ContactName)
+								@Html.Hidden("ContactPhone", string.IsNullOrEmpty(eventItem.EventContent.ContactPhone) ? Krg.Domain.Constants.FallBackContactPhoneNo : eventItem.EventContent.ContactPhone)
+								@Html.Hidden("ContactEmail", string.IsNullOrEmpty(eventItem.EventContent.ContactEmail) ? Krg.Domain.Constants.FallBackContactEmail : eventItem.EventContent.ContactEmail)								
+							}
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Luk</button>
+							@if (eventItem.IsFullyBooked)
+							{
+								<span class="badge bg-danger">Fuldtegnet</span>
+							}
+							else
+							{
+								<input class="btn btn-success" type="submit" form="form-@i-@j" value="Tilmeld" />
+							}
+						</div>
+					</div> 
+				</div>
+			</div>
+
+			j++;		
+	}		
+	</div>
+	i++;
+}

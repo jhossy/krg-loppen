@@ -1,0 +1,7 @@
+﻿@using Krg.Website.Models
+@using Microsoft.AspNetCore.Identity
+@{
+    @inject SignInManager<IdentityUser> SignInManager;
+}
+
+<h1>@Translations.Home.Welcome.Replace("{user}", SignInManager.UserManager.GetUserName(User))</h1>

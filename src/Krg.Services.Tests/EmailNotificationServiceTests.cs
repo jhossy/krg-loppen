@@ -1,19 +1,22 @@
 using AutoFixture;
+using AutoFixture.AutoMoq;
+using AutoFixture.Kernel;
 using Krg.Database;
+using Krg.Database.Interfaces;
 using Krg.Database.Models;
 using Krg.Domain.Models;
-using Krg.Services.Interfaces;
 using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace Krg.Services.Tests
 {
-    [TestClass]
+	[TestClass]
 	public class EmailNotificationServiceTests
 	{
 		private readonly IFixture _fixture = new Fixture();
-		private Mock<IEmailNotificationRepository> _mockNotificationRepository = new Mock<IEmailNotificationRepository>();
+		private Mock<IEmailNotificationRepository> _mockNotificationRepository = new Mock<IEmailNotificationRepository>();		
 		private Mock<IEmailReminderNotificationRepository> _mockEmailReminderNotificationRepository = new Mock<IEmailReminderNotificationRepository>();
+		private Mock<IUnitOfWork> _mockUnitOfWork = new Mock<IUnitOfWork>();
 		private Mock<ILogger<EmailNotificationService>> _logger = new Mock<ILogger<EmailNotificationService>>();
 		private EmailNotificationService _sut = null!;
 
@@ -23,6 +26,15 @@ namespace Krg.Services.Tests
 			_fixture.Inject(_mockNotificationRepository.Object);
 			_fixture.Inject(_mockEmailReminderNotificationRepository.Object);
 			_fixture.Inject(_logger.Object);
+
+			_mockUnitOfWork.Setup(service => service.EmailNotificationRepository)
+				.Returns(_mockNotificationRepository.Object);
+
+			_mockUnitOfWork.Setup(service => service.EmailReminderNotificationRepository)
+				.Returns(_mockEmailReminderNotificationRepository.Object);
+
+			_fixture.Inject(_mockUnitOfWork.Object);
+
 			_sut = _fixture.Create<EmailNotificationService>();
 		}
 

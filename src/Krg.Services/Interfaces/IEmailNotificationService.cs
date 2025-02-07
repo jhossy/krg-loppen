@@ -1,9 +1,8 @@
-﻿using Krg.Database.Models;
-using Krg.Domain.Models;
+﻿using Krg.Domain.Models;
 
 namespace Krg.Services.Interfaces
 {
-    public interface IEmailNotificationService
+	public interface IEmailNotificationService
     {
         void AddNotification(AddRegistrationRequest registrationRequest, string emailSender);
 
@@ -13,7 +12,7 @@ namespace Krg.Services.Interfaces
 
         void RemoveReminder(int id);
 
-        void CancelReminder(int umbracoNodeId);
+        void CancelReminder(int eventRegistrationId);
 
 		List<Notification> GetNonProcessedNotifications();
         List<EmailReminder> GetNonProcessedReminders();

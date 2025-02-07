@@ -1,0 +1,182 @@
+@using Krg.Domain
+@using Krg.Website.Models
+@using Microsoft.Extensions.Options
+@inject IOptions<SiteSettings> _siteSettings;
+@model Krg.Website.Areas.Admin.Models.EventsViewModel
+
+@{
+    var years = _siteSettings.Value.YearsToShow;
+}
+
+<div class="row shadow-sm p-3 mb-3 bg-body rounded">
+    <div class="col">
+        <h1>@Translations.Events.EventOverview</h1>
+        <hr />
+        <div class="row">
+            @using (Html.BeginForm("Create", "Events", FormMethod.Post, new { area = "Admin", @class = "row g-3" }))
+            {
+                <div class="col">
+                    @Html.AntiForgeryToken()
+                    <div class="mb-3 row">
+                        @Html.Label("Date", Translations.Events.DateLabel, new { @class = "col-sm-2 col-form-label" })
+                        <div class="col-sm-10">
+                            @Html.TextBox("Date", Model.SelectedDate.ToString("yyyy-MM-dd"), new { @class = "form-control", type = "date", placeholder = @DateTime.Now.Year, data_val = "true", @data_val_required = "Dato skal angives", autocomplete = "on" })
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        @Html.Label("ContactName", Translations.Events.NameLabel, new { @class = "col-sm-2 col-form-label" })
+                        <div class="col-sm-10">
+                            @Html.TextBox("ContactName", $"{Constants.FallBackContactName}", new { @class = "form-control", type = "text", placeholder = "Name", data_val = "true", @data_val_required = "Navn skal angives", autocomplete = "on" })
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        @Html.Label("ContactPhoneNo", Translations.Events.PhoneLabel, new { @class = "col-sm-2 col-form-label" })
+                        <div class="col-sm-10">
+                            @Html.TextBox("ContactPhoneNo", $"{Constants.FallBackContactPhoneNo}", new { @class = "form-control", type = "phone", placeholder = "Phone no", data_val = "true", @data_val_required = "Telefon skal angives", autocomplete = "on" })
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        @Html.Label("ContactEmail", Translations.Events.EmailLabel, new { @class = "col-sm-2 col-form-label" })
+                        <div class="col-sm-10">
+                            @Html.TextBox("ContactEmail", $"{Constants.FallBackContactEmail}", new { @class = "form-control", type = "email", placeholder = "Email", data_val = "true", @data_val_required = "Email skal angives", autocomplete = "on" })
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <div>
+                            <input type="submit" class="btn btn-outline-secondary float-end" value="@Translations.Events.CreateButtonText"/>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Nav tabs -->
+<div class="row p-2 shadow-sm p-3 bg-body rounded">
+    <div class="col">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+        </ul>
+    </div>
+    <div class="col col-sm-auto">
+        <select id="yearSelector" name="year" class="form-select" aria-label="Select year">
+            <option value="" selected>@Translations.Events.SelectYear</option>
+            @foreach (var elm in years)
+            {
+                <option value="@elm">@elm</option>
+            }
+        </select>
+    </div>
+</div>
+<div class="row shadow-sm p-3 mb-5 bg-body rounded">
+    <div class="col">
+        <!-- Tab panes -->
+        <div class="tab-content" id="tabContentRoot">
+        </div>
+    </div>
+</div>
+
+<div class="row p-2">
+    <div class="col">
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function (){
+            let currentDate = new Date();
+            callApi(currentDate.getFullYear(), currentDate.getMonth());
+        });
+        
+        $('#yearSelector').on('change', function() {
+            if (this.value === '')
+                return;
+            
+            callApi(this.value, 0);            
+        });
+        
+        function callApi(year, month) {
+            $('.spinner-border').show();
+            
+            $.ajax({
+                type: 'GET',
+                url: '/Admin/EventsApi/GetEvents?year=' + year,
+                contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+                    $('.spinner-border').hide();                    
+                    let str = '';
+                    let i = 0;
+                    let keyArr = [];
+                    $.each(result, function (k, v){
+                        str += '<div class="tab-pane ' + (i === month ? "active" : "") + '" id="' + k + '" role="tabpanel" aria-labelledby="' + k + '-tab" tabindex="0">'
+                        str += ' <div class="row">'
+                        str += v.map(eventElm).join('');
+                        str += ' </div>'
+                        str += '</div>'
+
+                        keyArr.push({id: k, isActiveClass: (i === month ? 'active' : '')});
+                        i++;
+                    })
+
+                    let myTab = $('#myTab');
+                    myTab.empty();
+                    myTab.html(keyArr.map(tabElm).join(''));
+
+                    let tabContentRoot = $('#tabContentRoot');
+                    tabContentRoot.empty();
+                    tabContentRoot.html(str);
+                }
+            });
+        }
+    
+    </script>
+
+    <script>
+        const tabElm = ({ id, isActiveClass }) => `
+            <li class="nav-item" role="presentation">
+                <button class="nav-link text-body ${isActiveClass}" id="${id}-tab" data-bs-toggle="tab" data-bs-target="#${id}" type="button" role="tab" aria-controls="${id}" aria-selected="true">${id}</button>
+            </li>
+        `
+    </script>
+
+    <script>
+        const eventElm = ({ id, date, contactName, contactPhone, contactEmail }) => `
+        <div class="col-sm-3 p-2">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">${date}</h5>
+                    <p class="card-text">
+                        <div class="row">
+                            <label for="staticName-${date}" class="col-sm-2 col-form-label"><i class="bi bi-person-lines-fill h5"></i></label>
+                            <div class="col-sm-10">
+                                <input type="text" readonly class="form-control-plaintext" id="staticName-${date}" value="${contactName}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label for="staticPhone-${date}" class="col-sm-2 col-form-label"><i class="bi bi-telephone h5"></i></label>
+                            <div class="col-sm-10">
+                                <input type="text" readonly class="form-control-plaintext" id="staticPhone-${date}" value="${contactPhone}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label for="staticEmail-${date}" class="col-sm-2 col-form-label"><i class="bi bi-envelope h5"></i></label>
+                            <div class="col-sm-10">
+                                <input type="text" readonly class="form-control-plaintext" id="staticEmail-${date}" value="${contactEmail}">
+                            </div>
+                        </div>
+                    </p>
+                    <div class="float-end">                        
+                        <a class="btn btn-outline-danger" href="/Admin/Events/Delete/${id}" onclick="return confirm('@Translations.Events.AreYouSure')">@Translations.Events.DeleteButtonText</a>
+                        <a class="btn btn-outline-secondary" href="/Admin/Events/Edit/${id}">@Translations.Events.EditButtonText</a>
+                    </div>
+                </div>
+            </div>
+        </div>`
+    </script>
+}
