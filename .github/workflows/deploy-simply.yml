@@ -1,8 +1,7 @@
 on:
   push:
     branches:
-      - master
-      - f/v2
+      - r/**
   workflow_dispatch:
 
 name: 🚀 Deploy website on push

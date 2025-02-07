@@ -47,7 +47,7 @@ public struct Translations
         
         public const string SelectYear = "Vælg år";
         
-        public const string AreYouSure = "Er du sikker på at du vil slette?";
+        public const string AreYouSure = "Er du sikker?";
     }
 
     public struct Profile 
@@ -85,7 +85,7 @@ public struct Translations
 
         public const string ButtonDeleteRegistrationsText = "Slet";
 
-        public const string AreYouSure = "Er du sikker på at du vil slette?";
+        public const string AreYouSure = "Er du sikker?";
 
         public const string EndDateValidationMessage = "'Slutdato' skal være efter 'startdato'";
     }
