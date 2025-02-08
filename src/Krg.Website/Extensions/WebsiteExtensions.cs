@@ -27,7 +27,8 @@ namespace Krg.Website.Extensions
 				
 			services.AddIdentityCore<IdentityUser>(options =>
 				{
-					// options.SignIn.RequireConfirmedAccount = true;
+					options.Lockout.MaxFailedAccessAttempts = 5;
+					options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
 				})
 			 	.AddEntityFrameworkStores<IdentityContext>()
 			    .AddApiEndpoints();

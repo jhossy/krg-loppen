@@ -20,11 +20,16 @@ public class LoginController(SignInManager<IdentityUser> signInManager) : Contro
             return View("Index");
         }
         
-        var loginResult = await signInManager.PasswordSignInAsync(loginDto.Email, loginDto.Password, false, lockoutOnFailure: false);
+        var loginResult = await signInManager.PasswordSignInAsync(loginDto.Email, loginDto.Password, false, lockoutOnFailure: true);
         
         if (loginResult.Succeeded)
         {
             return RedirectToAction("Index", "Home", new { area = "Admin" });    
+        }
+
+        if (loginResult.IsLockedOut)
+        {
+            ModelState.AddModelError("Password", "Din konto er låst ude. Prøv igen om 10 min");            
         }
         
         ModelState.AddModelError("Password", "Invalid email or password. Please try again.");
