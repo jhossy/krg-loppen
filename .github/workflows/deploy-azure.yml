@@ -3,11 +3,7 @@
 
 name: Build and deploy ASP.Net Core app to Azure Web App - krg
 
-on:
-  push:
-    branches:
-      - f/v2*
-  workflow_dispatch:
+on: [push, workflow_dispatch]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
