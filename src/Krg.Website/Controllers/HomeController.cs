@@ -62,6 +62,18 @@ namespace Krg.Website.Controllers
 		{
 			return View();
 		}
+		
+		public IActionResult Error(int statusCode)
+		{
+			if (statusCode == 404)
+			{
+				return View("NotFound");
+			}
+			
+			_logger.LogError("Unhandled exception occured. Status Code: {statusCode}", statusCode);
+			
+			return View("Error");
+		}
 
 		[ValidateAntiForgeryToken]
 		[HttpPost]
