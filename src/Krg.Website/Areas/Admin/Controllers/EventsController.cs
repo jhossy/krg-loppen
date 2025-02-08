@@ -19,32 +19,6 @@ public class EventsController(IEventDateService eventDateService, ILogger<Events
     
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Create(CreateEventDto createEventDto)
-    {
-        if (DateTime.TryParse(createEventDto.Date, out DateTime dateTimeParsed))
-        {
-            var eventDate = eventDateService.GetEventByDate(dateTimeParsed);
-            
-            if(eventDate != null)
-                return RedirectToAction(nameof(Index));
-            
-            logger.LogInformation("Adding new event: {@createEventDto}", createEventDto);
-            
-            eventDateService.AddEventDate(new EventDate
-            {
-                Date = dateTimeParsed,
-                ContactName = createEventDto.ContactName,
-                ContactPhone = createEventDto.ContactPhoneNo,
-                ContactEmail = createEventDto.ContactEmail
-            });
-            
-            return RedirectToAction(nameof(Index));
-        }
-        return BadRequest("Error parsing date");
-    }
-    
-    [HttpPost]
-    [ValidateAntiForgeryToken]
     public IActionResult Edit(EditEventDto editEventDto)
     {
         if (DateTime.TryParse(editEventDto.Date, out DateTime dateTimeParsed))
