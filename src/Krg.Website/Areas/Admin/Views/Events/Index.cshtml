@@ -13,10 +13,8 @@
         <h1>@Translations.Events.EventOverview</h1>
         <hr />
         <div class="row">
-            @using (Html.BeginForm("Create", "Events", FormMethod.Post, new { area = "Admin", @class = "row g-3" }))
-            {
+            <form class="row g-3">
                 <div class="col">
-                    @Html.AntiForgeryToken()
                     <div class="mb-3 row">
                         @Html.Label("Date", Translations.Events.DateLabel, new { @class = "col-sm-2 col-form-label" })
                         <div class="col-sm-10">
@@ -43,11 +41,13 @@
                     </div>
                     <div class="mb-3 row">
                         <div>
-                            <input type="submit" class="btn btn-outline-secondary float-end" value="@Translations.Events.CreateButtonText"/>
+                            <button id="btnCreateEvent" class="btn btn-outline-secondary float-end" type="button" onclick="CreateEvent()">
+                                @Translations.Events.CreateButtonText
+                            </button>
                         </div>
                     </div>
                 </div>
-            }
+            </form>
         </div>
     </div>
 </div>
@@ -101,6 +101,27 @@
             callApi(this.value, 0);            
         });
         
+        function CreateEvent() {            
+            let data = {
+                Date: $("#Date").val(),
+                ContactName: $("#ContactName").val(),
+                ContactPhoneNo: $("#ContactPhoneNo").val(),
+                ContactEmail: $("#ContactEmail").val()
+            }
+                        
+            let currentTabIndex = $('#tabContentRoot div.active').index();
+            
+            $.ajax({
+                type: 'POST',
+                url: '/Admin/EventsApi/CreateEvent',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(data),
+                success: function (result) {
+                    createEventList(result, currentTabIndex);
+                }
+            });
+        }
+        
         function callApi(year, month) {
             $('.spinner-border').show();
             
@@ -109,32 +130,35 @@
                 url: '/Admin/EventsApi/GetEvents?year=' + year,
                 contentType: 'application/json; charset=utf-8',
                 success: function (result) {
-                    $('.spinner-border').hide();                    
-                    let str = '';
-                    let i = 0;
-                    let keyArr = [];
-                    $.each(result, function (k, v){
-                        str += '<div class="tab-pane ' + (i === month ? "active" : "") + '" id="' + k + '" role="tabpanel" aria-labelledby="' + k + '-tab" tabindex="0">'
-                        str += ' <div class="row">'
-                        str += v.map(eventElm).join('');
-                        str += ' </div>'
-                        str += '</div>'
-
-                        keyArr.push({id: k, isActiveClass: (i === month ? 'active' : '')});
-                        i++;
-                    })
-
-                    let myTab = $('#myTab');
-                    myTab.empty();
-                    myTab.html(keyArr.map(tabElm).join(''));
-
-                    let tabContentRoot = $('#tabContentRoot');
-                    tabContentRoot.empty();
-                    tabContentRoot.html(str);
+                    createEventList(result, month);
                 }
             });
         }
-    
+        
+        function createEventList(result, activeTabIndex) {
+            $('.spinner-border').hide();
+            let str = '';
+            let i = 0;
+            let keyArr = [];
+            $.each(result, function (k, v){
+                str += '<div class="tab-pane ' + (i === activeTabIndex ? "active" : "") + '" id="' + k + '" role="tabpanel" aria-labelledby="' + k + '-tab" tabindex="0">'
+                str += ' <div class="row">'
+                str += v.map(eventElm).join('');
+                str += ' </div>'
+                str += '</div>'
+
+                keyArr.push({id: k, isActiveClass: (i === activeTabIndex ? 'active' : '')});
+                i++;
+            })
+
+            let myTab = $('#myTab');
+            myTab.empty();
+            myTab.html(keyArr.map(tabElm).join(''));
+
+            let tabContentRoot = $('#tabContentRoot');
+            tabContentRoot.empty();
+            tabContentRoot.html(str);        
+        }    
     </script>
 
     <script>
