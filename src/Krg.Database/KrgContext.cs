@@ -1,5 +1,6 @@
 ﻿using Krg.Database.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Krg.Database
 {
@@ -24,6 +25,20 @@ namespace Krg.Database
 			modelBuilder.Entity<EmailReminderNotification>().ToTable("EmailReminderNotification");
 			modelBuilder.Entity<EventRegistration>().ToTable("EventRegistration");
 			modelBuilder.Entity<Event>().ToTable("Event");
+		}
+
+		public override int SaveChanges()
+		{
+			foreach (var entry in ChangeTracker.Entries())
+			{
+				switch (entry.State)
+				{
+					case EntityState.Modified:
+						((IUpdateableEntity)entry.Entity).UpdateTimeUtc = DateTime.UtcNow;
+						break;
+				}
+			}
+			return base.SaveChanges();
 		}
 	}
 }
