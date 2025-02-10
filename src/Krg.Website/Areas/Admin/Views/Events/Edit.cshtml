@@ -9,7 +9,7 @@
             <div class="mb-3 row">
                 @Html.Label("Date", Translations.Events.DateLabel, new { @class = "col-sm-2 col-form-label" })
                 <div class="col-sm-10">
-                    @Html.TextBox("Date", Model.Date, new { @class = "form-control", type = "date", placeholder = @DateTime.Now.Year, data_val = "true", @data_val_required = "År skal angives", autocomplete = "on" })
+                    @Html.TextBox("Date", Model.Date, new { @class = "form-control", type = "date", placeholder = @DateTime.Now.Year, data_val = "true", @readonly = "readonly", @data_val_required = "År skal angives", autocomplete = "on" })
                 </div>
             </div>
             <div class="mb-3 row">
