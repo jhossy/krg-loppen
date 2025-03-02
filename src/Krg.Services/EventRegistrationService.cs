@@ -23,25 +23,26 @@ namespace Krg.Services
 		{
 			if (addRegistrationRequest == null) return 0;
 
-			var registrationAdded = _unitOfWork.RegistrationRepository.AddRegistration(
-				new EventRegistration
-				{
-					BringsTrailer = addRegistrationRequest.BringsTrailer,
-					Department = addRegistrationRequest.Department,
-					Email = addRegistrationRequest.Email,
-					EventDate = addRegistrationRequest.EventDate,
-					Name = addRegistrationRequest.Name,
-					NoOfAdults = addRegistrationRequest.NoOfAdults,
-					NoOfChildren = addRegistrationRequest.NoOfChildren,
-					PhoneNo = addRegistrationRequest.PhoneNo,
-					ShowName = addRegistrationRequest.ShowName,
-					UmbracoEventNodeId = 0, //todo remove
-					UpdateTimeUtc = DateTime.UtcNow
-				});
+			var registrationToAdd = new EventRegistration
+            {
+                BringsTrailer = addRegistrationRequest.BringsTrailer,
+                Department = addRegistrationRequest.Department,
+                Email = addRegistrationRequest.Email,
+                EventDate = addRegistrationRequest.EventDate,
+                Name = addRegistrationRequest.Name,
+                NoOfAdults = addRegistrationRequest.NoOfAdults,
+                NoOfChildren = addRegistrationRequest.NoOfChildren,
+                PhoneNo = addRegistrationRequest.PhoneNo,
+                ShowName = addRegistrationRequest.ShowName,
+                UmbracoEventNodeId = 0, //todo remove
+                UpdateTimeUtc = DateTime.UtcNow
+            };
+
+            _unitOfWork.RegistrationRepository.AddRegistration(registrationToAdd);				
 
 			_unitOfWork.Commit();
 
-			return registrationAdded;
+			return registrationToAdd.Id;
 		}
 
 		public List<Registration> GetAllRegistrations(DateRange dateRange)
