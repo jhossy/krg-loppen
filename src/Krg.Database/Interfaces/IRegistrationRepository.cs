@@ -4,7 +4,7 @@ namespace Krg.Database.Interfaces
 {
     public interface IRegistrationRepository
     {
-        int AddRegistration(EventRegistration registration);
+        void AddRegistration(EventRegistration registration);
 
         EventRegistration GetById(int id);
 

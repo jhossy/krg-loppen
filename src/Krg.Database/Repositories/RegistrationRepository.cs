@@ -10,11 +10,9 @@ namespace Krg.Database.Repositories
             _context = context;
         }
 
-        public int AddRegistration(EventRegistration registration)
+        public void AddRegistration(EventRegistration registration)
         {
             _context.EventRegistrations.Add(registration);
-
-            return registration.Id;
         }
 
         public void UpdateRegistration(EventRegistration registration)

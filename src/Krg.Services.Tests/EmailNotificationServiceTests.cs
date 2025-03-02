@@ -135,6 +135,7 @@ namespace Krg.Services.Tests
 			//Arrange
 			var emailReminderNotifications = _fixture.Build<EmailReminderNotification>()
 										.With(p => p.Processed, false)
+										.With(p => p.IsCancelled, false)
 										.CreateMany();
 
 			_mockEmailReminderNotificationRepository.Setup(repository => repository.GetUnprocessedReminders())
