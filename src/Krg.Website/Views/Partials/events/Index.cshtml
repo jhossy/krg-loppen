@@ -153,7 +153,7 @@
 								</div>
 								<div class="mb-3">
 									@Html.Label("NoOfChildren", "Antal børn", new { @class = "visually-hidden" })
-									@Html.DropDownList("NoOfChildren", new SelectList(Enumerable.Range(0, 5)), "Antal børn", new { @class = "form-select form-select mb-3", @data_val = "true", @data_val_required = Krg.Domain.Constants.NoOfChildrenRequiredMessage })
+									@Html.DropDownList("NoOfChildren", new SelectList(Enumerable.Range(0, 5)), "Antal børn (ekskl. spejderen)", new { @class = "form-select form-select mb-3", @data_val = "true", @data_val_required = Krg.Domain.Constants.NoOfChildrenRequiredMessage })
 								</div>								
 								<div class="mb-3">
 									@Html.Label("PhoneNo", "Telefon", new { @class = "visually-hidden" })
