@@ -48,7 +48,7 @@ namespace Krg.Services.Tests
 				$"Kære Sigfred.<br><br>Du har tilmeldt dig Loppekørsel søndag d. 17. december 2023 kl. 09:00.<br>" +
 				$"Tak for din deltagelse, som er med til at sikre vores børn nogle gode spejderoplevelser!<br><br>" +
 				$"Vi mødes på Hundested Genbrugsstation, Håndværkervej 16, 3390 Hundested, og forventer at være færdige efter ca. 2 timer.<br>" +
-				$"Din kontaktperson på dagen er:<br>Jacob Mikkelsen<br>Telefon: 21486949<br>E-mail: jacobtambourmikkelsen@gmail.com<br><br>" +
+				$"Din kontaktperson på dagen er:<br>Jette Simonsen<br>Telefon: 24448429<br>E-mail: simonsenjette@yahoo.dk<br><br>" +
 				$"Hvis du bliver forhindret i at deltage er der vigtigt at du kontakter din kontaktperson hurtigst muligt. " +
 				$"Din kontaktperson vil også kunne hjælpe dig hvis du har praktiske spørgsmål.<br><br>Venlig hilsen<br>Knud Rasmussengruppen"
 			);
