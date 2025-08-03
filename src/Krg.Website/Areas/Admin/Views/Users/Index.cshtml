@@ -56,7 +56,7 @@
             });
         });
         
-        function toggleUser(id, activate) {
+        function toggleUser(id, activate) {            
             let data = {
                 id: id
             }
@@ -104,9 +104,13 @@
             let str = '';
             
             $.each(data, function (k, v) {
-                let userId = v.id;
+                let userId = v.id;                
+                let isLockedOut = false;
+                let lockoutEnabled = v.lockoutEnabled === true;
                 
-                let isLockedOut = v.lockoutEnabled === true && v.lockoutEnd !== '' && v.lockoutEnd !== null;
+                if (lockoutEnabled && v.lockoutEnd !== '' && v.lockoutEnd !== null) {
+                    isLockedOut = new Date() < new Date(Date.parse(v.lockoutEnd));
+                }
                 
                 str += eventElm({email: v.email, userId: v.id, isLocked: isLockedOut, isCurrentUser: currentUserId === userId});              
             });
