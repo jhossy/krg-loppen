@@ -1,3 +1,4 @@
+using System.Net;
 using Krg.Domain.Models;
 using Krg.Services.Interfaces;
 using Krg.Web.Extensions;
@@ -35,7 +36,8 @@ public class EventsApiController(IEventDateService eventDateService, IOptions<Si
                 Date = dateTimeParsed,
                 ContactName = createEventDto.ContactName,
                 ContactPhone = createEventDto.ContactPhoneNo,
-                ContactEmail = createEventDto.ContactEmail
+                ContactEmail = createEventDto.ContactEmail,
+                Note = WebUtility.HtmlEncode(createEventDto.Note)
             });
             
             return Ok(GetGroupedEventsByDate(dateTimeParsed.Year));

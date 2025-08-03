@@ -34,6 +34,8 @@ public struct Translations
         public const string PhoneLabel = "Telefon";
         
         public const string EmailLabel = "Email";
+        
+        public const string NoteLabel = "Kommentar";
 
         public const string SaveButtonText = "Gem";
         

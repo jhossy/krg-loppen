@@ -1,3 +1,4 @@
+using System.Net;
 using Krg.Domain.Models;
 using Krg.Services.Interfaces;
 using Krg.Web.Extensions;
@@ -32,6 +33,7 @@ public class EventsController(IEventDateService eventDateService, ILogger<Events
                 eventDate.ContactName = editEventDto.ContactName;
                 eventDate.ContactPhone = editEventDto.ContactPhoneNo;
                 eventDate.ContactEmail = editEventDto.ContactEmail;
+                eventDate.Note = WebUtility.HtmlEncode(editEventDto.Note);
                 
                 eventDateService.UpdateEventDate(eventDate);
                 
@@ -56,7 +58,8 @@ public class EventsController(IEventDateService eventDateService, ILogger<Events
                 Date = eventDate.Date.ToString("yyyy-MM-dd"),
                 ContactName = eventDate.ContactName,
                 ContactPhoneNo = eventDate.ContactPhone,
-                ContactEmail = eventDate.ContactEmail
+                ContactEmail = eventDate.ContactEmail,
+                Note = WebUtility.HtmlDecode(eventDate.Note),
             });
         }
         
