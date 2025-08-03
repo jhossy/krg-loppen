@@ -12,7 +12,7 @@ namespace Krg.Website.Models
 			ContactName = EventContent.ContactName ?? string.Empty;
 			ContactPhone = EventContent.ContactPhone ?? string.Empty;
 			ContactEmail = EventContent.ContactEmail ?? string.Empty;
-			EventNote = EventContent.Note != null ? EventContent.Note.Substring(0, 100) : string.Empty;
+			EventNote = !string.IsNullOrEmpty(EventContent.Note) ? EventContent.Note.Substring(0, Math.Min(100, EventContent.Note.Length)) : string.Empty;
 		}
 
 		public EventDate EventContent { get; }
