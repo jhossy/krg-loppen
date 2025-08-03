@@ -75,6 +75,12 @@
 										<a class="link-secondary link-underline-light" data-bs-toggle="collapse" href="#collapseRegistrations-@i-@j" role="button" aria-expanded="false" aria-controls="collapseRegistrations-@i-@j">Deltagere</a>
 									</div>
 								</div>
+								<div class="row py-2 @(string.IsNullOrEmpty(eventItem.EventNote)? "visually-hidden" : string.Empty)">
+									<div class="col">
+										<i class="fa-sharp fa-solid fa-comment"></i>
+										<span class="px-2"><b>@eventItem.EventNote</b></span>
+									</div>
+								</div>
 								<div class="row">
 									<div class="col">
 										<div class="collapse" id="collapseRegistrations-@i-@j">

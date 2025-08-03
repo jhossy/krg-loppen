@@ -40,6 +40,12 @@
                         </div>
                     </div>
                     <div class="mb-3 row">
+                        @Html.Label("Note", Translations.Events.NoteLabel, new { @class = "col-sm-2 col-form-label" })
+                        <div class="col-sm-10">
+                            @Html.TextArea("Note", new { @class = "form-control", type = "text", @rows="3", @maxlength="100", placeholder = "Noter kan skrives her. Max 100 karakterer", data_val = "false", autocomplete = "on" })
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
                         <div>
                             <button id="btnCreateEvent" class="btn btn-outline-secondary float-end" type="button" onclick="CreateEvent()">
                                 @Translations.Events.CreateButtonText
@@ -106,7 +112,8 @@
                 Date: $("#Date").val(),
                 ContactName: $("#ContactName").val(),
                 ContactPhoneNo: $("#ContactPhoneNo").val(),
-                ContactEmail: $("#ContactEmail").val()
+                ContactEmail: $("#ContactEmail").val(),
+                Note : $("#Note").val()
             }
                         
             let currentTabIndex = $('#tabContentRoot div.active').index();
@@ -141,6 +148,7 @@
             let i = 0;
             let keyArr = [];
             $.each(result, function (k, v){
+                console.log('v:' + v);
                 str += '<div class="tab-pane ' + (i === activeTabIndex ? "active" : "") + '" id="' + k + '" role="tabpanel" aria-labelledby="' + k + '-tab" tabindex="0">'
                 str += ' <div class="row">'
                 str += v.map(eventElm).join('');
@@ -170,7 +178,7 @@
     </script>
 
     <script>
-        const eventElm = ({ id, date, contactName, contactPhone, contactEmail }) => `
+        const eventElm = ({ id, date, contactName, contactPhone, contactEmail, note }) => `
         <div class="col-sm-3 p-2">
             <div class="card">
                 <div class="card-body">
@@ -192,6 +200,12 @@
                             <label for="staticEmail-${date}" class="col-sm-2 col-form-label"><i class="bi bi-envelope h5"></i></label>
                             <div class="col-sm-10">
                                 <input type="text" readonly class="form-control-plaintext" id="staticEmail-${date}" value="${contactEmail}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label for="staticNote-${date}" class="col-sm-2 col-form-label"><i class="bi bi-chat h5"></i></label>
+                            <div class="col-sm-10">
+                                <input type="text" readonly class="form-control-plaintext" id="staticNote-${date}" value="${note}">
                             </div>
                         </div>
                     </p>

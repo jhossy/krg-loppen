@@ -18,6 +18,10 @@ Ref. https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs
  
 `dotnet ef migrations add AddBlogCreatedTimestamp`
 
+5) Migration script:
+
+`dotnet ef migrations script InitialCreate AddEventNote --project Krg.Database --context KrgContext --startup-project Krg.Website -o ./Krg.Database/Migrations/Scripts/AddEventNote.sql`
+
 # Identity
 
 1) Change to ./src

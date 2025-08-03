@@ -46,6 +46,7 @@ namespace Krg.Database.Repositories
                 eventToUpdate.ContactPhone = evt.ContactPhone;
                 eventToUpdate.ContactEmail = evt.ContactEmail;
                 eventToUpdate.UpdateTimeUtc = DateTime.UtcNow;
+                eventToUpdate.Note = evt.Note;
                 
                 _context.Events.Update(eventToUpdate);
             }

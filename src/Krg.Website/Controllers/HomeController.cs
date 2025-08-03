@@ -101,7 +101,7 @@ namespace Krg.Website.Controllers
 			return RedirectToAction("Index");
 		}
 
-		internal List<RegistrationViewModel> BuildListOfRegistrations(List<Registration> dbRegistrations, List<EventDate> eventDates)
+		private List<RegistrationViewModel> BuildListOfRegistrations(List<Registration> dbRegistrations, List<EventDate> eventDates)
 		{
 			List<RegistrationViewModel> results = new List<RegistrationViewModel>();
 

@@ -13,5 +13,7 @@
         public required string ContactEmail { get; set; }
 
         public required string ContactPhone { get; set; }
+        
+        public string? Note { get; set; }
     }
 }
