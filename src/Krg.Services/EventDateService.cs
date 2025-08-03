@@ -60,7 +60,7 @@ namespace Krg.Services
 							ContactEmail = x.ContactEmail,
 							ContactName = x.ContactName,
 							ContactPhone = x.ContactPhone,
-							Note = x.Note
+							Note = x.Note ?? string.Empty
 						})
 					.ToList();
 		}

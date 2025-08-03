@@ -14,6 +14,6 @@ namespace Krg.Domain.Models
 
 		public required string ContactPhone { get; set; }
 		
-		public string? Note { get; init; }
+		public string? Note { get; set; }
 	}
 }
