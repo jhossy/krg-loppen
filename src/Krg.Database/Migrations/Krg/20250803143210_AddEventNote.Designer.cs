@@ -4,16 +4,19 @@ using Krg.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Krg.Database.Migrations
+namespace Krg.Database.Migrations.Krg
 {
     [DbContext(typeof(KrgContext))]
-    partial class KrgContextModelSnapshot : ModelSnapshot
+    [Migration("20250803143210_AddEventNote")]
+    partial class AddEventNote
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
