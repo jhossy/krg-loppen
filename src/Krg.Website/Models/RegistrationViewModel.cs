@@ -12,6 +12,7 @@ namespace Krg.Website.Models
 			ContactName = EventContent.ContactName ?? string.Empty;
 			ContactPhone = EventContent.ContactPhone ?? string.Empty;
 			ContactEmail = EventContent.ContactEmail ?? string.Empty;
+			EventNote = EventContent.Note != null ? EventContent.Note.Substring(0, 100) : string.Empty;
 		}
 
 		public EventDate EventContent { get; }
@@ -31,6 +32,8 @@ namespace Krg.Website.Models
 		public string ContactPhone { get; }
 
 		public string ContactEmail { get; }
+		
+		public string EventNote { get; }
 
 		public ReadOnlyCollection<Registration> Registrations { get; }		
     }

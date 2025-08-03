@@ -26,7 +26,8 @@ namespace Krg.Services
 		        Date = eventInDb.Date, 
 		        ContactEmail = eventInDb.ContactEmail, 
 		        ContactPhone = eventInDb.ContactPhone, 
-		        ContactName = eventInDb.ContactName
+		        ContactName = eventInDb.ContactName,
+		        Note = eventInDb.Note
 	        };
         }
 
@@ -42,7 +43,8 @@ namespace Krg.Services
 		        Date = eventInDb.Date, 
 		        ContactEmail = eventInDb.ContactEmail, 
 		        ContactPhone = eventInDb.ContactPhone, 
-		        ContactName = eventInDb.ContactName
+		        ContactName = eventInDb.ContactName,
+		        Note = eventInDb.Note
 	        };
         }
 
@@ -58,6 +60,7 @@ namespace Krg.Services
 							ContactEmail = x.ContactEmail,
 							ContactName = x.ContactName,
 							ContactPhone = x.ContactPhone,
+							Note = x.Note
 						})
 					.ToList();
 		}
@@ -69,7 +72,8 @@ namespace Krg.Services
 				Date = eventDate.Date,
 				ContactName = eventDate.ContactName,
 				ContactPhone = eventDate.ContactPhone,
-				ContactEmail = eventDate.ContactEmail
+				ContactEmail = eventDate.ContactEmail,
+				Note = eventDate.Note
 			});
 			
 			_unitOfWork.Commit();
@@ -82,7 +86,8 @@ namespace Krg.Services
 				Date = eventDate.Date,
 				ContactName = eventDate.ContactName,
 				ContactPhone = eventDate.ContactPhone,
-				ContactEmail = eventDate.ContactEmail
+				ContactEmail = eventDate.ContactEmail,
+				Note = eventDate.Note
 			});
 			
 			_unitOfWork.Commit();
