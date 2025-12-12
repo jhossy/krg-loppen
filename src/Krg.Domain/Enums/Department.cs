@@ -7,6 +7,7 @@
         Mini,
         Junior,
         Trop,
+        Klan,
         Bestyrelse
     }
 }
