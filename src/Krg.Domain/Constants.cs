@@ -6,6 +6,7 @@
 		public const string EmailRequiredMessage = "Email skal angives";
         public const string EmailInvalidFormat = "Ugyldig email";
         public const string PhoneNoRequiredMessage = "Telefon nr skal angives";
+        public const string PhoneNoRequiredLength = "Telefon nr skal være 8 cifre";
         public const string DepartmentRequiredMessage = "Gren skal angives";
 		public const string NoOfAdultsRequiredMessage = "Antal voksne skal angives";
 		public const string NoOfChildrenRequiredMessage = "Antal børn skal angives";

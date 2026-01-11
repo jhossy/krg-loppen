@@ -18,6 +18,7 @@ namespace Krg.Domain.Models
         public int NoOfChildren { get; set; } = 1;
         
         [Required(ErrorMessage = Constants.PhoneNoRequiredMessage)]
+        [StringLength(8, MinimumLength = 8, ErrorMessage = Constants.PhoneNoRequiredLength)]
         public required string PhoneNo { get; set; }
         
         [Required(ErrorMessage = Constants.DepartmentRequiredMessage)]
