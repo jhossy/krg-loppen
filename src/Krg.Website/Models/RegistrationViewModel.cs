@@ -17,7 +17,7 @@ namespace Krg.Website.Models
 
 		public EventDate EventContent { get; }
 
-        public bool IsFullyBooked => Registrations.Count() > 4;
+        public bool IsFullyBooked => Registrations.Count() > 2;
 
 		public int TotalNoOfParticipants => TotalNoOfAdults + TotalNoOfChildren;
 
