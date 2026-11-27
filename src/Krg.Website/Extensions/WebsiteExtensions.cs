@@ -45,8 +45,9 @@ namespace Krg.Website.Extensions
 				q.AddJob<EmailNotificationsJob>(jobKey)
 				 .AddTrigger(opts => opts.ForJob(jobKey)
 					.WithIdentity("EmailNotificationsJob-trigger")
-					.WithCronSchedule("0 2/5 * 1/1 * ? *")) //every 5 minutes, starting at minute 02
-					.UsePersistentStore(s =>
+                    //.WithCronSchedule("0 2/5 * 1/1 * ? *")) //every 5 minutes, starting at minute 02
+                    .WithCronSchedule("0 0/1 * 1/1 * ? *")) //every 5 minutes, starting at minute 02
+                    .UsePersistentStore(s =>
 					{
 
 						s.RetryInterval = TimeSpan.FromSeconds(5);
@@ -64,8 +65,9 @@ namespace Krg.Website.Extensions
 				q.AddJob<EmailReminderNotificationsJob>(emailReminderJobKey)
 				 .AddTrigger(opts => opts.ForJob(emailReminderJobKey)				 
 					.WithIdentity("EmailReminderNotificationsJob-trigger")
-					.WithCronSchedule("0 0 2/6 1/1 * ? *")) //every 6 hrs, starting at hour 02
-					.UsePersistentStore(s =>
+                            //.WithCronSchedule("0 0 2/6 1/1 * ? *")) //every 6 hrs, starting at hour 02
+                    .WithCronSchedule("0 0/1 * 1/1 * ? *")) //every 6 hrs, starting at hour 02
+                    .UsePersistentStore(s =>
 					{
 						s.RetryInterval = TimeSpan.FromSeconds(5);
 						s.UseMicrosoftSQLite(
